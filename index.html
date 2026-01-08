@@ -299,7 +299,7 @@
                             </span>
                             <span>PDF</span>
                         </a>
-                        <a href="https://github.com/vision-x-nyu/thinking-in-space" class="button" target="_blank"> // GitHub
+                        <a href="https://github.com/vision-x-nyu/thinking-in-space" class="button" target="_blank">
                             <span class="icon is-small">
                                 <i class="fab fa-github"></i>
                             </span>
@@ -332,7 +332,7 @@
                 <div class="byline-column" style="line-height: 1.2;">
                     <h3 style="font-size: 1.2em; margin-bottom: 0.2em;">Authors</h3>
                     <p style="margin: 0;">
-                        <a href="https://jihanyang.github.io/" class="author-link" target="_blank" style="font-size: 0.9em;">Jihan Yang</a> 
+                        <a href="https://github.com/Dxuan77" class="author-link" target="_blank" style="font-size: 0.9em;">Dongxuan Liu</a> 
                         <sup style="font-size: 0.9em;">△*</sup>
                     </p>
                     <p style="margin: 0;">
@@ -361,7 +361,7 @@
                     <h3 style="font-size: 1.2em; margin-bottom: 0.2em;">Affiliations</h3>
                     <p style="margin: 0;">
                         <sup style="font-size: 0.8em;">△</sup>
-                        <a href="https://cs.nyu.edu/home/index.html" class="affiliation-link" target="_blank" style="font-size: 0.9em;">New York University</a>
+                        <a href="https://www.xmu.edu.cn/" class="affiliation-link" target="_blank" style="font-size: 0.9em;">Xiamen University</a>
                     </p>
                     <p style="margin: 0;">
                         <sup style="font-size: 0.8em;">▲</sup>
@@ -871,26 +871,28 @@ function toggleAnswer(answerId, element) {
             <figure>
                 <img data-zoomable="" draggable="false" src="static/img/teaser.png" alt="Visual-Spatial Intelligence Teaser">
                 <figcaption>
-                    <strong>Figure 1:</strong> Can Multimodal LLMs “think spatially” when presented with a video recording of an environment? Can they build an accurate, implicit “cognitive map” that allows them to answer questions about a space? What are the strengths and limitations of using MLLMs to enhance spatial intelligence? We dig into these questions by setting up video data for MLLMs to watch, building a VQA benchmark to check their recall, and examining what the MLLMs actually remember and understand.
+                    <strong>Figure 1: Spatio-temporal dynamics reasoning benchmark Dyn-Bench.</strong> It rigorously evaluates multimodal large language models on their ability to perceive, track, and reason about dynamic contents (i.e., object motion, evolving scene, camera motion) in the 4D world.
                 </figcaption>
             </figure>
         </d-figure>
 
     
         <p class="text abstract">
-            We present a novel video-based visual-spatial intelligence benchmark (VSI-Bench) of over 5,000 question-answer pairs, and find that MLLMs exhibit competitive - though subhuman - visual-spatial intelligence. 
-            Our evaluation reveals that MLLMs exhibit competitive visual-spatial intelligence, if still well short of human-level. 
-            To understand the MLLMs' behavior, we probe models to express how they think in space both linguistically and visually and find that while spatial reasoning capabilities remain the primary bottleneck for MLLMs to reach higher benchmark performance, local world models and spatial awareness do emerge within these models.
+Humans inhabit a physical 4D world where geometric structure and semantic content evolve over time, constituting a dynamic 4D reality (spatial with temporal dimension). While current Multimodal Large Language Models (MLLMs) excel in static visual understanding, can they also be adept at “thinking in dynamics”, i.e., perceive, track and reason about spatio-temporal dynamics in evolving scenes?
+To systematically assess their spatio-temporal reasoning and localized dynamics perception capabilities, we introduce Dyn-Bench, a large-scale benchmark built from diverse real-world and synthetic video datasets, enabling robust and scalable evaluation of spatio-temporal understanding.
+Through multi-stage filtering from massive 2D and 4D data sources, Dyn-Bench provides a high-quality collection of dynamic scenes, comprising 1k videos, 7k visual question answering (VQA) pairs, and 3k dynamic object grounding pairs. 
+We probe general, spatial and region-level MLLMs to express how they think in dynamics both linguistically and visually, and find that existing models cannot simultaneously maintain strong performance in both spatio-temporal reasoning and dynamic object grounding, often producing inconsistent interpretations of motion and interaction. 
+Notably, conventional prompting strategies (e.g., chain-of-thought or caption-based hints) provide limited improvement, whereas structured integration approaches, including Mask-Guided Fusion and Spatio-Temporal Textual Cognitive Map (ST-TCM), significantly enhance MLLMs’ dynamics perception and spatio-temporal reasoning in the physical 4D world.
             <br>
         </p>
 
     
     <div class="icon-row">
-        <a href="#vsi-benchmark" class="icon-link">
+        <a href="#dyn-benchmark" class="icon-link">
             <img src="./static/img/icons/bench.svg" alt="Visual Representation Logo" class="icon">
-            VSI-Bench<br>Construction
+            Dyn-Bench<br>Construction
         </a>
-        <a href="#vsi-evaluation" class="icon-link">
+        <a href="#dyn-evaluation" class="icon-link">
             <img src="./static/img/icons/evaluation.svg" alt="Evaluation Logo" class="icon">
             Evaluation<br>Protocol
         </a>
@@ -900,11 +902,11 @@ function toggleAnswer(answerId, element) {
         </a>
         <a href="#visual-representation" class="icon-link">
             <img src="./static/img/icons/speech.svg" alt="Speech Logo" class="icon">
-            Linguistic<br>Analysis
+            Textual<br>Guidance
         </a>
         <a href="#vsi-improvements" class="icon-link">
             <img src="./static/img/icons/vision.svg" alt="Vision Logo" class="icon">
-            Visual<br>Analysis
+            Visual<br>Guidance
         </a>
     </div>
 
@@ -917,67 +919,80 @@ function toggleAnswer(answerId, element) {
 
         <hr>
 
-        <div id='vsi-benchmark' class="vsi-benchmark">
+        <div id='dyn-benchmark' class="dyn-benchmark">
             
-            <div id="sec:vsi-overview" class="sub-section">
-                <h1 class="text">VSI-Bench</h1>
+            <div id="sec:Dyn-Bench Overview" class="sub-section">
+                <h1 class="text">Dyn-Bench</h1>
 
                     <p class="text" align="justify">
                         <p class="text" align="justify">
-                        <strong>Benchmark Overview:</strong> We develop VSI-Bench, a benchmark to evaluate the visual-spatial intelligence of Multimodal LLMs (MLLMs) using over 5,000 question-answer pairs derived from 288 egocentric videos sourced from the validation sets of public indoor 3D scene reconstruction datasets ScanNet, ScanNet++, and ARKitScenes. VSI-Bench includes eight tasks under three task types: configurational, measurement estimation, and spatiotemporal. See Fig. 2 for an overview of the tasks in VSI-Bench and Fig. 3 for dataset statistics. Iteratively refined for quality, VSI-Bench provides a foundation to study the connection between MLLMs and 3D reconstruction.</p>
-                    <d-figure id="fig-task-demo" >
+                        <strong>Benchmark Overview:</strong> We present Dyn-Bench, a large-scale benchmark for quantitatively evaluating the spatio-temporal reasoning abilities of MLLMs under fine-grained dynamic-object understanding.
+Dyn-Bench consists of 1k dynamic video scenes with 7k visual question answering pairs and 3k grounding annotations, collected from four 2D video segmentation and four 4D dynamic scene datasets spanning diverse environments, motion patterns, and camera trajectories.
+As illustrated in Fig. 2, the benchmark is structured into three complementary levels: Dynamic Inter-Object Perception, Dynamic Object-Scene Tracking, and Dynamic Camera-Object Reasoning, each integrating spatio-temporal reasoning and dynamic object grounding tasks.
+An overview of dataset statistics is provided in Fig. 3.</p>
+                    <d-figure id="fig-dataengine_v8" >
                         <figure>
-                            <img data-zoomable="" draggable="false" src="static/img/task-demo.png" alt="benchmark category">
+                            <img data-zoomable="" draggable="false" src="static/img/dataengine_v8.png" alt="benchmark category">
                             <figcaption style="text-align: center; margin-top: 20px;">
-                                <strong>Figure 2: Tasks demonstration of VSI-Bench.</strong> 
-                                Note: the questions above are simplified slightly for clarity and brevity.
+                                <strong>Figure 2: Benchmark curation pipeline.</strong> 
+                                The pipeline integrates dynamic video datasets from multiple sources, followed by multimodal completion with geometry and mask extraction. Data filter strategy ensures consistency and motion stability, complemented by human validation for quality assurance. Finally, spatial-temporal VQA and grounding pairs are generated with structured textual cognitive maps.
                             </figcaption>
                         </figure>
                     </d-figure>
-                    <d-figure id="fig-bench-stats">
+                    <d-figure id="fig-data_statistics_v5">
                         <figure>
-                            <!-- <div style="display: flex; align-items: center; gap: 0px; margin-left: -250px">
-                                <div style="flex: 3; display: flex; justify-content: center; align-items: center; overflow: hidden; position: relative; margin: 0;">
-                                    <iframe 
-                                        src="static/img/dataset_overview_donut_chart.html" 
-                                        style="width: 100%; height: 450px; border: none; transform: scale(0.7); transform-origin: center; padding: 0; margin: 0;" 
-                                        title="Dataset Overview Donut Chart">
-                                    </iframe>
-                                </div>
-                     -->
-                                <!-- Display the image -->
-                                <!-- <div style="flex: 1; height: 500px; margin-left: -300px;">
-                                    <img 
-                                        data-zoomable="" 
-                                        draggable="false" 
-                                        src="static/img/video-length.png" 
-                                        alt="Fit Visualization" 
-                                        style="width: 100%; height: 100%; object-fit: contain; margin: 0px; padding: 0;">
-                                </div>
-                            </div> -->
-                            <img data-zoomable="" draggable="false" src="static/img/benchmark-stats.png" alt="benchmark category" style="width: 90%; height: auto; display: block; margin: 0 auto;">
+                            <img data-zoomable="" draggable="false" src="static/img/data_statistics_v5.png" alt="benchmark category" style="width: 90%; height: auto; display: block; margin: 0 auto;">
 
 
             
                             <figcaption style="text-align: center; margin-top: 20px;">
                                 <strong>Figure 3: Benchmark Statistics.</strong> 
-                                <strong>Left</strong>: The distribution of tasks across three main categories. <strong>Right</strong>: The video length statistic.
+                                <strong>Top</strong>: Distribution of tasks across three levels. <strong>Bottom</strong>: VQA pairs distribution across datasets.
                             </figcaption>
                         </figure>
                     </d-figure>
                     
             </div>
-            <div id="vsi-construct" class="sub-section">
+            <div id="Dyn-Bench Construction" class="sub-section">
                 
 
-                    <p class="text" align="justify"><strong>VSI-Bench Construction:</strong>
-                        We develop a robust pipeline to construct VSI-Bench that enables high-quality question-answer (QA) pair generation at scale. Starting with data collection and unification, we standardize diverse 3D indoor scene datasets into a unified meta-information format, incorporating object categories, bounding boxes, and video specifications to support dataset-agnostic QA generation. QA pairs are generated using automated annotations from meta-information and task-specific question templates, with route planning tasks manually annotated. To ensure quality, we implement a human-in-the-loop review process, iteratively refining question templates, annotations, and QA generation rules by addressing ambiguities and errors flagged by evaluators. </p>
+                    <p class="text" align="justify"><strong>Dyn-Bench Construction:</strong>
+                        We develop a robust pipeline to construct Dyn-Bench.
+                    </p>
 
-                    <d-figure id="fig-bench-pipeline" >
+                    <p class="text" align="justify" style="padding-left: 25px;">
+                        <strong>1. Data Collection and Filtering:</strong>
+                        We construct Dyn-Bench by collecting dynamic videos from four 2D video segmentation datasets (DAVIS, SA-V, DynPose-100K, and YouTube-VIS) and four 4D dynamic-scene datasets (DynamicReplica, PointOdyssey, Spring, and Total-Recon). These datasets provide instance masks, depth maps, and camera poses, enabling accurate question-answer generation and object category annotation. Missing annotations are completed using existing pipelines to ensure cross-modal consistency.
+                        To ensure data reliability, we employ a multi-criteria data filter strategy assessing geometric stability, motion smoothness, image sharpness, and depth consistency, supported by VLM-based quality evaluation. Low-quality videos are discarded to maintain visual and geometric fidelity. Filtering statistics are shown in Tab. 1.
+                    </p>
+
+                    <p class="text" align="justify" style="padding-left: 25px;">
+                        <strong>2. Question-Answer Generation:</strong>
+                        Based on the filtered video collection, we employ a ST-TCM in conjunction with Qwen3-VL to construct dynamic-object-centered VQA tasks. The benchmark evaluates MLLMs across three complementary dimensions: <i>Dynamic Inter-Object Perception</i>, focusing on how models perceive and interpret motion interactions and spatial relations among multiple dynamic objects (e.g., approach, occlusion, or overtaking); <i>Dynamic Object-Scene Tracking</i>, capturing how individual objects are temporally tracked and evolve within continuously changing scenes (e.g., entering, leaving, or undergoing functional transitions); and <i>Dynamic Camera-Object Reasoning</i>, assessing how camera motion influences the perceived geometry, depth, and temporal consistency of dynamic objects (e.g., relative translation, rotation, or event order). Each VQA dimension is paired with a corresponding object grounding task that associates the referenced dynamic objects with their instance segmentation masks. Dimension-specific prompting strategies and ST-TCM configurations are applied to Qwen3-VL to ensure focused spatio-temporal reasoning.
+                    </p>
+
+                    <p class="text" align="justify" style="padding-left: 25px;">
+                        <strong>3. Spatio-Temporal Textual Cognitive Map Construction:</strong>
+                        To capture fine-grained object motion and interactions in dynamic scenes, we construct a <i>Spatio-Temporal Textual Cognitive Map (ST-TCM)</i> for each filtered video.
+                        Given per-frame RGB-D inputs and segmentation masks, 3D object trajectories are reconstructed to obtain geometric attributes such as position, size, and orientation in world coordinates.
+                        We then model inter-object and camera-object relations based on spatial proximity and motion continuity, capturing dynamic behaviors such as interaction and relative movement.
+                        All geometric and spatial cues are translated into textual descriptions through a rule-based template system, integrating object geometry, motion, and relational dynamics into a unified spatio-temporal representation.
+                        This structured textual form serves as input to Qwen3-VL-235B for dynamic object centered visual question answering and grounding.
+                        Detailed implementation procedures are provided in the supplementary material.
+                    </p>
+
+                    <p class="text" align="justify" style="padding-left: 25px;">
+                        <strong>4. Human Quality Control:</strong>
+                        To ensure the reliability and perceptual validity of the filtered videos and generated annotations, we conduct an additional round of human verification covering video quality, mask consistency, VQA accuracy, and dynamic object category identification.  
+                        Annotators assess camera stability, motion smoothness, and scene complexity to confirm visual quality, and examine segmentation masks to verify temporal coherence and consistent object identity across frames.  
+                        The generated VQA and grounding pairs are also reviewed to ensure accurate object reference, reasoning-level alignment, and consistency with visual evidence.  
+                        A summary of the multi-stage filtering and verification process is presented in Tab. 1.
+                    </p>
+                    <d-figure id="fig-data_filtering" >
                         <figure>
-                            <img data-zoomable="" draggable="false" src="static/img/benchmark_construction.png" alt="benchmark category">
+                            <img data-zoomable="" draggable="false" src="static/img/data_filtering.png" alt="benchmark category">
                             <figcaption>
-                                <p align="justify"><strong>Figure 4: Benchmark curation pipeline.</strong> The pipeline unifies datasets into a standardized format and semantic space for consistent processing. QA pairs are then generated through both human annotation and question templates. To ensure quality, human verification is implemented at all key stages for filtering low-quality videos, annotations, and ambiguous QA pairs.</p>
+                                <p align="justify"><strong>Tab 1: Dataset statistics across Dyn-Bench filtering stages.</strong></p>
                             </figcaption>
                         </figure>
                     </d-figure>
