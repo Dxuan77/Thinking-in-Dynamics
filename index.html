@@ -23,7 +23,7 @@
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:image" content="./static/img/preview.png" />
         <meta name="twitter:title" content="Thinking in Dynamics: How Multimodal Large Language Models Perceive, Track, and Reason Dynamics in Physical 4D World" />
-        <meta name="twitter:description" content="We introduce VSI-Bench, a novel benchmark of over 5,000 video-based visual-spatial intelligence questions, to evaluate and probe MLLMs, which revealed that their emerging spatial reasoning and local world modeling capabilities remain subhuman but promising." />
+        <meta name="twitter:description" content="Can MLLMs think in dynamics? We introduce Dyn-Bench with 1k videos, 7k VQA pairs, and 3k dynamic object grounding pairs. We find that structured approaches like Spatio-Temporal Textual Cognitive Map significantly enhance MLLMs' dynamics perception in the physical 4D world." />
 
         <!-- JS Libraries -->
         <script src="./static/js/distill_template.v2.js"></script>
@@ -258,9 +258,9 @@
         <div class="header-wrapper">
             <div class="header-container" id="header-container">
                 <div class="header-content">
-                    <h1 style="margin-top: 0px"><i>Thinking in Space</i></h1>
+                    <h1 style="margin-top: 0px"><i>Thinking in Dynamics</i></h1>
                     <div class="responsive-header">
-                        <h2>How Multimodal Large Language Models See, Remember and Recall Spaces</h2>
+                        <h2>How Multimodal Large Language Models Perceive, Track, and Reason Dynamics in Physical 4D World</h2>
                       </div>
                       
 
@@ -268,19 +268,19 @@
                             <div class="icon-item">
                                 
                                 <img src="./static/img/icons/bench.svg" alt="Visual Representation Icon">
-                                <div><strong>VSI-Bench</strong>: We introduce a high-quality benchmark for the evaluation of 3D, video-based, visual-spatial intelligence of MLLMs.</div>
+                                <div><strong>Dyn-Bench</strong>: We introduce a large-scale benchmark to systematically assess the spatio-temporal reasoning and localized dynamics perception of MLLMs in the physical 4D world.</div>
                             </div>
                             <div class="icon-item">
                                 <img src="./static/img/icons/evaluation.svg" alt="Connector Design Icon">
-                                <div><strong>Evaluation</strong>: We evaluate VSI-Bench on open- and closed-source MLLMs and find that MLLMs exhibit competitive—though subhuman—visual-spatial intelligence.</div>
+                                <div><strong>Evaluation</strong>: We evaluate Dyn-Bench across three MLLM categories and observe that existing models struggle to simultaneously maintain strong performance in both spatio-temporal reasoning and dynamic object grounding.</div>
                             </div>
                             <div class="icon-item">
                                 <img src="./static/img/icons/speech.svg" alt="Speech Logo" class="icon">
-                                <div><strong>Linguistic Analysis</strong>: We attribute VSI-Bench performance to spatial intelligence capabilities and show the differences between spatial and linguistic intelligence.</div>
+                                <div><strong>Textual Guidance</strong>: We probe MLLMs' textual thinking processes and demonstrate that structured spatio-temporal guidance (ST-TCM) significantly bridges the gap between static understanding and dynamic reasoning.</div>
                             </div>
                             <div class="icon-item">
                                 <img src="./static/img/icons/vision.svg" alt="Vision Logo" class="icon">
-                                <div><strong>Visual Analysis</strong>: We illuminate how MLLMs remember spaces via cognitive maps and show how explicitly remembering spaces improves spatial capabilities.</div>
+                                <div><strong>Visual Guidance</strong>: We explore visual guidance strategies and find that Mask-Guided Fusion, which integrates appearance with motion cues, significantly enhances dynamic object interaction and spatio-temporal reasoning.</div>
                             </div>
                         </div>
                     
@@ -299,7 +299,7 @@
                             </span>
                             <span>PDF</span>
                         </a>
-                        <a href="https://github.com/vision-x-nyu/thinking-in-space" class="button" target="_blank">
+                        <a href="https://github.com/vision-x-nyu/thinking-in-space" class="button" target="_blank"> // GitHub
                             <span class="icon is-small">
                                 <i class="fab fa-github"></i>
                             </span>
@@ -309,9 +309,9 @@
                             <span class="icon is-small">
                                 <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="Hugging Face logo" style="height: 1em;">
                             </span>
-                            <span>VSI-Bench</span>
+                            <span>Dyn-Bench</span>
                         </a>
-                        <a href="#vsi-leaderboard" class="button">
+                        <a href="#dyn-leaderboard" class="button">
                             <span class="icon is-small">
                                 <img src="./static/img/leaderboard-star-svgrepo-com.svg" alt="Leaderboard logo" style="height: 1em;">
                             </span>
@@ -894,9 +894,9 @@ function toggleAnswer(answerId, element) {
             <img src="./static/img/icons/evaluation.svg" alt="Evaluation Logo" class="icon">
             Evaluation<br>Protocol
         </a>
-        <a href="#vsi-leaderboard" class="icon-link">
+        <a href="#dyn-leaderboard" class="icon-link">
             <img src="./static/img/leaderboard-star-svgrepo-com.svg" alt="Leaderboard Logo" class="icon">
-            VSI-Bench<br>Leaderboard
+            Dyn-Bench<br>Leaderboard
         </a>
         <a href="#visual-representation" class="icon-link">
             <img src="./static/img/icons/speech.svg" alt="Speech Logo" class="icon">
@@ -1034,9 +1034,9 @@ function toggleAnswer(answerId, element) {
                 </figure>
             </d-figure>
 
-            <!-- VSI-Bench Leaderboard Section -->
-        <div id="vsi-leaderboard" class="vsi-leaderboard">
-            <h1 class="text">VSI-Bench Leaderboard</h1>
+            <!-- Dyn-Bench Leaderboard Section -->
+        <div id="dyn-leaderboard" class="dyn-leaderboard">
+            <h1 class="text">Dyn-Bench Leaderboard</h1>
             
             <div class="leaderboard-container">
                 <div class="leaderboard-header">
