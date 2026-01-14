@@ -5,7 +5,7 @@ function switchVideo(prefix, videoContainerId, preview_id) {
     for (let i = 1; i <= totalVideos; i++) {
         const container = document.getElementById(`${prefix}video${i}Container`);
         if (container) {
-            container.style.display = 'none'; // Hide the video container
+            container.classList.remove('is-active');
             
             // Pause all videos and reset to start
             const videos = container.getElementsByTagName('video');
@@ -19,7 +19,7 @@ function switchVideo(prefix, videoContainerId, preview_id) {
     // Show the selected video container
     const selectedContainer = document.getElementById(`${prefix}${videoContainerId}`);
     if (selectedContainer) {
-        selectedContainer.style.display = 'block'; // Show the selected video
+        selectedContainer.classList.add('is-active');
         const selectedVideo = selectedContainer.querySelector('video');
         if (selectedVideo) {
             selectedVideo.play(); // Autoplay the selected video
@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Set the first video container as active on load
     const firstVideoContainer = document.getElementById("Touristvideo1Container");
     if (firstVideoContainer) {
-        firstVideoContainer.style.display = "block"; // Display the first video
+        firstVideoContainer.classList.add("is-active"); // Display the first video
         const firstVideo = firstVideoContainer.querySelector('video');
         if (firstVideo) {
             firstVideo.play();
