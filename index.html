@@ -84,30 +84,49 @@
 
 
                 <div class="icon-container">
-                    <div class="icon-item">
-
-                        <img src="./static/img/icons/bench.svg" alt="Visual Representation Icon">
-                        <div><strong>Dyn-Bench</strong>: We introduce a large-scale benchmark to systematically assess
-                            the spatio-temporal reasoning and localized dynamics perception of MLLMs in the physical 4D
-                            world.</div>
+                    <div class="icon-card">
+                        <div class="icon-circle">
+                            <img src="./static/img/icons/bench.svg" alt="Dyn-Bench Icon">
+                        </div>
+                        <div class="feature-text">
+                            <div class="feature-title">Dyn-Bench</div>
+                            <p>We introduce a large-scale benchmark to systematically assess the spatio-temporal
+                                reasoning and localized dynamics perception of MLLMs in the physical 4D world.</p>
+                        </div>
                     </div>
-                    <div class="icon-item">
-                        <img src="./static/img/icons/evaluation.svg" alt="Connector Design Icon">
-                        <div><strong>Evaluation</strong>: We evaluate Dyn-Bench across three MLLM categories and observe
-                            that existing models struggle to simultaneously maintain strong performance in both
-                            spatio-temporal reasoning and dynamic object grounding.</div>
+                    <div class="icon-card">
+                        <div class="icon-circle">
+                            <img src="./static/img/icons/evaluation.svg" alt="Evaluation Icon">
+                        </div>
+                        <div class="feature-text">
+                            <div class="feature-title">Evaluation</div>
+                            <p>We benchmark general, spatial, and region-level MLLMs: general models stay strong on
+                                spatio-temporal reasoning, spatial models benefit from geometry priors yet lag on motion,
+                                while region-level models lead in fine-grained dynamic grounding and object-centric
+                                reasoning.</p>
+                        </div>
                     </div>
-                    <div class="icon-item">
-                        <img src="./static/img/icons/speech.svg" alt="Speech Logo" class="icon">
-                        <div><strong>Textual Guidance</strong>: We probe MLLMs' textual thinking processes and
-                            demonstrate that structured spatio-temporal guidance (ST-TCM) significantly bridges the gap
-                            between static understanding and dynamic reasoning.</div>
+                    <div class="icon-card">
+                        <div class="icon-circle">
+                            <img src="./static/img/icons/speech.svg" alt="Textual Guidance Icon" class="icon">
+                        </div>
+                        <div class="feature-text">
+                            <div class="feature-title">Textual Guidance</div>
+                            <p>We study GPT-4o’s self-explanations on Dyn-Bench and find temporal, spatial, and relational
+                                gaps; injecting spatio-temporal cues (ST-TCM) tightens motion grounding and yields more
+                                coherent dynamic reasoning.</p>
+                        </div>
                     </div>
-                    <div class="icon-item">
-                        <img src="./static/img/icons/vision.svg" alt="Vision Logo" class="icon">
-                        <div><strong>Visual Guidance</strong>: We explore visual guidance strategies and find that
-                            Mask-Guided Fusion, which integrates appearance with motion cues, significantly enhances
-                            dynamic object interaction and spatio-temporal reasoning.</div>
+                    <div class="icon-card">
+                        <div class="icon-circle">
+                            <img src="./static/img/icons/vision.svg" alt="Visual Guidance Icon" class="icon">
+                        </div>
+                        <div class="feature-text">
+                            <div class="feature-title">Visual Guidance</div>
+                            <p>We test mask-guided inputs: mask-only overlays give minor gains, while Mask-Guided Fusion
+                                (raw frames + masks) best anchors motion regions, boosting inter-object and camera-object
+                                reasoning and overall temporal consistency.</p>
+                        </div>
                     </div>
                 </div>
 
