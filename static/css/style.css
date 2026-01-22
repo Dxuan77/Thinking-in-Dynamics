@@ -664,8 +664,15 @@ figcaption {
   font-size: 0.9rem;
   color: #666666;
   text-align: center;
-  margin-top: 20px;
+  margin-top: 12px;
   line-height: 1.5;
+  display: block;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 10px;
+  word-break: break-word;
+  hyphens: auto;
 }
 
 /* Override Distill Template Constraints */

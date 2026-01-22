@@ -45,6 +45,13 @@
     <script defer src="./static/js/image_interact.js"></script>
     <script defer src="./static/js/switch_videos.js"></script>
     <script defer src="./static/js/video-speed.js"></script>
+    <script defer>
+        window.addEventListener('load', () => {
+            if (window.MathJax && window.MathJax.typeset) {
+                window.MathJax.typeset();
+            }
+        });
+    </script>
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="./static/css/style.css">
@@ -101,7 +108,8 @@
                         <div class="feature-text">
                             <div class="feature-title">Evaluation</div>
                             <p>We benchmark general, spatial, and region-level MLLMs: general models stay strong on
-                                spatio-temporal reasoning, spatial models benefit from geometry priors yet lag on motion,
+                                spatio-temporal reasoning, spatial models benefit from geometry priors yet lag on
+                                motion,
                                 while region-level models lead in fine-grained dynamic grounding and object-centric
                                 reasoning.</p>
                         </div>
@@ -112,7 +120,8 @@
                         </div>
                         <div class="feature-text">
                             <div class="feature-title">Textual Guidance</div>
-                            <p>We study GPT-4o’s self-explanations on Dyn-Bench and find temporal, spatial, and relational
+                            <p>We study GPT-4o’s self-explanations on Dyn-Bench and find temporal, spatial, and
+                                relational
                                 gaps; injecting spatio-temporal cues (ST-TCM) tightens motion grounding and yields more
                                 coherent dynamic reasoning.</p>
                         </div>
@@ -124,7 +133,8 @@
                         <div class="feature-text">
                             <div class="feature-title">Visual Guidance</div>
                             <p>We test mask-guided inputs: mask-only overlays give minor gains, while Mask-Guided Fusion
-                                (raw frames + masks) best anchors motion regions, boosting inter-object and camera-object
+                                (raw frames + masks) best anchors motion regions, boosting inter-object and
+                                camera-object
                                 reasoning and overall temporal consistency.</p>
                         </div>
                     </div>
@@ -949,720 +959,613 @@
             </div>
             <div id="dyn-evaluation" class="vsi-evaluation">
                 <h1 class="text">Evaluation on Dyn-Bench</h1>
-                <script type="text/javascript" id="MathJax-script" async
-                    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-                    </script>
-                <p class="text" align="justify"><strong>Evaluation Setup</strong>:
-                    TODO: Summarize the Dyn-Bench evaluation protocol (model list, splits, and metrics) here.
+                <p class="text" align="justify"><strong>Evaluation Setup.</strong>
+                    We benchmark three model categories—general, spatial, and region-level MLLMs. General (e.g., GPT-4o,
+                    Qwen3-VL) and spatial models (SpaceR, VST, Spatial-SSRL, SpatialLadder) are evaluated on
+                    spatio-temporal reasoning, while region-level models (Sa2VA, UniPixel, VideoGLaMM) are additionally
+                    tested on dynamic object grounding. Chance-level baselines include uniform random choice and
+                    frequency-based guessing. All models run zero-shot with their default prompts for comparability.
                 </p>
 
-                <div class="formula">
-                    $$\text{MRA} = \frac{1}{10} \sum_{\theta \in C} \mathbb{1}\left(\frac{| \hat{y} - y |}{y} < 1 -
-                        \theta\right)$$ </div>
+                <p class="text" align="justify"><strong>Metrics.</strong>
+                    VQA tasks use multiple-choice Accuracy (ACC) across the three reasoning levels. Grounding tasks use
+                    the video object segmentation metric $\mathcal{J\\&F}$, averaging region similarity ($\mathcal{J}$)
+                    and boundary accuracy ($\mathcal{F}$).
+                </p>
 
-                        <p class="text" align="justify">
-                            TODO: Describe baselines, human performance, and any reference settings for Dyn-Bench.
-                        </p>
+                <d-figure id="fig-eval-bench">
+                    <figure>
+                        <img data-zoomable="" draggable="false" src="static/img/eval-bench.png" alt="Dyn-Bench results">
+                        <figcaption>
+                            <p align="justify"><strong>Table 1: Dynamic object grounding evaluation of region-level
+                                    MLLMs on Dyn-Bench.</strong> Top three performers per task are highlighted.</p>
+                        </figcaption>
+                    </figure>
+                </d-figure>
 
+                <p class="text" align="justify"><strong>Main Results.</strong>
+                    Proprietary general models (GPT-4o/5) remain strong on spatio-temporal reasoning, especially
+                    inter-object dynamics; open-source large models (e.g., Qwen3-VL-235B) close the gap, and smaller
+                    variants (LLaVA-OneVision-1.5-8B, Qwen3-VL-32B) are competitive. Spatial MLLMs gain on
+                    geometry-heavy object–scene reasoning but lag on camera–object motion. Region-level models lead in
+                    object-centric reasoning and grounding; UniPixel-7B tops reasoning in this group, and Sa2VA variants
+                    deliver the highest grounding accuracy, highlighting the benefit of fine-grained regional cues for
+                    temporal coherence.
+                </p>
 
-                        <p class="text" align="justify"><strong>Main Results</strong>:
-                            TODO: Insert headline numbers for Dyn-Bench (top performers, human gap,
-                            strengths/weaknesses).
-                        </p>
-                        <d-figure id="fig-eval-bench">
-                            <figure>
-                                <img data-zoomable="" draggable="false" src="static/img/eval-bench.png"
-                                    alt="benchmark category">
-                                <figcaption>
-                                    <p align="justify"><strong>Table 1: Evaluation on Dyn-Bench.</strong> TODO: Update
-                                        caption once results and table contents are finalized.</p>
-                                </figcaption>
-                            </figure>
-                        </d-figure>
+                <d-figure id="fig-blind-eval">
+                    <figure>
+                        <img data-zoomable="" draggable="false" src="static/img/radar_v10-1.png"
+                            alt="Dyn-Bench radar analysis across model categories" class="img-center w-70">
+                        <figcaption>
+                            <strong>Figure 5:</strong> Model performance on Dyn-Bench. Left/center: radar charts for
+                            general and spatial MLLMs on inter-object, object-scene, and camera-object reasoning. Right:
+                            region-level MLLMs on spatio-temporal reasoning and dynamic object grounding.
+                        </figcaption>
+                    </figure>
+                </d-figure>
 
-                        <p class="text" align="justify"><strong>Additional Analysis</strong>:
-                            TODO: Add qualitative findings or ablations (e.g., modality on/off, prompting variants) for
-                            Dyn-Bench.
-                        </p>
+                <!-- Dyn-Bench Leaderboard Section -->
+                <div id="dyn-leaderboard" class="dyn-leaderboard">
+                    <h1 class="text">Dyn-Bench Leaderboard</h1>
 
-                        <d-figure id="fig-blind-eval">
-                            <figure>
-                                <img data-zoomable="" draggable="false" src="static/img/blind_evaluation.png"
-                                    alt="benchmark category" class="img-center w-70">
-                                <figcaption>
-                                    <strong>Figure 5</strong>: TODO: Replace with the appropriate Dyn-Bench analysis
-                                    figure and caption.
-                                </figcaption>
-                            </figure>
-                        </d-figure>
-
-                        <!-- Dyn-Bench Leaderboard Section -->
-                        <div id="dyn-leaderboard" class="dyn-leaderboard">
-                            <h1 class="text">Dyn-Bench Leaderboard</h1>
-
-                            <div class="leaderboard-container">
-                                <div class="leaderboard-header">
-                                    <p class="text" align="justify">
-                                        To include your model in the leaderboard, please email <a
-                                            href="mailto:jihanyang13@gmail.com">jihanyang13@gmail.com</a> with
-                                        evaluation logs and setups.
-                                    </p>
-                                </div>
-
-                                <table class="leaderboard-table">
-                                    <thead>
-                                        <tr class="header-group">
-                                            <th rowspan="2" data-column-index="0">Model</th>
-                                            <th rowspan="2" data-column-index="1">LLM Params</th>
-                                            <th rowspan="2" data-column-index="2">Frames</th>
-                                            <th rowspan="2" data-column-index="3">Date</th>
-                                            <th rowspan="2" data-column-index="4">Avg.</th>
-                                            <th colspan="4">Numerical Answer Questions</th>
-                                            <th colspan="4">Multiple-Choice Questions</th>
-                                        </tr>
-                                        <tr>
-                                            <th data-column-index="5">Obj. Count</th>
-                                            <th data-column-index="6">Abs. Dist.</th>
-                                            <th data-column-index="7">Obj. Size</th>
-                                            <th data-column-index="8">Room Size</th>
-                                            <th data-column-index="9">Rel. Dist.</th>
-                                            <th data-column-index="10">Rel. Dir.</th>
-                                            <th data-column-index="11">Route Plan</th>
-                                            <th data-column-index="12">Appear. Order</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="leaderboard-body">
-                                        <tr class="section-header">
-                                            <td colspan="13">Baselines</td>
-                                        </tr>
-                                        <tr class="baseline-row">
-                                            <td>Chance-level (Random)</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>2024-11-15</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>25.0</td>
-                                            <td>36.1</td>
-                                            <td>28.3</td>
-                                            <td>25.0</td>
-                                        </tr>
-                                        <tr class="baseline-row">
-                                            <td>Chance-level (Frequency)</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>2024-11-15</td>
-                                            <td>34.0</td>
-                                            <td>62.1</td>
-                                            <td>32.0</td>
-                                            <td>29.9</td>
-                                            <td>33.1</td>
-                                            <td>25.1</td>
-                                            <td>47.9</td>
-                                            <td>28.4</td>
-                                            <td>25.2</td>
-                                        </tr>
-                                        <tr class="human-level-row">
-                                            <td><strong>Human-Level</strong></td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>2024-11-15</td>
-                                            <td class="best-score">79.2</td>
-                                            <td class="best-score">94.3</td>
-                                            <td>47.0</td>
-                                            <td>60.4</td>
-                                            <td>45.9</td>
-                                            <td class="best-score">94.7</td>
-                                            <td class="best-score">95.8</td>
-                                            <td class="best-score">95.8</td>
-                                            <td class="best-score">100.0</td>
-                                        </tr>
-                                        <tr class="section-divider">
-                                            <td colspan="13" class="section-header">MLLMs</td>
-                                        </tr>
-                                        <tr>
-                                            <td>SpaceMind <span class="model-badge open-badge">Open</span></td>
-                                            <td>7B</td>
-                                            <td>32</td>
-                                            <td>2025-11-27</td>
-                                            <td>69.2</td>
-                                            <td>72.7</td>
-                                            <td>60.3</td>
-                                            <td>78.0</td>
-                                            <td>75.5</td>
-                                            <td>71.0</td>
-                                            <td>87.9</td>
-                                            <td>42.8</td>
-                                            <td>65.9</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Gemini-1.5-Pro <span
-                                                    class="model-badge proprietary-badge">Proprietary</span></td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>2024-11-15</td>
-                                            <td>48.8</td>
-                                            <td>49.6</td>
-                                            <td>28.8</td>
-                                            <td>58.6</td>
-                                            <td>49.4</td>
-                                            <td>46.0</td>
-                                            <td>48.1</td>
-                                            <td>42.0</td>
-                                            <td>68.0</td>
-                                        </tr>
-                                        <tr>
-                                            <td>InternVL3-78B <span class="model-badge open-badge">Open</span></td>
-                                            <td>78B</td>
-                                            <td>64</td>
-                                            <td>2025-04-19</td>
-                                            <td>48.4</td>
-                                            <td>71.2</td>
-                                            <td>53.7</td>
-                                            <td>44.4</td>
-                                            <td>39.5</td>
-                                            <td>55.9</td>
-                                            <td>39.5</td>
-                                            <td>28.9</td>
-                                            <td>54.5</td>
-                                        </tr>
-                                        <tr>
-                                            <td>GPT-4o <span class="model-badge proprietary-badge">Proprietary</span>
-                                            </td>
-                                            <td>-</td>
-                                            <td>64</td>
-                                            <td>2025-04-03</td>
-                                            <td>47.8</td>
-                                            <td>43.1</td>
-                                            <td>34.1</td>
-                                            <td>68.6</td>
-                                            <td>64.2</td>
-                                            <td>48.3</td>
-                                            <td>43.1</td>
-                                            <td>29.4</td>
-                                            <td>51.3</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Gemini-1.5 Flash <span
-                                                    class="model-badge proprietary-badge">Proprietary</span></td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>2024-11-15</td>
-                                            <td>45.7</td>
-                                            <td>50.8</td>
-                                            <td>33.6</td>
-                                            <td>56.5</td>
-                                            <td>45.2</td>
-                                            <td>48.0</td>
-                                            <td>39.8</td>
-                                            <td>32.7</td>
-                                            <td>59.2</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Gemini-2.0 Flash <span
-                                                    class="model-badge proprietary-badge">Proprietary</span></td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>2024-12-20</td>
-                                            <td>45.4</td>
-                                            <td>52.4</td>
-                                            <td>30.6</td>
-                                            <td>66.7</td>
-                                            <td>31.8</td>
-                                            <td>56.0</td>
-                                            <td>46.3</td>
-                                            <td>24.5</td>
-                                            <td>55.1</td>
-                                        </tr>
-                                        <tr>
-                                            <td>LLaVA-Video-72B <span class="model-badge open-badge">Open</span></td>
-                                            <td>72B</td>
-                                            <td>32</td>
-                                            <td>2024-11-24</td>
-                                            <td>40.9</td>
-                                            <td>48.9</td>
-                                            <td>22.8</td>
-                                            <td>57.4</td>
-                                            <td>35.3</td>
-                                            <td>42.4</td>
-                                            <td>36.7</td>
-                                            <td>35.0</td>
-                                            <td>48.6</td>
-                                        </tr>
-                                        <tr>
-                                            <td>LLaVA-OneVision-72B <span class="model-badge open-badge">Open</span>
-                                            </td>
-                                            <td>72B</td>
-                                            <td>32</td>
-                                            <td>2024-11-27</td>
-                                            <td>40.2</td>
-                                            <td>43.5</td>
-                                            <td>23.9</td>
-                                            <td>57.6</td>
-                                            <td>37.5</td>
-                                            <td>42.5</td>
-                                            <td>39.9</td>
-                                            <td>32.5</td>
-                                            <td>44.6</td>
-                                        </tr>
-                                        <tr>
-                                            <td>InternVL2-8B <span class="model-badge open-badge">Open</span></td>
-                                            <td>8B</td>
-                                            <td>32</td>
-                                            <td>2024-11-17</td>
-                                            <td>37.5</td>
-                                            <td>31.3</td>
-                                            <td>29.0</td>
-                                            <td>48.9</td>
-                                            <td>44.2</td>
-                                            <td>38.0</td>
-                                            <td>33.4</td>
-                                            <td>28.9</td>
-                                            <td>46.4</td>
-                                        </tr>
-                                        <tr>
-                                            <td>InternVL2-40B <span class="model-badge open-badge">Open</span></td>
-                                            <td>40B</td>
-                                            <td>32</td>
-                                            <td>2024-11-18</td>
-                                            <td>37.0</td>
-                                            <td>41.3</td>
-                                            <td>26.2</td>
-                                            <td>48.2</td>
-                                            <td>27.5</td>
-                                            <td>47.6</td>
-                                            <td>32.7</td>
-                                            <td>27.8</td>
-                                            <td>44.7</td>
-                                        </tr>
-                                        <tr>
-                                            <td>LLaVA-Video-7B <span class="model-badge open-badge">Open</span></td>
-                                            <td>7B</td>
-                                            <td>32</td>
-                                            <td>2024-11-23</td>
-                                            <td>35.6</td>
-                                            <td>48.5</td>
-                                            <td>14.0</td>
-                                            <td>47.8</td>
-                                            <td>24.2</td>
-                                            <td>43.5</td>
-                                            <td>42.4</td>
-                                            <td>34.0</td>
-                                            <td>30.6</td>
-                                        </tr>
-                                        <tr>
-                                            <td>GPT-4o <span class="model-badge proprietary-badge">Proprietary</span>
-                                            </td>
-                                            <td>-</td>
-                                            <td>16</td>
-                                            <td>2024-11-15</td>
-                                            <td>34.0</td>
-                                            <td>46.2</td>
-                                            <td>5.3</td>
-                                            <td>43.8</td>
-                                            <td>38.2</td>
-                                            <td>37.0</td>
-                                            <td>41.3</td>
-                                            <td>31.5</td>
-                                            <td>28.5</td>
-                                        </tr>
-                                        <tr>
-                                            <td>LLaVA-OneVision-7B <span class="model-badge open-badge">Open</span></td>
-                                            <td>7B</td>
-                                            <td>32</td>
-                                            <td>2024-11-26</td>
-                                            <td>32.4</td>
-                                            <td>47.7</td>
-                                            <td>20.2</td>
-                                            <td>47.4</td>
-                                            <td>12.3</td>
-                                            <td>42.5</td>
-                                            <td>35.2</td>
-                                            <td>29.4</td>
-                                            <td>24.4</td>
-                                        </tr>
-                                        <tr>
-                                            <td>VILA-1.5-40B <span class="model-badge open-badge">Open</span></td>
-                                            <td>40B</td>
-                                            <td>32</td>
-                                            <td>2024-11-21</td>
-                                            <td>31.2</td>
-                                            <td>22.4</td>
-                                            <td>24.8</td>
-                                            <td>48.7</td>
-                                            <td>22.7</td>
-                                            <td>40.5</td>
-                                            <td>25.7</td>
-                                            <td>31.5</td>
-                                            <td>32.9</td>
-                                        </tr>
-                                        <tr>
-                                            <td>LongVA-7B <span class="model-badge open-badge">Open</span></td>
-                                            <td>7B</td>
-                                            <td>32</td>
-                                            <td>2024-11-22</td>
-                                            <td>29.2</td>
-                                            <td>38.0</td>
-                                            <td>16.6</td>
-                                            <td>38.9</td>
-                                            <td>22.2</td>
-                                            <td>33.1</td>
-                                            <td>43.3</td>
-                                            <td>25.4</td>
-                                            <td>15.7</td>
-                                        </tr>
-                                        <tr>
-                                            <td>VILA-1.5-8B <span class="model-badge open-badge">Open</span></td>
-                                            <td>8B</td>
-                                            <td>32</td>
-                                            <td>2024-11-20</td>
-                                            <td>28.9</td>
-                                            <td>17.4</td>
-                                            <td>21.8</td>
-                                            <td>50.3</td>
-                                            <td>18.8</td>
-                                            <td>32.1</td>
-                                            <td>34.8</td>
-                                            <td>31.0</td>
-                                            <td>24.8</td>
-                                        </tr>
-                                        <tr>
-                                            <td>LLaVA-OneVision-0.5B <span class="model-badge open-badge">Open</span>
-                                            </td>
-                                            <td>0.5B</td>
-                                            <td>32</td>
-                                            <td>2024-11-25</td>
-                                            <td>28.0</td>
-                                            <td>46.1</td>
-                                            <td>28.4</td>
-                                            <td>15.4</td>
-                                            <td>28.3</td>
-                                            <td>28.9</td>
-                                            <td>36.9</td>
-                                            <td>34.5</td>
-                                            <td>5.8</td>
-                                        </tr>
-                                        <tr>
-                                            <td>InternVL2-8B <span class="model-badge open-badge">Open</span></td>
-                                            <td>8B</td>
-                                            <td>32</td>
-                                            <td>2024-11-16</td>
-                                            <td>26.5</td>
-                                            <td>25.7</td>
-                                            <td>24.0</td>
-                                            <td>20.0</td>
-                                            <td>29.2</td>
-                                            <td>32.1</td>
-                                            <td>44.1</td>
-                                            <td>30.4</td>
-                                            <td>6.3</td>
-                                        </tr>
-                                        <tr>
-                                            <td>SmoVLM2-2.2B <span class="model-badge open-badge">Open</span></td>
-                                            <td>2.2B</td>
-                                            <td>32</td>
-                                            <td>2025-06-26</td>
-                                            <td>26.5</td>
-                                            <td>25.7</td>
-                                            <td>27.1</td>
-                                            <td>30.9</td>
-                                            <td>14.2</td>
-                                            <td>33.2</td>
-                                            <td>42.3</td>
-                                            <td>33.0</td>
-                                            <td>5.3</td>
-                                        </tr>
-                                        <tr>
-                                            <td>SmoVLM2-500M <span class="model-badge open-badge">Open</span></td>
-                                            <td>500M</td>
-                                            <td>32</td>
-                                            <td>2025-06-26</td>
-                                            <td>25.8</td>
-                                            <td>8.0</td>
-                                            <td>29.7</td>
-                                            <td>30.4</td>
-                                            <td>27.5</td>
-                                            <td>28.2</td>
-                                            <td>33.9</td>
-                                            <td>26.8</td>
-                                            <td>21.7</td>
-                                        </tr>
-                                        <tr>
-                                            <td>LongVILA-8B <span class="model-badge open-badge">Open</span></td>
-                                            <td>8B</td>
-                                            <td>32</td>
-                                            <td>2024-11-19</td>
-                                            <td>21.6</td>
-                                            <td>29.1</td>
-                                            <td>9.1</td>
-                                            <td>16.7</td>
-                                            <td>0.0</td>
-                                            <td>29.6</td>
-                                            <td>30.7</td>
-                                            <td>32.5</td>
-                                            <td>25.5</td>
-                                        </tr>
-                                        <tr>
-                                            <td>SmoVLM2-256M <span class="model-badge open-badge">Open</span></td>
-                                            <td>256M</td>
-                                            <td>32</td>
-                                            <td>2025-06-26</td>
-                                            <td>21.4</td>
-                                            <td>50.5</td>
-                                            <td>1.8</td>
-                                            <td>1.3</td>
-                                            <td>0.0</td>
-                                            <td>30.3</td>
-                                            <td>36.4</td>
-                                            <td>25.8</td>
-                                            <td>25.1</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                    <div class="leaderboard-container">
+                        <div class="leaderboard-header">
+                            <p class="text" align="justify">
+                                To include your model in the leaderboard, please email <a
+                                    href="mailto:jihanyang13@gmail.com">jihanyang13@gmail.com</a> with
+                                evaluation logs and setups.
+                            </p>
                         </div>
 
-                        <div id='visual-representation' class="viusal-representation-block">
-                            <h1 class="text">How MLLMs Think in Space Linguistically</h1>
-
-                            <p class="text" align="justify">
-                                To better understand when and why models succeed or fail and to elucidate the facets of
-                                visual-spatial intelligence they possess, we examine how MLLMs think in space
-                                linguistically.
-                            </p>
-
-
-                            </d-figure>
-                            <p class="text" align="justify">
-                                <strong>Case Studies</strong>:
-                                In the success example, the model demonstrates advanced video understanding with
-                                accurate timestamped descriptions and a correct step-by-step reasoning process. The use
-                                of a global coordinate system suggests that MLLMs may construct implicit world models by
-                                integrating spatial context and reasoning. In the error case, the model fails in
-                                egocentric-allocentric transformation, incorrectly interpreting a video sequence due to
-                                reliance on the egocentric view, leading to a flawed spatial inference.
-                            </p>
-
-                            <d-figure id="fig-case-study">
-                                <figure>
-                                    <img data-zoomable="" draggable="false" src="static/img/case-study-v2.png"
-                                        alt="benchmark category" class="img-center w-90">
-                                    <figcaption>
-                                        <strong>Figure 6</strong>: Examples of how a MLLM thinks as seen in
-                                        self-explanations.
-                                    </figcaption>
-                                </figure>
-                            </d-figure>
-
-                            <p class="text" align="justify">
-                                <strong>Error Analysis</strong>:
-                                Analysis of errors from the best-performing MLLM on Dyn-Bench (tiny) identifies four
-                                main error types: visual perception, linguistic intelligence, relational reasoning, and
-                                egocentric-allocentric transformation. Figure 6 reveals that 71% of errors stem from
-                                spatial reasoning, particularly in understanding distance, size, and direction. This
-                                indicates that spatial reasoning remains the key bottleneck for improving MLLM
-                                performance on Dyn-Bench.
-                            </p>
-                            <d-figure id="fig-error-breakdown">
-                                <figure>
-                                    <img data-zoomable="" draggable="false" src="static/img/error_breakdown.png"
-                                        alt="benchmark category" class="img-center w-60">
-                                    <figcaption>
-                                        <strong>Figure 7</strong>: Human-conducted analysis of errors by type.
-                                    </figcaption>
-                                </figure>
-                            </d-figure>
-
-                            <div class="highlight-box">
-                                <em>Finding 1: Spatial reasoning is the primary bottleneck for MLLM performance on
-                                    Dyn-Bench.</em>
-                            </div>
-
-                        </div>
-
-                        <p class="text" align="justify">
-
-                            <strong>Limits of CoT Methods in Visuospatial Tasks</strong>:
-                            We investigate three prompting techniques—Zero-Shot Chain-of-Thought (CoT), Self-Consistency
-                            with CoT, and Tree-of-Thoughts (ToT)—to improve MLLM reasoning on Dyn-Bench.
-                            Surprisingly, all three methods led to performance degradation (see Fig. 8),
-                            with Zero-Shot CoT and ToT reducing average performance by 4%,
-                            and Self-Consistency falling 1.1% below the baseline.
-                            While the appearance order and absolute distance estimation tasks saw slight improvements
-                            due to reduced linguistic errors,
-                            the room size and object size tasks suffer a large 8% to 21% decrease,
-                            showing that encouraging a model to think more can be not just unreliable
-                            but downright harmful.
-                        </p>
-                        <d-figure id="fig-zero-shot">
-                            <figure>
-                                <img data-zoomable="" draggable="false" src="static/img/zero-shot.png"
-                                    alt="benchmark category" class="img-center w-60">
-                                <figcaption>
-                                    <strong>Figure 8</strong>: Relative improvements of CoT, self-consistency and
-                                    Tree-of-Thought compared to the baseline.
-                                </figcaption>
-                            </figure>
-                        </d-figure>
-                        <p class="text" align="justify">
-                            Meanwhile, as shown in Tab. 2, ZeroShot CoT achieves a 1.6% improvement on the general
-                            video understanding benchmark VideoMME.
-                        </p>
-
-                        <div id="tab:data_balance_result" class="table-flex">
-                            <div class="table-container">
-                                <table class="data-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Case</th>
-                                            <th>Performance</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Gemini-1.5 Pro (w/o CoT)</td>
-                                            <td>77.2</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Gemini-1.5 Pro (w/ CoT)</td>
-                                            <td>79.8</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-
-                            </div>
-                            <figcaption>
-                                <strong>Table 2:</strong> Gemini-1.5 Pro CoT performance on a 500-questions
-                                subset in VideoMME.
-                            </figcaption>
-                            <div class="highlight-box">
-                                <em>Finding 2: Linguistic prompting techniques, although effective in language reasoning
-                                    and general visual tasks, are primarily harmful for spatial reasoning.</em>
-                            </div>
-
-                        </div>
+                        <table class="leaderboard-table">
+                            <thead>
+                                <tr class="header-group">
+                                    <th rowspan="2" data-column-index="0">Model</th>
+                                    <th rowspan="2" data-column-index="1">LLM Params</th>
+                                    <th rowspan="2" data-column-index="2">Frames</th>
+                                    <th rowspan="2" data-column-index="3">Date</th>
+                                    <th rowspan="2" data-column-index="4">Avg.</th>
+                                    <th colspan="4">Numerical Answer Questions</th>
+                                    <th colspan="4">Multiple-Choice Questions</th>
+                                </tr>
+                                <tr>
+                                    <th data-column-index="5">Obj. Count</th>
+                                    <th data-column-index="6">Abs. Dist.</th>
+                                    <th data-column-index="7">Obj. Size</th>
+                                    <th data-column-index="8">Room Size</th>
+                                    <th data-column-index="9">Rel. Dist.</th>
+                                    <th data-column-index="10">Rel. Dir.</th>
+                                    <th data-column-index="11">Route Plan</th>
+                                    <th data-column-index="12">Appear. Order</th>
+                                </tr>
+                            </thead>
+                            <tbody id="leaderboard-body">
+                                <tr class="section-header">
+                                    <td colspan="13">Baselines</td>
+                                </tr>
+                                <tr class="baseline-row">
+                                    <td>Chance-level (Random)</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>2024-11-15</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>25.0</td>
+                                    <td>36.1</td>
+                                    <td>28.3</td>
+                                    <td>25.0</td>
+                                </tr>
+                                <tr class="baseline-row">
+                                    <td>Chance-level (Frequency)</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>2024-11-15</td>
+                                    <td>34.0</td>
+                                    <td>62.1</td>
+                                    <td>32.0</td>
+                                    <td>29.9</td>
+                                    <td>33.1</td>
+                                    <td>25.1</td>
+                                    <td>47.9</td>
+                                    <td>28.4</td>
+                                    <td>25.2</td>
+                                </tr>
+                                <tr class="human-level-row">
+                                    <td><strong>Human-Level</strong></td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>2024-11-15</td>
+                                    <td class="best-score">79.2</td>
+                                    <td class="best-score">94.3</td>
+                                    <td>47.0</td>
+                                    <td>60.4</td>
+                                    <td>45.9</td>
+                                    <td class="best-score">94.7</td>
+                                    <td class="best-score">95.8</td>
+                                    <td class="best-score">95.8</td>
+                                    <td class="best-score">100.0</td>
+                                </tr>
+                                <tr class="section-divider">
+                                    <td colspan="13" class="section-header">MLLMs</td>
+                                </tr>
+                                <tr>
+                                    <td>SpaceMind <span class="model-badge open-badge">Open</span></td>
+                                    <td>7B</td>
+                                    <td>32</td>
+                                    <td>2025-11-27</td>
+                                    <td>69.2</td>
+                                    <td>72.7</td>
+                                    <td>60.3</td>
+                                    <td>78.0</td>
+                                    <td>75.5</td>
+                                    <td>71.0</td>
+                                    <td>87.9</td>
+                                    <td>42.8</td>
+                                    <td>65.9</td>
+                                </tr>
+                                <tr>
+                                    <td>Gemini-1.5-Pro <span class="model-badge proprietary-badge">Proprietary</span>
+                                    </td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>2024-11-15</td>
+                                    <td>48.8</td>
+                                    <td>49.6</td>
+                                    <td>28.8</td>
+                                    <td>58.6</td>
+                                    <td>49.4</td>
+                                    <td>46.0</td>
+                                    <td>48.1</td>
+                                    <td>42.0</td>
+                                    <td>68.0</td>
+                                </tr>
+                                <tr>
+                                    <td>InternVL3-78B <span class="model-badge open-badge">Open</span></td>
+                                    <td>78B</td>
+                                    <td>64</td>
+                                    <td>2025-04-19</td>
+                                    <td>48.4</td>
+                                    <td>71.2</td>
+                                    <td>53.7</td>
+                                    <td>44.4</td>
+                                    <td>39.5</td>
+                                    <td>55.9</td>
+                                    <td>39.5</td>
+                                    <td>28.9</td>
+                                    <td>54.5</td>
+                                </tr>
+                                <tr>
+                                    <td>GPT-4o <span class="model-badge proprietary-badge">Proprietary</span>
+                                    </td>
+                                    <td>-</td>
+                                    <td>64</td>
+                                    <td>2025-04-03</td>
+                                    <td>47.8</td>
+                                    <td>43.1</td>
+                                    <td>34.1</td>
+                                    <td>68.6</td>
+                                    <td>64.2</td>
+                                    <td>48.3</td>
+                                    <td>43.1</td>
+                                    <td>29.4</td>
+                                    <td>51.3</td>
+                                </tr>
+                                <tr>
+                                    <td>Gemini-1.5 Flash <span class="model-badge proprietary-badge">Proprietary</span>
+                                    </td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>2024-11-15</td>
+                                    <td>45.7</td>
+                                    <td>50.8</td>
+                                    <td>33.6</td>
+                                    <td>56.5</td>
+                                    <td>45.2</td>
+                                    <td>48.0</td>
+                                    <td>39.8</td>
+                                    <td>32.7</td>
+                                    <td>59.2</td>
+                                </tr>
+                                <tr>
+                                    <td>Gemini-2.0 Flash <span class="model-badge proprietary-badge">Proprietary</span>
+                                    </td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>2024-12-20</td>
+                                    <td>45.4</td>
+                                    <td>52.4</td>
+                                    <td>30.6</td>
+                                    <td>66.7</td>
+                                    <td>31.8</td>
+                                    <td>56.0</td>
+                                    <td>46.3</td>
+                                    <td>24.5</td>
+                                    <td>55.1</td>
+                                </tr>
+                                <tr>
+                                    <td>LLaVA-Video-72B <span class="model-badge open-badge">Open</span></td>
+                                    <td>72B</td>
+                                    <td>32</td>
+                                    <td>2024-11-24</td>
+                                    <td>40.9</td>
+                                    <td>48.9</td>
+                                    <td>22.8</td>
+                                    <td>57.4</td>
+                                    <td>35.3</td>
+                                    <td>42.4</td>
+                                    <td>36.7</td>
+                                    <td>35.0</td>
+                                    <td>48.6</td>
+                                </tr>
+                                <tr>
+                                    <td>LLaVA-OneVision-72B <span class="model-badge open-badge">Open</span>
+                                    </td>
+                                    <td>72B</td>
+                                    <td>32</td>
+                                    <td>2024-11-27</td>
+                                    <td>40.2</td>
+                                    <td>43.5</td>
+                                    <td>23.9</td>
+                                    <td>57.6</td>
+                                    <td>37.5</td>
+                                    <td>42.5</td>
+                                    <td>39.9</td>
+                                    <td>32.5</td>
+                                    <td>44.6</td>
+                                </tr>
+                                <tr>
+                                    <td>InternVL2-8B <span class="model-badge open-badge">Open</span></td>
+                                    <td>8B</td>
+                                    <td>32</td>
+                                    <td>2024-11-17</td>
+                                    <td>37.5</td>
+                                    <td>31.3</td>
+                                    <td>29.0</td>
+                                    <td>48.9</td>
+                                    <td>44.2</td>
+                                    <td>38.0</td>
+                                    <td>33.4</td>
+                                    <td>28.9</td>
+                                    <td>46.4</td>
+                                </tr>
+                                <tr>
+                                    <td>InternVL2-40B <span class="model-badge open-badge">Open</span></td>
+                                    <td>40B</td>
+                                    <td>32</td>
+                                    <td>2024-11-18</td>
+                                    <td>37.0</td>
+                                    <td>41.3</td>
+                                    <td>26.2</td>
+                                    <td>48.2</td>
+                                    <td>27.5</td>
+                                    <td>47.6</td>
+                                    <td>32.7</td>
+                                    <td>27.8</td>
+                                    <td>44.7</td>
+                                </tr>
+                                <tr>
+                                    <td>LLaVA-Video-7B <span class="model-badge open-badge">Open</span></td>
+                                    <td>7B</td>
+                                    <td>32</td>
+                                    <td>2024-11-23</td>
+                                    <td>35.6</td>
+                                    <td>48.5</td>
+                                    <td>14.0</td>
+                                    <td>47.8</td>
+                                    <td>24.2</td>
+                                    <td>43.5</td>
+                                    <td>42.4</td>
+                                    <td>34.0</td>
+                                    <td>30.6</td>
+                                </tr>
+                                <tr>
+                                    <td>GPT-4o <span class="model-badge proprietary-badge">Proprietary</span>
+                                    </td>
+                                    <td>-</td>
+                                    <td>16</td>
+                                    <td>2024-11-15</td>
+                                    <td>34.0</td>
+                                    <td>46.2</td>
+                                    <td>5.3</td>
+                                    <td>43.8</td>
+                                    <td>38.2</td>
+                                    <td>37.0</td>
+                                    <td>41.3</td>
+                                    <td>31.5</td>
+                                    <td>28.5</td>
+                                </tr>
+                                <tr>
+                                    <td>LLaVA-OneVision-7B <span class="model-badge open-badge">Open</span></td>
+                                    <td>7B</td>
+                                    <td>32</td>
+                                    <td>2024-11-26</td>
+                                    <td>32.4</td>
+                                    <td>47.7</td>
+                                    <td>20.2</td>
+                                    <td>47.4</td>
+                                    <td>12.3</td>
+                                    <td>42.5</td>
+                                    <td>35.2</td>
+                                    <td>29.4</td>
+                                    <td>24.4</td>
+                                </tr>
+                                <tr>
+                                    <td>VILA-1.5-40B <span class="model-badge open-badge">Open</span></td>
+                                    <td>40B</td>
+                                    <td>32</td>
+                                    <td>2024-11-21</td>
+                                    <td>31.2</td>
+                                    <td>22.4</td>
+                                    <td>24.8</td>
+                                    <td>48.7</td>
+                                    <td>22.7</td>
+                                    <td>40.5</td>
+                                    <td>25.7</td>
+                                    <td>31.5</td>
+                                    <td>32.9</td>
+                                </tr>
+                                <tr>
+                                    <td>LongVA-7B <span class="model-badge open-badge">Open</span></td>
+                                    <td>7B</td>
+                                    <td>32</td>
+                                    <td>2024-11-22</td>
+                                    <td>29.2</td>
+                                    <td>38.0</td>
+                                    <td>16.6</td>
+                                    <td>38.9</td>
+                                    <td>22.2</td>
+                                    <td>33.1</td>
+                                    <td>43.3</td>
+                                    <td>25.4</td>
+                                    <td>15.7</td>
+                                </tr>
+                                <tr>
+                                    <td>VILA-1.5-8B <span class="model-badge open-badge">Open</span></td>
+                                    <td>8B</td>
+                                    <td>32</td>
+                                    <td>2024-11-20</td>
+                                    <td>28.9</td>
+                                    <td>17.4</td>
+                                    <td>21.8</td>
+                                    <td>50.3</td>
+                                    <td>18.8</td>
+                                    <td>32.1</td>
+                                    <td>34.8</td>
+                                    <td>31.0</td>
+                                    <td>24.8</td>
+                                </tr>
+                                <tr>
+                                    <td>LLaVA-OneVision-0.5B <span class="model-badge open-badge">Open</span>
+                                    </td>
+                                    <td>0.5B</td>
+                                    <td>32</td>
+                                    <td>2024-11-25</td>
+                                    <td>28.0</td>
+                                    <td>46.1</td>
+                                    <td>28.4</td>
+                                    <td>15.4</td>
+                                    <td>28.3</td>
+                                    <td>28.9</td>
+                                    <td>36.9</td>
+                                    <td>34.5</td>
+                                    <td>5.8</td>
+                                </tr>
+                                <tr>
+                                    <td>InternVL2-8B <span class="model-badge open-badge">Open</span></td>
+                                    <td>8B</td>
+                                    <td>32</td>
+                                    <td>2024-11-16</td>
+                                    <td>26.5</td>
+                                    <td>25.7</td>
+                                    <td>24.0</td>
+                                    <td>20.0</td>
+                                    <td>29.2</td>
+                                    <td>32.1</td>
+                                    <td>44.1</td>
+                                    <td>30.4</td>
+                                    <td>6.3</td>
+                                </tr>
+                                <tr>
+                                    <td>SmoVLM2-2.2B <span class="model-badge open-badge">Open</span></td>
+                                    <td>2.2B</td>
+                                    <td>32</td>
+                                    <td>2025-06-26</td>
+                                    <td>26.5</td>
+                                    <td>25.7</td>
+                                    <td>27.1</td>
+                                    <td>30.9</td>
+                                    <td>14.2</td>
+                                    <td>33.2</td>
+                                    <td>42.3</td>
+                                    <td>33.0</td>
+                                    <td>5.3</td>
+                                </tr>
+                                <tr>
+                                    <td>SmoVLM2-500M <span class="model-badge open-badge">Open</span></td>
+                                    <td>500M</td>
+                                    <td>32</td>
+                                    <td>2025-06-26</td>
+                                    <td>25.8</td>
+                                    <td>8.0</td>
+                                    <td>29.7</td>
+                                    <td>30.4</td>
+                                    <td>27.5</td>
+                                    <td>28.2</td>
+                                    <td>33.9</td>
+                                    <td>26.8</td>
+                                    <td>21.7</td>
+                                </tr>
+                                <tr>
+                                    <td>LongVILA-8B <span class="model-badge open-badge">Open</span></td>
+                                    <td>8B</td>
+                                    <td>32</td>
+                                    <td>2024-11-19</td>
+                                    <td>21.6</td>
+                                    <td>29.1</td>
+                                    <td>9.1</td>
+                                    <td>16.7</td>
+                                    <td>0.0</td>
+                                    <td>29.6</td>
+                                    <td>30.7</td>
+                                    <td>32.5</td>
+                                    <td>25.5</td>
+                                </tr>
+                                <tr>
+                                    <td>SmoVLM2-256M <span class="model-badge open-badge">Open</span></td>
+                                    <td>256M</td>
+                                    <td>32</td>
+                                    <td>2025-06-26</td>
+                                    <td>21.4</td>
+                                    <td>50.5</td>
+                                    <td>1.8</td>
+                                    <td>1.3</td>
+                                    <td>0.0</td>
+                                    <td>30.3</td>
+                                    <td>36.4</td>
+                                    <td>25.8</td>
+                                    <td>25.1</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
-
-            </div>
-            <div id='vsi-world' class="vsi-world">
-
-                <div id='vsi-improvements' class="vsi-improvements">
-
-                    <h1 class="text"> How MLLMs Think in Space Visually</h1>
-                    <p class="text">
-                        Since humans subconsciously build mental representations of space when reasoning spatially, we
-                        explore how MLLMs remember spaces. </p>
+                <div id='visual-representation' class="viusal-representation-block">
+                    <h1 class="text">Textual Guidance: How MLLMs Think in Dynamics</h1>
 
                     <p class="text" align="justify">
-                        <strong> Probing via Cognitive Maps</strong>:
-                        We evaluate MLLMs' ability to create cognitive maps, a framework for spatial representation, by
-                        prompting Gemini-1.5 Pro to predict object center positions within a 10 x 10 grid based on video
-                        input. Accuracy is measured by comparing predicted object distances with ground truth maps,
-                        considering deviations within one grid unit as correct. The model achieves 64% accuracy in
-                        positioning close objects, which demonstrates its strong local spatial awareness. However, the
-                        model does struggle with larger distances, which reflects the challenges it faces in forming
-                        global spatial representations from discrete video frames.
+                        We probe GPT-4o’s self-explanations on Dyn-Bench to see how it “thinks” about motion in
+                        text. Without explicit cues, it often relies on surface descriptions (size changes,
+                        appearance order) and misses quantitative timing, depth, and interaction signals—ending
+                        up with egocentric, frame-by-frame heuristics. When provided a spatio-temporal textual
+                        map (ST-TCM), the model starts to anchor objects to coordinates, reason about relative
+                        velocities and travel time, and maintain event continuity across frames, revealing a
+                        more
+                        coherent internal world model.
                     </p>
 
-                    <d-figure id="fig-cog-map">
+                    </d-figure>
+                    <p class="text" align="justify">
+                        <strong>Case Studies</strong>:
+                        Failure cases show linguistically fluent but physically inconsistent reasoning—e.g., the
+                        model estimates catch-up time from rough size cues and ignores true speed/distance. With
+                        spatio-temporal textual maps (ST-TCM), it grounds positions, velocities, and intervals,
+                        links interactions causally, and delivers consistent timing. Ablations (T/M/S) further
+                        show motion and spatial cues provide the largest lift, while temporal cues alone are
+                        insufficient for stable dynamic reasoning.
+                    </p>
+
+                    <d-figure id="fig-case-study">
                         <figure>
-                            <img data-zoomable="" draggable="false" src="static/img/cog-map.png" alt="Cognitive Map"
-                                class="img-center w-90">
+                            <img data-zoomable="" draggable="false" src="static/img/faliurecase_v10-1.png"
+                                alt="benchmark category" class="img-center w-90">
                             <figcaption>
-                                <strong>Figure 9</strong>. <strong>Left</strong>: Visualizations of cognitive maps from
-                                MLLM and GT. <strong>Right</strong>: Locality of the MLLM's predicted cognitive maps.
+                                <strong>Figure 6</strong>: With a textual map (ST-TCM), the model grounds speed,
+                                position, and time to predict catch-up correctly; without it, reasoning drifts
+                                and the estimate is wrong.
                             </figcaption>
                         </figure>
                     </d-figure>
+
                     <div class="highlight-box">
-                        <em>Finding 3: When remembering spaces, a MLLM forms a series of local world models in its mind
-                            from a given video, rather than a unified global model.</em>
+                        <em>Injecting spatio-temporal textual cues (ST-TCM) helps close temporal, spatial, and
+                            relational gaps in MLLMs’ dynamic reasoning.</em>
                     </div>
 
-                    <p class="text" align="justify">
-                        <strong>Better Distance Reasoning via Cognitive Maps</strong>:
-                        We explore whether cognitive maps could enhance MLLMs' spatial reasoning by prompting Gemini-1.5
-                        Pro to generate a map from video input and use it to answer relative distance questions. Results
-                        show a 10% accuracy improvement with the model's own map and a 20%-32% gain using ground truth
-                        maps, highlighting the value of accurate mental imagery for enforcing global scene topology.
-                        This suggests cognitive mapping as a promising approach to improve MLLMs' visual-spatial
-                        reasoning.
-                    </p>
-                    <div class="flex-row-center">
-                        <!-- Table (a) -->
-                        <table class="simple-table">
-                            <caption>(a) Cognitive map prompting.
-                            </caption>
-                            <thead>
-                                <tr>
-                                    <th>Case</th>
-                                    <th>Rel. Dist Acc.</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>w/o Cog. map</td>
-                                    <td>46.0</td>
-                                </tr>
-                                <tr>
-                                    <td>w/ Cog. map</td>
-                                    <td>56.0</td>
-                                </tr>
-                                <tr>
-                                    <td>w/ Cog. map (GT)</td>
-                                    <td>66.0</td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <!-- Table (b) -->
-                        <table class="simple-table">
-                            <caption>(b) Cognitive map canvas size.
-                            </caption>
-                            <thead>
-                                <tr>
-                                    <th>Cog. Map Src.</th>
-                                    <th>Size</th>
-                                    <th>Rel. Dist Acc.</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>MLLM</td>
-                                    <td>10 &times; 10</td>
-                                    <td>56.0</td>
-                                </tr>
-                                <tr>
-                                    <td>MLLM</td>
-                                    <td>20 &times; 20</td>
-                                    <td>54.0</td>
-                                </tr>
-                                <tr>
-                                    <td>GT</td>
-                                    <td>10 &times; 10</td>
-                                    <td>66.0</td>
-                                </tr>
-                                <tr>
-                                    <td>GT</td>
-                                    <td>20 &times; 20</td>
-                                    <td>78.0</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- Combined Table Caption -->
-
-                    <figcaption>
-                        <strong>Table 3:</strong> Relative distance task with cognitive map.</p>
-                    </figcaption>
                 </div>
 
             </div>
+
+
+        </div>
+        <div id='vsi-world' class="vsi-world">
+
+            <div id='vsi-improvements' class="vsi-improvements">
+
+
+                <h1 class="text"> Visual Guidance: How MLLMs Think in Dynamics Visually</h1>
+                <p class="text" align="justify">
+                    To examine how visual prompts steer motion understanding, we compare Raw Video, Masked Frames
+                    Only, and Mask-Guided Fusion. Mask overlays alone offer limited benefit, while fusing raw frames
+                    with masks better anchors moving regions, improves inter-object and camera-object reasoning, and
+                    yields more temporally consistent predictions for Qwen3-VL-8B.
+                </p>
+
+                <p class="text" align="justify">
+                    <strong>Mask-Guided Strategies</strong>:
+                    Masked Frames Only direct attention to movers but add little beyond localization. Mask-Guided
+                    Fusion combines appearance and motion cues, explicitly grounding perception on dynamic objects
+                    and their trajectories. Quantitatively, fusion lifts all categories, with the largest gains
+                    where
+                    fine-grained motion and interaction cues matter most.
+                </p>
+
+                <d-figure id="fig-cog-map">
+                    <figure>
+                        <img data-zoomable="" draggable="false" src="static/img/visual_v5-1.png"
+                            alt="Mask-guided input comparison" class="img-center w-90">
+                        <figcaption>
+                            <strong>Figure 9</strong>: Raw, mask-only, and mask-guided fusion inputs—fusion best
+                            grounds motion regions and yields correct distance reasoning, while raw and mask-only
+                            stay wrong.
+                        </figcaption>
+                    </figure>
+                </d-figure>
+                <div class="highlight-box">
+                    <em>Mask-Guided Fusion strengthens dynamic object grounding and spatio-temporal reasoning beyond
+                        raw video or mask-only inputs.</em>
+                </div>
+            </div>
+
+            <p class="text" align="justify">
+                <strong>Quantitative Results.</strong> Mask-guided fusion yields the strongest grounding across all
+                tasks, outperforming raw video and mask-only inputs on inter-object, object-scene, and
+                camera-object reasoning while lifting overall accuracy.
+            </p>
+            <div class="flex-row-center">
+                <table class="simple-table">
+                    <caption>Quantitative comparison of mask-guided inputs.</caption>
+                    <thead>
+                        <tr>
+                            <th>Configuration</th>
+                            <th>Inter-Object</th>
+                            <th>Object-Scene</th>
+                            <th>Camera-Object</th>
+                            <th>Avg</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Raw Video</td>
+                            <td>38.9</td>
+                            <td>74.5</td>
+                            <td>55.6</td>
+                            <td>53.8</td>
+                        </tr>
+                        <tr>
+                            <td>Masked Frames Only</td>
+                            <td>39.4</td>
+                            <td>74.3</td>
+                            <td>54.9</td>
+                            <td>53.8</td>
+                        </tr>
+                        <tr>
+                            <td>Mask-Guided Fusion</td>
+                            <td><strong>41.8</strong></td>
+                            <td><strong>77.0</strong></td>
+                            <td><strong>60.0</strong></td>
+                            <td><strong>57.1</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        </div>
         </div>
         </div>
 
@@ -1671,9 +1574,16 @@
         <div id="conclusion" class="section-block">
             <h2 class="text section-heading">Conclusion</h2>
             <p class="text" align="justify">
-                TODO: Add the final takeaway for Thinking in Dynamics — highlight the main findings and future
-                directions.
-
+                We study how MLLMs <i>think in dynamics</i> via <code>Dyn-Bench</code>, spanning general, spatial, and
+                region-level models to assess motion patterns, temporal consistency, and multi-entity interactions in
+                the physical 4D world. Spatio-Temporal Textual Cognitive Maps (ST-TCM) provide structured linguistic
+                abstractions that strengthen temporal coherence and relational reasoning, while mask-guided visual
+                grounding enhances motion perception, fine-grained object continuity, and mitigates temporal drift. In
+                combination, reliable dynamic understanding emerges from coupling high-level temporal semantics with
+                localized region-level grounding. Future spatio-temporal MLLMs should more tightly integrate dynamic
+                object perception and temporal reasoning within unified architectures that jointly model motion,
+                relational structure, and higher-level temporal cognition to achieve coherent, physically grounded
+                reasoning in complex, continuously evolving environments.
             </p>
         </div>
 
