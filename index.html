@@ -1,22 +1,24 @@
 <!doctype html>
 <html lang="en">
     <head>
-        <title>Thinking in Dynamics: How Multimodal Large Language Models Perceive, Track, and Reason Dynamics in Physical 4D World</title>
-        <link rel="icon" type="image/x-icon" href="./static/img/icons/brain.ico">
+        <title>Thinking in Dynamics</title>
+        <link rel="icon" type="image/x-icon" href="/static/img/ButtleFly.ico">
 
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
+        <!-- Open Graph -->
         <meta property="og:url" content="https://dxuan77.github.io/Thinking-in-Dynamics/" />
-        <meta property="og:image" content="./static/img/preview.png" />
+        <meta property="og:image" content="./static/img/ButtleFly_3.png" />
         <meta property="og:title" content="Thinking in Dynamics: How Multimodal Large Language Models Perceive, Track, and Reason Dynamics in Physical 4D World" />
         <meta property="og:description" content="Can MLLMs think in dynamics? We introduce Dyn-Bench to assess localized dynamics perception." />
 
+        <!-- Twitter -->
         <meta name="twitter:url" content="https://dxuan77.github.io/Thinking-in-Dynamics/" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:image" content="./static/img/preview.png" />
-        <meta name="twitter:title" content="Thinking in Dynamics" />
-        <meta name="twitter:description" content="Can MLLMs think in dynamics? We introduce Dyn-Bench." />
+        <meta name="twitter:image" content="./static/img/ButtleFly_3.png" />
+        <meta name="twitter:title" content="Thinking in Dynamics: How Multimodal Large Language Models Perceive, Track, and Reason Dynamics in Physical 4D World" />
+        <meta name="twitter:description" content="Can MLLMs think in dynamics? We introduce Dyn-Bench to assess localized dynamics perception." />
 
         <script src="./static/js/distill_template.v2.js"></script>
         <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
@@ -36,73 +38,23 @@
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
         <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.js" integrity="sha384-9Nhn55MVVN0/4OFx7EE5kpFBPsEMZxKTCnA+4fqDmg12eCTqGi6+BB2LjY8brQxJ" crossorigin="anonymous"></script>
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+            onload="renderMathInElement(document.body);"></script>
         <script defer src="./static/js/fontawesome.all.min.js"></script>
 
-        <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+
+        <!-- medium zoom https://github.com/francoischalifour/medium-zoom -->
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>  <!-- jquery -->
         <script defer src="./static/js/medium-zoom.min.js"></script>
         <script defer src="./static/js/zoom.js"></script>
 
         <style>
-            /* 补充一些针对 Leaderboard 表格的样式，使其在目标模版中更好看 */
-            .leaderboard-table {
-                width: 100%;
-                border-collapse: collapse;
-                font-family: 'Inter', sans-serif;
-                font-size: 0.85em;
-                margin-top: 20px;
-                box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-                border-radius: 8px;
-                overflow: hidden;
-            }
-            .leaderboard-table th, .leaderboard-table td {
-                padding: 10px 8px;
-                text-align: center;
-                border-bottom: 1px solid #eee;
-            }
-            .leaderboard-table th {
-                background-color: #f8f9fa;
-                font-weight: 600;
-                cursor: pointer;
-            }
-            .leaderboard-table tr:hover {
-                background-color: #f1f1f1;
-            }
-            .section-divider td {
-                background-color: #eef2f5;
-                font-weight: bold;
-                text-align: left;
-                padding-left: 20px;
-            }
-            .best-score {
-                font-weight: bold;
-                color: #d9534f;
-            }
-            .model-badge {
-                font-size: 0.7em;
-                padding: 2px 6px;
-                border-radius: 4px;
-                margin-left: 5px;
-            }
-            .open-badge { background-color: #d4edda; color: #155724; }
-            .proprietary-badge { background-color: #f8d7da; color: #721c24; }
-            
-            /* 作者栏样式适配 */
-            .author-block {
-                text-align: center;
-                margin-bottom: 30px;
-            }
-            .author-name {
-                display: inline-block;
-                margin: 0 10px;
-                font-size: 1.1em;
-                color: #0066cc;
-            }
-            .affiliation {
+            .wider-centered-video {
+                width: 140%;
                 display: block;
-                margin-top: 10px;
-                color: #555;
-                font-size: 0.9em;
+                margin-left: -20%;
+                border-radius: 12px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.2);
             }
         </style>
     </head>
@@ -115,110 +67,116 @@
                         <span style="font-size: 1.8em; display: block; margin-bottom: 0.3em; font-style: italic; font-family: 'Times New Roman', serif;">Thinking in Dynamics</span>
                         <span style="font-size: 1.0em; display: block; color: #FFF7D4; font-family: 'Times New Roman', serif;">How Multimodal Large Language Models Perceive, Track, and Reason Dynamics in Physical 4D World</span>
                     </h1>
-                    
+                    <!-- <h2>
+                        <i>
+                            "Without spatial intelligence, AGI is fundamentally incomplete." <br>
+                            <span style="display: block; text-align: right;">——Fei-Fei Li</span>
+                        </i>
+                    </h2> -->
                     <div class="button-container">
-                        <a href="TODO_ARXIV_ABS_URL" class="button paper-link" target="_blank">
+                        <!-- replace arxiv -->
+                        <a href="https://arxiv.org/abs/2512.03000" class="button paper-link" target="_blank">
                             <span class="icon is-small">
-                                <i class="ai ai-arxiv" style="height: 1.5em;"></i>
+                                <i class="ai ai-arxiv "  style="height: 1.5em;"></i>
                             </span>
                             ArXiv
                         </a>
-                        <a href="TODO_PDF_URL" class="button paper-link" target="_blank">
-                            <span class="icon is-small" style="height: 1.5em;">
+                        <!-- replace pdf -->
+                        <a href="https://openreview.net/pdf/20e248b44188f68a8b558c26ee62fcd5f2ac36c9.pdf" class="button paper-link" target="_blank">
+                            <span class="icon is-small"  style="height: 1.5em;">
                                 <i class="fas fa-file-pdf"></i>
                             </span>
                             <span>PDF</span>
                         </a>
-                        <a href="TODO_CODE_REPO_URL" class="button" target="_blank">
-                            <span class="icon is-small" style="height: 1.5em;">
+                        <!-- replace image -->
+                        <a href="https://github.com/Dynamics-X/DynamicVerse" class="button" target="_blank">
+                            <span class="icon is-small"  style="height: 1.5em;">
                                 <i class="fab fa-github"></i>
                             </span>
                             <span>Code</span>
                         </a>
-                        <a href="TODO_DATASET_URL" class="button" target="_blank">
+                        <a href="https://www.youtube.com/watch?v=0h7XysIpG8Y" class="button" target="_blank">
+                            <span class="icon is-small">
+                                <img src="https://www.logo.wine/a/logo/YouTube/YouTube-Icon-Full-Color-Logo.wine.svg" alt="Hugging Face logo" style="height: 1.5em;">
+                            </span>
+                            <span>Video</span>
+                        </a> 
+                        <a href="https://huggingface.co/datasets/kairunwen/DynamicVerse" class="button" target="_blank">
                             <span class="icon is-small">
                                 <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="Hugging Face logo" style="height: 1.5em;">
                             </span>
-                            <span>Dyn-Bench</span>
-                        </a> 
-                        <a href="#dyn-leaderboard" class="button">
-                            <span class="icon is-small">
-                                <i class="fas fa-trophy"></i>
-                            </span>
-                            <span>Leaderboard</span>
+                            <span>Dataset</span>
                         </a>
                     </div>
                 </div>
                 <div class="header-image">
-                    <img draggable="false" src="static/img/preview.png" alt="Teaser Image" class="teaser-image">
+                    <img draggable="false" src="static/img/ButtleFly_3.png" alt="Teaser Image" class="teaser-image">
                 </div>
             </div>
         </div>
 
 
         <d-article>
-            
-            <div class="author-block">
-                <div class="authors">
-                    <a href="https://github.com/Dxuan77" class="author-name">Dongxuan Liu<sup>△*</sup></a>
-                    <a href="https://github.com/vealocia" class="author-name">Shusheng Yang<sup>△*</sup></a>
-                    <a href="https://anjaliwgupta.com" class="author-name">Anjali W. Gupta<sup>△*</sup></a>
-                    <a href="https://rilynhan.github.io" class="author-name">Rilyn Han<sup>▲*</sup></a>
-                    <a href="https://profiles.stanford.edu/fei-fei-li" class="author-name">Li Fei-Fei<sup>★</sup></a>
-                    <a href="https://www.sainingxie.com/" class="author-name">Saining Xie<sup>△</sup></a>
-                </div>
-                <div class="affiliations affiliation">
-                    <span><sup>△</sup>Xiamen University</span> &nbsp;&nbsp;
-                    <span><sup>▲</sup>Yale University</span> &nbsp;&nbsp;
-                    <span><sup>★</sup>Stanford University</span>
-                </div>
-                <div style="margin-top: 10px; font-size: 0.8em; color: gray;">*Equal contribution</div>
-            </div>
+            <!-- </div> -->
+
 
             <div id='teaser' class="sub-section">
-                <d-figure id="fig-teaser" >
+                <d-figure id="fig-studyadapter" >
                     <figure>
-                        <img data-zoomable="" draggable="false" src="static/img/teaser.png" alt="Dyn-Bench Framework">
+                        <img data-zoomable="" draggable="false" src="static/img/teaser.png" alt="Spatio-temporal dynamics reasoning benchmark Dyn-Bench">
                         <figcaption>
-                            <strong>Figure 1: Spatio-temporal dynamics reasoning benchmark Dyn-Bench.</strong> It rigorously evaluates multimodal large language models on their ability to perceive, track, and reason about dynamic contents in the 4D world.
+                            <strong>Figure 1: Spatio-temporal dynamics reasoning benchmark Dyn-Bench.</strong> It rigorously evaluates multimodal large language models on their ability to perceive, track, and reason about dynamic contents (i.e., object motion, evolving scene, camera motion) in the 4D world.
                         </figcaption>
                     </figure>
                 </d-figure>
             </div>
-            
             <div style="width: 150%; max-width: 2400px; margin: 0 auto; text-align: left; margin-left: -18%;">
                 <p>
-                    <strong>TLDR:</strong> Can MLLMs think in dynamics? We introduce <strong>Dyn-Bench</strong> to systematically assess the spatio-temporal reasoning and localized dynamics perception of MLLMs in the physical 4D world.
+                    <strong>TLDR:</strong> Humans inhabit a physical 4D world where geometric structure and semantic content evolve over time, constituting a dynamic 4D reality (spatial with temporal dimension). While current Multimodal Large Language Models (MLLMs) excel in static visual understanding, can they also be adept at “thinking in dynamics”, <i>i.e.</i>, perceive, track and reason about spatio-temporal dynamics in evolving scenes?
+To systematically assess their spatio-temporal reasoning and localized dynamics perception capabilities, we introduce <strong>Dyn-Bench</strong>, a large-scale benchmark built from diverse real-world and synthetic video datasets, enabling robust and scalable evaluation of spatio-temporal understanding.
+Through multi-stage filtering from massive 2D and 4D data sources, <strong>Dyn-Bench</strong> provides a high-quality collection of dynamic scenes, comprising 1k videos, 7k visual question answering (VQA) pairs, and 3k dynamic object grounding pairs. 
+We probe general, spatial and region-level MLLMs to express how they think in dynamics both linguistically and visually, and find that existing models cannot simultaneously maintain strong performance in both spatio-temporal reasoning and dynamic object grounding, often producing inconsistent interpretations of motion and interaction. 
+Notably, conventional prompting strategies (<i>e.g.</i>, chain-of-thought or caption-based hints) provide limited improvement, whereas structured integration approaches, including Mask-Guided Fusion and Spatio-Temporal Textual Cognitive Map (ST-TCM), significantly enhance MLLMs’ dynamics perception and spatio-temporal reasoning in the physical 4D world.
                 </p>
-                <ul style="display: inline-block; text-align: left;">
-                    <li>We evaluate general, spatial, and region-level MLLMs, finding that existing models cannot simultaneously maintain strong performance in both spatio-temporal reasoning and dynamic object grounding.</li>
-                    <li>We find that structured integration approaches, including <strong>Mask-Guided Fusion</strong> and <strong>Spatio-Temporal Textual Cognitive Map (ST-TCM)</strong>, significantly enhance MLLMs’ dynamics perception and reasoning.</li>
-                    <li>Dyn-Bench comprises 1k videos, 7k visual question answering (VQA) pairs, and 3k dynamic object grounding pairs, collected from diverse real-world and synthetic datasets.</li>
-                </ul>
             </div>
 
 
+            
+                <!-- <p style="text-align: center;  width: 120%; max-width: none;">
+                    TLDR: <strong>DynamicVerse</strong> is a physical-scale, multi-modal 4D modeling framework for real-world video, which contains a novel automated data curation pipeline and corresponding large-scale 4D dataset.
+                </p>
+
+                <p style="text-align: center;  width: 120%; max-width: none;"> 
+                    <ul>
+                    <li>We develop <strong>DynamicGen</strong>, a novel automated data curation pipeline designed to generate physically-aware multi-modal 4D data at scale. This pipeline contains two main stages: (1) metric-scale geometry and moving object recovery from raw videos, and (2) hierarchical detailed semantic captions generation at three granularities (i.e., object, camera and scene). Powered by foundation models (i.e., VFMs, VLMs, LLMs), DynamicGen efficiently generate 4D data at scale, thus addressing the critical scalability, physical reality and modality diversity limitations of traditional 4D data curation.</li>
+                    <li>We introduce <strong>DynamicVerse</strong>, a large-scale 4D dataset featuring diverse dynamic scenes accompanied by rich multi-modal annotations including metric-scale point maps, camera parameters, object masks with corresponding categories, and detailed descriptive captions. DynamicVerse encompasses 100K+ 4D scenes coupled with 800K+ masklets, sourced through a combination of massive 2D video datasets and existing 4D datasets. This represents a significant improvement in terms of data scale, scene and modality diversity compared to prior 4D datasets.</li>
+                    </ul>
+                </p>
+            </div> -->
+
         <div class="vision-block">  
+
+
         <div class="icon-row">
-            <a href="#dyn-benchmark" class="icon-link">
-                <img src="./static/img/icons/bench.svg" alt="Bench Icon" class="icon">
-                Dyn-Bench<br>Construction
+            <a href="#demo_video" class="icon-link">
+                <img src="static/img/icons/play-demo.svg" alt="Visual Representation Logo" class="icon">
+                Demo<br>Video
             </a>
-            <a href="#dyn-evaluation" class="icon-link">
-                <img src="./static/img/icons/evaluation.svg" alt="Eval Icon" class="icon">
-                Evaluation<br>Protocol
+            <a href="#dyn-bench" class="icon-link">
+                <img src="static/img/icons/pipeline.svg" alt="Connector Logo" class="icon">
+                Dyn-Bench
             </a>
-            <a href="#dyn-leaderboard" class="icon-link">
-                <img src="./static/img/leaderboard-star-svgrepo-com.svg" alt="Leaderboard Icon" class="icon">
-                Dyn-Bench<br>Leaderboard
+            <a href="#evaluation" class="icon-link">
+                <img src="static/img/icons/data-set.svg" alt="Recipe Logo" class="icon">
+                Evaluation
             </a>
-            <a href="#visual-representation" class="icon-link">
-                <img src="./static/img/icons/speech.svg" alt="Text Icon" class="icon">
-                Textual<br>Guidance
+            <a href="#textual_guidance" class="icon-link">
+                <img src="static/img/icons/running.svg" alt="Data Logo" class="icon">
+                Textual Guidance
             </a>
-            <a href="#vsi-improvements" class="icon-link">
-                <img src="./static/img/icons/vision.svg" alt="Vision Icon" class="icon">
-                Visual<br>Guidance
+            <a href="#visual_guidance" class="icon-link">
+                <img src="static/img/icons/point3.svg" alt="Recipe Logo" class="icon">
+                Visual Guidance
             </a>
         </div>
 
@@ -228,193 +186,716 @@
         </p>
          <hr style="width: 50%;">
 
-        <div id='dyn-benchmark' class="sub-section">
-            <h2 class="text">Dyn-Bench Construction</h2>
+
+
+        
+
+            
+        
+        <div id='demo_video' class="sub-section">
+            <h2 class="text">Demo Video</h2>
+            <video autoplay loop muted playsinline style="width: 140%; display: block; margin: 0 auto; margin-left: -20%; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.2);">
+                <source src="./static/img/DynamicVerse-preview.mp4" type="video/mp4">
+            </video>
             <p class="text">
-                We construct Dyn-Bench by collecting dynamic videos from four 2D video segmentation datasets and four 4D dynamic-scene datasets. These datasets provide instance masks, depth maps, and camera poses, enabling accurate question-answer generation and object category annotation.
+                We provide a demo video (Raw video➡️Moving Object Recovery➡️Dynamic Point Cloud) to showcase the Metric-scale 4D Reconstruction capability of DynamicGen. The generated fine-grained semantic annotations can be found at subsequent section.
             </p>
-            <d-figure id="fig-dataengine" >
+        </div>
+
+        <div id='dyn-bench' class="sub-section">
+            <h2 class="text">Dyn-Bench</h2>
+            <p class="text" align="justify">
+                <strong>Benchmark Overview:</strong> We present Dyn-Bench, a large-scale benchmark for quantitatively evaluating the spatio-temporal reasoning abilities of MLLMs under fine-grained dynamic-object understanding.
+                Dyn-Bench consists of 1k dynamic video scenes with 7k visual question answering pairs and 3k grounding annotations, collected from four 2D video segmentation and four 4D dynamic scene datasets spanning diverse environments, motion patterns, and camera trajectories.
+                As illustrated in Fig. 2, the benchmark is structured into three complementary levels: Dynamic Inter-Object Perception, Dynamic Object-Scene Tracking, and Dynamic Camera-Object Reasoning, each integrating spatio-temporal reasoning and dynamic object grounding tasks.
+                An overview of dataset statistics is provided in Fig. 3.
+            </p>
+
+            <d-figure id="fig-dataengine_v8" >
                 <figure>
-                    <img data-zoomable="" draggable="false" src="static/img/dataengine_v8.png" alt="Benchmark Curation Pipeline">
-                    <figcaption><strong>Figure 2: Benchmark curation pipeline.</strong> Integration, Multimodal Completion, Filtering, and Verification.</figcaption>
+                    <img data-zoomable="" draggable="false" src="static/img/dataengine_v8.png" alt="benchmark category">
+                    <figcaption style="text-align: center; margin-top: 20px;">
+                        <strong>Figure 2: Benchmark curation pipeline.</strong> 
+                        The pipeline integrates dynamic video datasets from multiple sources, followed by multimodal completion with geometry and mask extraction. Data filter strategy ensures consistency and motion stability, complemented by human validation for quality assurance. Finally, spatial-temporal VQA and grounding pairs are generated with structured textual cognitive maps.
+                    </figcaption>
                 </figure>
             </d-figure>
-            <br>
-            <d-figure id="fig-stats" >
+            <d-figure id="fig-data_statistics_v5">
                 <figure>
-                    <img data-zoomable="" draggable="false" src="static/img/data_statistics_v5.png" alt="Benchmark Statistics" style="width: 60%; margin: 0 auto; display: block;">
-                    <figcaption><strong>Figure 3: Benchmark Statistics.</strong> Task distribution and VQA pairs.</figcaption>
+                    <img data-zoomable="" draggable="false" src="static/img/data_statistics_v5.png" alt="benchmark category" style="width: 50%; height: auto; display: block; margin: 0 auto;">
+                    <figcaption style="text-align: center; margin-top: 20px;">
+                        <strong>Figure 3: Benchmark Statistics.</strong> 
+                        <strong>Top</strong>: Distribution of tasks across three levels. <strong>Bottom</strong>: VQA pairs distribution across datasets.
+                    </figcaption>
                 </figure>
             </d-figure>
+            <p class="text" align="justify">
+                <strong>Dyn-Bench Construction:</strong>
+                    We develop a robust pipeline to construct Dyn-Bench.
+            </p>
+
+            <p class="text" align="justify" style="padding-left: 25px;">
+                <strong>1. Data Collection and Filtering:</strong>
+                We construct Dyn-Bench by collecting dynamic videos from four 2D video segmentation datasets (DAVIS, SA-V, DynPose-100K, and YouTube-VIS) and four 4D dynamic-scene datasets (DynamicReplica, PointOdyssey, Spring, and Total-Recon). These datasets provide instance masks, depth maps, and camera poses, enabling accurate question-answer generation and object category annotation. Missing annotations are completed using existing pipelines to ensure cross-modal consistency.
+                To ensure data reliability, we employ a multi-criteria data filter strategy assessing geometric stability, motion smoothness, image sharpness, and depth consistency, supported by VLM-based quality evaluation. Low-quality videos are discarded to maintain visual and geometric fidelity. Filtering statistics are shown in Tab. 1.
+            </p>
+
+            <p class="text" align="justify" style="padding-left: 25px;">
+                <strong>2. Question-Answer Generation:</strong>
+                Based on the filtered video collection, we employ a ST-TCM in conjunction with Qwen3-VL to construct dynamic-object-centered VQA tasks. The benchmark evaluates MLLMs across three complementary dimensions: <i>Dynamic Inter-Object Perception</i>, focusing on how models perceive and interpret motion interactions and spatial relations among multiple dynamic objects (e.g., approach, occlusion, or overtaking); <i>Dynamic Object-Scene Tracking</i>, capturing how individual objects are temporally tracked and evolve within continuously changing scenes (e.g., entering, leaving, or undergoing functional transitions); and <i>Dynamic Camera-Object Reasoning</i>, assessing how camera motion influences the perceived geometry, depth, and temporal consistency of dynamic objects (e.g., relative translation, rotation, or event order). Each VQA dimension is paired with a corresponding object grounding task that associates the referenced dynamic objects with their instance segmentation masks. Dimension-specific prompting strategies and ST-TCM configurations are applied to Qwen3-VL to ensure focused spatio-temporal reasoning.
+            </p>
+
+            <p class="text" align="justify" style="padding-left: 25px;">
+                <strong>3. Spatio-Temporal Textual Cognitive Map Construction:</strong>
+                To capture fine-grained object motion and interactions in dynamic scenes, we construct a <i>Spatio-Temporal Textual Cognitive Map (ST-TCM)</i> for each filtered video.
+                Given per-frame RGB-D inputs and segmentation masks, 3D object trajectories are reconstructed to obtain geometric attributes such as position, size, and orientation in world coordinates.
+                We then model inter-object and camera-object relations based on spatial proximity and motion continuity, capturing dynamic behaviors such as interaction and relative movement.
+                All geometric and spatial cues are translated into textual descriptions through a rule-based template system, integrating object geometry, motion, and relational dynamics into a unified spatio-temporal representation.
+                This structured textual form serves as input to Qwen3-VL-235B for dynamic object centered visual question answering and grounding.
+                Detailed implementation procedures are provided in the supplementary material.
+            </p>
+
+            <p class="text" align="justify" style="padding-left: 25px;">
+                <strong>4. Human Quality Control:</strong>
+                To ensure the reliability and perceptual validity of the filtered videos and generated annotations, we conduct an additional round of human verification covering video quality, mask consistency, VQA accuracy, and dynamic object category identification.  
+                Annotators assess camera stability, motion smoothness, and scene complexity to confirm visual quality, and examine segmentation masks to verify temporal coherence and consistent object identity across frames.  
+                The generated VQA and grounding pairs are also reviewed to ensure accurate object reference, reasoning-level alignment, and consistency with visual evidence.  
+                A summary of the multi-stage filtering and verification process is presented in Tab. 1.
+            </p>
+            <d-figure id="fig-data_filtering" >
+                <figure>
+                    <img data-zoomable="" draggable="false" src="static/img/data_filtering.png" alt="benchmark category" style="width: 70%; height: auto; display: block; margin: 0 auto;">
+                    <figcaption style="text-align: center; margin-top: 20px;">
+                        <p align="center"><strong>Tab 1: Dataset statistics across Dyn-Bench filtering stages.</strong></p>
+                    </figcaption>
+                </figure>
+            </d-figure>
+
+            <!-- <d-figure id="fig-studyadapter" >
+                <figure>
+                    <img data-zoomable="" draggable="false" src="static/img/DynamicGen_pipeline.png" alt="Stage 1 Pipeline">
+                </figure>
+            </d-figure> -->
         </div>
 
         <div class="vision-block">
-            <div id="dyn-evaluation" class="sub-section">
-            <h1 class="text">Evaluation on Dyn-Bench</h1>
+            <div id="moving_obj_geometry" class="sub-section">
+            <h1 class="text">Stage 1: Moving Object and Metric-scale Geometry Recovery </h1>
                 <p class="text">
-                    Proprietary general models (GPT-4o) remain strong on spatio-temporal reasoning, especially inter-object dynamics. Region-level models (e.g., Sa2VA, UniPixel) lead in object-centric reasoning and grounding.
+                    We provide visual comparison of the moving object  segmentation and metric-scale geometry recovery results. We also provide dynamic point cloud reconstruction results on more in-the-wild data.
                 </p>
-                <d-figure id="fig-radar" >
+
+                <video autoplay loop muted playsinline style="width: 140%; display: block;  margin-left: -17%; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.2);">
+                    <source src="./static/img/Moving_Obj_Seg_480P.mp4" type="video/mp4">
+                </video>
+                <video autoplay loop muted playsinline style="width: 140%; display: block;  margin-left: -17%; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.2);">
+                    <source src="./static/img/BA_wild_480P.mp4" type="video/mp4">
+                </video>
+                <d-figure id="fig-studyadapter" >
                     <figure>
-                        <img data-zoomable="" draggable="false" src="static/img/radar_v10-1.png" alt="Radar Analysis" style="width: 80%; display: block; margin: 0 auto;">
-                         <figcaption><strong>Figure 5: Model performance on Dyn-Bench.</strong> Radar charts for general, spatial, and region-level MLLMs.</figcaption>
+                        <img data-zoomable="" draggable="false" src="static/img/BA_comp.png" alt="Stage 2 Pipeline" style="width: 95%; display: block; margin: 0 auto; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); border: 1px solid #e0e0e0;">
                     </figure>
                 </d-figure>
             </div>
         </div>
-
         <br>
         </br>
 
         <div class="vision-block">
-            <div id="dyn-leaderboard" class="sub-section">
-            <h1 class="text">Dyn-Bench Leaderboard</h1>
-                <p class="text" style="text-align: center;">
-                    To include your model, please email <a href="mailto:jihanyang13@gmail.com">jihanyang13@gmail.com</a>.
-                </p>      
-                
-                <div class="leaderboard-container" style="overflow-x: auto;">
-                    <table class="leaderboard-table">
-                        <thead>
-                            <tr class="header-group">
-                                <th rowspan="2">Model</th>
-                                <th rowspan="2">LLM Params</th>
-                                <th rowspan="2">Avg.</th>
-                                <th colspan="4">Numerical Answer Questions</th>
-                                <th colspan="4">Multiple-Choice Questions</th>
-                            </tr>
-                            <tr>
-                                <th>Obj. Count</th>
-                                <th>Abs. Dist.</th>
-                                <th>Obj. Size</th>
-                                <th>Room Size</th>
-                                <th>Rel. Dist.</th>
-                                <th>Rel. Dir.</th>
-                                <th>Route Plan</th>
-                                <th>Appear. Order</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="section-divider"><td colspan="12">Baselines</td></tr>
-                            <tr>
-                                <td>Human-Level</td>
-                                <td>-</td>
-                                <td class="best-score">79.2</td>
-                                <td class="best-score">94.3</td>
-                                <td>47.0</td>
-                                <td>60.4</td>
-                                <td>45.9</td>
-                                <td class="best-score">94.7</td>
-                                <td class="best-score">95.8</td>
-                                <td class="best-score">95.8</td>
-                                <td class="best-score">100.0</td>
-                            </tr>
-                            <tr>
-                                <td>Chance-level (Random)</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>25.0</td>
-                                <td>36.1</td>
-                                <td>28.3</td>
-                                <td>25.0</td>
-                            </tr>
+            <div id="dynamic_content_captioning" class="sub-section">
+            <h1 class="text">Stage 2: Dynamic Content Captioning </h1>
+                <p class="text">
+                    We provide a comprehensive caption at three specific
+                    levels: moving object, dynamic scene, and camera motion.
+                </p>          
+                <d-figure id="fig-studyadapter" >
+                    <figure>
+                        <img data-zoomable="" draggable="false" src="static/img/Captions_0713.png" alt="Stage 2 Pipeline">
+                    </figure>
+                </d-figure>
+                <div class="text" style="grid-column: text;">
+                    <div class="dataset-container">
+                    <!-- Image Carousel Section -->
+                    <div class="image-carousel-container">
+                        <div class="image-carousel">
+                            <div class="carousel-item" data-json-src="static/img/dataset/CLEVR_val_000000.json">
+                                <!-- <img src="static/img/dataset/CLEVR_val_000000.png" alt="CLEVR Dataset Sample 1"> -->
+                                <video autoplay loop muted playsinline width="100%" height="250" style="object-fit: cover; display: block;">
+                                    <source src="static/img/captions/blackswan_web.mp4" type="video/mp4">
+                                </video>
+                                <script type="application/json">
+                                {
+                                    "object_category": "Black swan",
+                                    "camera_caption": "The camera smoothly tracks rightward, maintaining a steady focus as it follows the black swan from the side.",
+                                    "object_caption": "A graceful swan with a sleek, elongated neck and a striking black plumage glides smoothly across the water. Its body is robust, with feathers that appear soft and layered, creating a textured pattern that catches the light subtly. The swan's head is held high, showcasing a vibrant red beak that contrasts sharply with its dark feathers. As it moves, the swan's neck undulates gently, propelling it forward with a serene and effortless grace. The swan's eyes are alert, scanning its surroundings with a calm and composed demeanor. Throughout its journey, the swan maintains a steady pace, occasionally adjusting its direction with a slight flick of its neck, demonstrating both elegance and control in its aquatic environment.",
+                                    "scene_caption": "A black swan glides smoothly across a calm pond, its sleek body and bright red beak contrasting with the surrounding green foliage.  The scene is set outdoors under natural light, with dense vegetation lining the concrete edge of the water.  The swan moves steadily along a curved path parallel to the pond's border, maintaining a medium size within the frame and facing rightward as it swims.  With no other animals or people present, the focus remains on the tranquil interaction between the swan and its habitat, emphasizing a serene and natural aquatic environment."
+                                }
+                                </script>
+                            </div>
                             
-                            <tr class="section-divider"><td colspan="12">MLLMs</td></tr>
+                            <div class="carousel-item" data-json-src="static/img/dataset/CLEVR_val_000001.json">
+                                <!-- <img src="static/img/dataset/CLEVR_val_000001.png" alt="CLEVR Dataset Sample 2"> -->
+                                <video autoplay loop muted playsinline width="100%" height="250" style="object-fit: cover; display: block;">
+                                    <source src="static/img/captions/bmx-bumps_web.mp4" type="video/mp4">
+                                </video>
+                                <script type="application/json">
+                                    {
+                                        "object_category": "BMX & Cyclist",
+                                        "camera_caption": "The camera smoothly pans to the right, maintaining a steady focus as it tracks the BMX cyclist from the side. As the video concludes, it subtly trucks rightward, incorporating a slight upward tilt to adjust its framing. The camera movement remains fluid with minimal shaking, ensuring a seamless and immersive viewing experience.",
+                                        "object_caption":  "[1] A sleek, metallic bicycle with a streamlined frame and thin tires is captured in motion, showcasing its dynamic performance. The bicycle's frame is predominantly silver with subtle blue accents, highlighting its modern design. As it progresses through the sequence, the bicycle maintains a steady, forward trajectory, with its wheels rotating smoothly, indicating a consistent speed. The handlebars are slightly elevated, suggesting a comfortable riding posture. The bicycle's chain and pedals are in constant motion, reflecting the energy and momentum of the ride. Throughout the sequence, the bicycle's form remains intact, emphasizing its sturdy construction and efficient design, which allows it to navigate the terrain with ease and agility. [2] A BMX cyclist wearing a black helmet and a black and red outfit is captured in a dynamic sequence of movement. The individual appears to be engaged in an activity that involves swift, agile movements, possibly cycling or skateboarding. The person's posture is slightly leaned forward, suggesting forward momentum and balance. The outfit includes a black jacket with red accents on the sleeves and a patterned design on the lower half, paired with white pants and black shoes. The helmet is securely fastened, indicating a focus on safety. Throughout the sequence, the person's movements are fluid and continuous, with a noticeable shift in orientation as they navigate their path. The overall impression is one of energy and focus, as the individual appears to be actively engaged in a sport or recreational activity.",
+                                        "scene_caption": "Under bright natural light, a BMX cyclist in protective gear rides with precision on an outdoor track. The sandy terrain features mounds and fencing, while banners and greenery suggest a recreational or competitive setting. The cyclist maintains a steady speed, navigating the undulating course with curved movements and executing jumps over small hills. Centered in the scene, they demonstrate agility and control, closely interacting with their bike as they follow the track's contours. The environment remains static, highlighting the dynamic motion of the cyclist and bicycle within a structured outdoor space."
+                                    }
+                                </script>
+                            </div>
                             
-                            <tr>
-                                <td>SpaceMind <span class="model-badge open-badge">Open</span></td>
-                                <td>7B</td>
-                                <td>69.2</td>
-                                <td>72.7</td>
-                                <td>60.3</td>
-                                <td>78.0</td>
-                                <td>75.5</td>
-                                <td>71.0</td>
-                                <td>87.9</td>
-                                <td>42.8</td>
-                                <td>65.9</td>
-                            </tr>
-                            <tr>
-                                <td>Gemini-1.5-Pro <span class="model-badge proprietary-badge">Proprietary</span></td>
-                                <td>-</td>
-                                <td>48.8</td>
-                                <td>49.6</td>
-                                <td>28.8</td>
-                                <td>58.6</td>
-                                <td>49.4</td>
-                                <td>46.0</td>
-                                <td>48.1</td>
-                                <td>42.0</td>
-                                <td>68.0</td>
-                            </tr>
-                            <tr>
-                                <td>InternVL3-78B <span class="model-badge open-badge">Open</span></td>
-                                <td>78B</td>
-                                <td>48.4</td>
-                                <td>71.2</td>
-                                <td>53.7</td>
-                                <td>44.4</td>
-                                <td>39.5</td>
-                                <td>55.9</td>
-                                <td>39.5</td>
-                                <td>28.9</td>
-                                <td>54.5</td>
-                            </tr>
-                            <tr>
-                                <td>GPT-4o <span class="model-badge proprietary-badge">Proprietary</span></td>
-                                <td>-</td>
-                                <td>47.8</td>
-                                <td>43.1</td>
-                                <td>34.1</td>
-                                <td>68.6</td>
-                                <td>64.2</td>
-                                <td>48.3</td>
-                                <td>43.1</td>
-                                <td>29.4</td>
-                                <td>51.3</td>
-                            </tr>
-                            </tbody>
-                    </table>
+                            <div class="carousel-item" data-json-src="static/img/dataset/CLEVR_val_000002.json">
+                                <!-- <img src="static/img/dataset/CLEVR_val_000002.png" alt="CLEVR Dataset Sample 3"> -->
+                                <video autoplay loop muted playsinline width="100%" height="250" style="object-fit: cover; display: block;">
+                                    <source src="static/img/captions/breakdance-flare_web.mp4" type="video/mp4">
+                                </video>
+                                <script type="application/json">
+                                    {
+                                        "object_category": "B-boy",
+                                        "camera_caption": "The video opens with a wide shot, smoothly panning left to fully capture the young person performing handstand sequences, maintaining a steady and fluid motion throughout. The camera, positioned at eye level, allows the audience to feel as though they are right there watching the performance. As the video concludes, it ends abruptly without any transition effects, and there are no visible special effects used.",
+                                        "object_caption": "A person dressed in a light brown sweater and light blue jeans is captured in a dynamic sequence of movements. Initially, they are seen in a handstand position, with their legs extended and arms reaching upwards. As the sequence progresses, the person transitions into a series of fluid, acrobatic poses, showcasing their flexibility and strength. Their legs alternate between straight and bent positions, with one leg often lifted high, while the other remains extended. The person's head is tilted downward, and their facial expression conveys focus and determination. Throughout the sequence, the person maintains a sense of balance and control, demonstrating a high level of skill and athleticism.",
+                                        "scene_caption": "A young person performs a smooth, continuous handstand sequence on a paved outdoor surface under natural lighting. Dressed in light-colored pants and a beige top, they move with consistent speed, transitioning fluidly between handstands and leg extensions along a curved path. A stone wall with hanging flower baskets is positioned to the right, adding color to the scene, while a metal gate appears in the background. The performer remains close to the wall but distant from the gate, creating clear spatial contrasts. The setting suggests a quiet urban or suburban area where physical agility is on display."
+                                    }
+                                </script>
+                            </div>
+                            
+                            <div class="carousel-item" data-json-src="static/img/dataset/CLEVR_val_000003.json">
+                                <!-- <img src="static/img/dataset/CLEVR_val_000003.png" alt="CLEVR Dataset Sample 4"> -->
+                                <video autoplay loop muted playsinline width="100%" height="250" style="object-fit: cover; display: block;">
+                                    <source src="static/img/captions/camel_web.mp4" type="video/mp4">
+                                </video>
+                                <script type="application/json">
+                                    {
+                                        "object_category": "Striding camel",
+                                        "camera_caption": "The camera smoothly tracks right, maintaining a steady focus as it follows the foreground camel from the side.  After a brief moment, it pans left and slightly tilts up to adjust to the second camel that has entered the frame.  Throughout this fluid movement, the camera remains exceptionally stable, with no shaking, ensuring a seamless transition between the two camels.  The shot is composed as a medium shot, capturing both camels in their entirety within the enclosure, without the use of any special effects or transitions.",
+                                        "object_caption": "A camel with a robust, muscular build and a light brown coat is captured in motion, showcasing its graceful yet deliberate gait. Its long neck extends forward, leading its head, while its sturdy legs support its weight with ease. The camel's body sways gently with each step, its tail occasionally flicking to the side. As it moves, the camel's legs alternate in a rhythmic pattern, demonstrating its balance and agility. The camel's head occasionally turns, suggesting alertness and curiosity, while its overall demeanor exudes a calm and steady presence.",
+                                        "scene_caption": "In an outdoor enclosure under natural light, two camels are visible within a fenced area. The foreground camel, large and facing right, walks steadily along the sandy terrain in a straight path at a constant pace. Behind and to the left, a second camel stands still, observing its surroundings. A wooden fence runs parallel to their path on the right, while greenery and a thatched-roof structure form the backdrop. The camels' differing actions—walking versus standing—highlight individual behaviors within a shared habitat, creating a calm, zoo-like scene focused on their interaction with the environment."
+                                    }
+                                </script>
+                            </div>
+                            
+                            <div class="carousel-item" data-json-src="static/img/dataset/CLEVR_val_000004.json">
+                                <!-- <img src="static/img/dataset/CLEVR_val_000004.png" alt="CLEVR Dataset Sample 5"> -->
+                                <video autoplay loop muted playsinline width="100%" height="250" style="object-fit: cover; display: block;">
+                                    <source src="static/img/captions/car-shadow_web.mp4" type="video/mp4">
+                                </video>
+                                <script type="application/json">
+                                    {
+                                        "object_category": "Silver car",
+                                        "camera_caption": "The camera begins with a medium shot, smoothly panning left to track the silver car from the side while trucking right to maintain a steady, moving perspective. As it trucks right, it gradually zooms out, transitioning into a wide shot that reveals the car in its entirety within the broader urban setting. The camera movement is fluid and continuous, with no shaking, and the transition from medium shot to wide shot is seamless, achieved solely through the camera's rightward motion and gradual zoom-out without any special effects.",
+                                        "object_caption": "A compact, silver hatchback car with a sleek, modern design is captured in motion. The vehicle features a smooth, aerodynamic body with a slightly curved roofline and a rear spoiler. Its windows are tinted, providing a subtle contrast to the light-colored body. The car's wheels are standard with a simple, utilitarian design, and the tires appear to be in good condition. As the sequence progresses, the car maintains a steady, linear trajectory, suggesting a smooth and controlled drive. The rear lights are distinct and vertically aligned, adding to the car's contemporary aesthetic. Throughout the sequence, the car's movement is consistent, indicating a stable and reliable performance.",
+                                        "scene_caption": "A small silver car is positioned diagonally at an urban intersection under bright natural light, facing slightly northeast. It is located near a pedestrian crosswalk and traffic signals, suggesting it is waiting for or responding to the signal change. The surrounding environment includes large buildings with many windows and a paved street, forming a structured, modern cityscape. The car moves slowly in a linear path along the road, indicating it is navigating through the intersection. While no other vehicles or pedestrians are actively present nearby, their potential presence is implied by the infrastructure. The scene reflects typical urban commuting activity, emphasizing the interaction between vehicle movement and organized city design."
+                                    }
+                                </script>
+                            </div>
+                            
+                            
+                            <div class="carousel-item" data-json-src="static/img/dataset/CLEVR_val_000005.json">
+                                <!-- <img src="static/img/dataset/CLEVR_val_000005.png" alt="CLEVR Dataset Sample 6"> -->
+                                <video autoplay loop muted playsinline width="100%" height="250" style="object-fit: cover; display: block;">
+                                    <source src="static/img/captions/dog_web.mp4" type="video/mp4">
+                                </video>
+                                <script type="application/json">
+                                    {
+                                        "object_category": "Golden retriever",
+                                        "camera_caption": "The camera smoothly trucks right, maintaining a steady focus as it tracks the golden retriever from the side. As it trucks, it transitions into a pan-left motion, first slowing down before coming to a stop. The camera movement is smooth with minimal shaking, and the dog remains clearly defined within the frame throughout. The video concludes with a slight pan to the left, all while the camera gradually zooms out to reveal a wider view of the scene.",
+                                        "object_caption": "A golden retriever with a fluffy tail and a red harness moves gracefully across the scene. Its fur is soft and slightly wavy, with a gentle sheen that catches the light. The dog's ears are floppy, framing its face, and its eyes are focused downward, suggesting a sense of curiosity or intent. As it walks, its gait is steady and purposeful, with each paw lifting and landing in a rhythmic pattern. The dog's head occasionally dips lower, as if sniffing or investigating something of interest on the ground. Its overall demeanor is calm and composed, exuding a sense of gentle confidence as it navigates its environment.",
+                                        "scene_caption": "A medium-sized golden retriever wearing a red harness moves across a dry, grassy area with scattered vegetation and fallen leaves under natural light. The dog follows a gentle left-to-right curved path, turning slightly toward the camera while maintaining a moderate, steady pace that suggests relaxed exploration. It remains centrally framed throughout, with subtle changes in orientation as it naviges the terrain. A metal fence and dense shrubs appear in the background, framing the scene but kept at a distance to emphasize the open space available for movement. With no other objects or agents present, the scene conveys a quiet, natural setting where the dog enjoys unstructured, solitary activity."
+                                    }
+                                </script>
+                            </div>
+
+
+                            <div class="carousel-item" data-json-src="static/img/dataset/CLEVR_val_000005.json">
+                                <!-- <img src="static/img/dataset/CLEVR_val_000005.png" alt="CLEVR Dataset Sample 6"> -->
+                                <video autoplay loop muted playsinline width="100%" height="250" style="object-fit: cover; display: block;">
+                                    <source src="static/img/captions/elephant_web.mp4" type="video/mp4">
+                                </video>
+                                <script type="application/json">
+                                    {
+                                        "object_category": "Elephant",
+                                        "camera_caption": "The camera smoothly pans to the right, maintaining a steady focus as it tracks the medium-sized elephant from the side. Midway through the video, the pace of the pan briefly accelerates before slowing down again, all while the elephant becomes gradually smaller in the frame. There is no noticeable tilting or trucking, and the camera remains fixed in its position without any sudden jumps. The shot is handled with remarkable steadiness, exhibiting minimal shaking.",
+                                        "object_caption": "An elephant with a robust, wrinkled body and a long, curved trunk moves steadily forward. Its large ears flap gently as it walks, and its thick legs carry it with a deliberate, rhythmic gait. The elephant's skin is a dusty gray, with visible folds and creases that shift as it moves. Its tail sways slightly with each step, adding to the fluidity of its motion. The elephant's head occasionally turns, suggesting alertness and curiosity, while its massive body maintains a steady pace, exuding a sense of calm and strength.",
+                                        "scene_caption": "A medium-sized elephant walks steadily across a sandy outdoor zoo enclosure, moving in a straight path at a constant speed toward the right. It passes near mist-emitting sprinklers and is positioned close to rocks within a naturalistic habitat. The static background includes trees, a building, and bright daylight, with no other animals or humans present. The scene conveys a routine, observational setting typical of a recreational zoo environment."
+                                    }
+                                </script>
+                            </div>
+
+
+                            <div class="carousel-item" data-json-src="static/img/dataset/CLEVR_val_000005.json">
+                                <!-- <img src="static/img/dataset/CLEVR_val_000005.png" alt="CLEVR Dataset Sample 6"> -->
+                                <video autoplay loop muted playsinline width="100%" height="250" style="object-fit: cover; display: block;">
+                                    <source src="static/img/captions/hike_web.mp4" type="video/mp4">
+                                </video>
+                                <script type="application/json">
+                                    {
+                                        "object_category": "Hiker",
+                                        "camera_caption": "The camera smoothly trucks right, maintaining a steady focus as it tracks the hiker from the side. As it trucks, it gradually pans left to adjust its orientation to the hiker, causing the hiker to slowly become smaller in the frame. The camera movement is slightly unsteady with some shaking, resulting in a slightly imperfect trucking motion. Throughout this shot, the camera maintains an eye-level perspective, and there are no noticeable transitions or special effects used.",
+                                        "object_caption": "A hiker wearing a camouflage cap and sunglasses is walking steadily forward. They are dressed in a light blue, long-sleeved shirt with rolled-up sleeves and dark green cargo pants. The individual carries a large, black backpack with multiple compartments and straps, which is securely fastened over both shoulders. Their gait is relaxed and purposeful, with each step taken in a rhythmic, deliberate manner. The person's posture is upright, and their head is slightly tilted forward, suggesting focus and determination. The movement is smooth and continuous, indicating a sense of direction and intent.",
+                                        "scene_caption": "A hiker steadily traverses a rugged mountainous landscape under bright natural light. The scene features expansive rocky slopes and sparse vegetation, with distant peaks in the background. The hiker, wearing sturdy attire and carrying a large backpack, moves at a constant pace from left to right across the frame. Trekking poles are used for support, indicating preparation for an extended journey. Positioned centrally, the hiker's forward-facing orientation and alignment with the terrain emphasize purposeful movement through the natural contours of the land. The setting is remote and unspoiled, highlighting the raw beauty of the mountains and the solitude of the trek. Minimal dynamic elements draw focus to the hiker's steady, linear motion and their interaction with the challenging environment."
+                                    }
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Text Display Area -->
+                    <div class="text-display-area">
+                        <div class="text-container">
+                            <p id="display-text" style="color: black;">Click the video to view more semantic annotations</p>
+                        </div>
+                    </div>
+
+                    <style>
+                        .dataset-container {
+                            margin: 1rem 0;
+                            padding: 2rem;
+                            /* background: linear-gradient(320deg,#F3F1FA 0%,#f6f1fa  20%, #f9f1f8 100%); */
+                            /* background: linear-gradient(320deg,#52e5e7 0%,#130cb7  20%, #000000 100%); */
+                            background: linear-gradient(60deg,#faf1f6 0%,#E0E2F0  80%, #e0e9f1 100%);
+                            /* background: linear-gradient(120deg, #081325, #2c4a6e 80%, #a89467 100%); */
+                            border-radius: 12px;
+                        }
+                        /* Image Carousel Styles */
+                        .image-carousel-container {
+                            position: relative;
+                            overflow: hidden;
+                            width: 100%;
+                        }
+                        
+                        @keyframes slideCarousel {
+                            to {
+                               transform: translate(calc(-50% - 0.25rem)); /* 0.25rem is half the gap */
+                            }
+                        }
+                        
+                        .image-carousel {
+                            display: flex;
+                            width: max-content;
+                            animation: slideCarousel 20s linear infinite;
+                            gap: 0.5rem;
+                        }
+                        
+                        .image-carousel:hover {
+                            animation-play-state: paused;
+                        }
+                        
+                        .carousel-item {
+                            flex: 0 0 400px;
+                            min-width: 300px;
+                            max-width: 400px;
+                            scroll-snap-align: start;
+                            border-radius: 8px;
+                            overflow: hidden;
+                            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+                            background-color: white;
+                            transition: transform 0.3s ease, box-shadow 0.3s ease;
+                            position: relative;
+                            margin-right: 0.5rem;
+                            cursor: pointer;
+                        }
+                        
+                        .carousel-item:hover {
+                            transform: translateY(-5px);
+                            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+                        }
+                        
+                        .carousel-item img {
+                            width: 100%;
+                            height: 250px;
+                            object-fit: cover;
+                            display: block;
+                        }
+                        
+                        .hidden-text-data {
+                            display: none;
+                        }
+                        
+                        /* Text Display Area Styles */
+                        .text-display-area {
+                            background-color: rgba(255, 255, 255, 0.05);
+                            border: 1px solid rgba(255, 255, 255, 0.1);
+                            border-radius: 12px;
+                            padding: 1.5rem;
+                            margin-top: 1rem; /* This now controls the distance */
+                            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+                            min-height: 80px;
+                            display: flex;
+                            align-items: center;
+                        }
+                        
+                        .text-container {
+                            max-width: 100%;
+                            margin: 0 auto;
+                            width: 100%;
+                        }
+                        
+                        .text-container p {
+                            font-size: 1rem;
+                            line-height: 1.5;
+                            color: #f0f0f0;
+                            margin: 0;
+                            text-align: left;
+                            transition: opacity 0.3s ease;
+                            white-space: pre-wrap;
+                            font-family: monospace;
+                        }
+                        
+                        .text-container .json-key,
+                        .vlm-response .json-key {
+                            color: #fca9ff;
+                        }
+                        .text-container .json-string,
+                        .vlm-response .json-string {
+                            color: #b4fbb9;
+                        }
+                        .text-container .json-number,
+                        .vlm-response .json-number {
+                            color: #a5dfff;
+                        }
+                        .text-container .json-boolean,
+                        .vlm-response .json-boolean {
+                            color: #ffcc99;
+                        }
+                        .text-container .json-null,
+                        .vlm-response .json-null {
+                            color: #999;
+                        }
+                        
+                        /* Responsive adjustments */
+                        @media (max-width: 768px) {
+                            .carousel-item {
+                                flex: 0 0 90%;
+                                min-width: 250px;
+                                margin-right: 0.25rem;
+                            }
+                            
+                            .image-carousel {
+                                animation-duration: 30s; /* Adjust mobile speed */
+                            }
+                        }
+    
+                        /* Chat Section Styles */
+                        .exp-container {
+                            font-family: 'system-ui', sans-serif;
+                            padding: 2rem;
+                            background: linear-gradient(120deg, #081325, #2c4a6e 80%, #a89467 100%);
+                            border-radius: 12px;
+                            position: relative;
+                        }
+                        .chat-bubble {
+                            position: relative;
+                            padding: 0.5rem;
+                            border-radius: 12px;
+                            margin-bottom: 1.0rem;
+                            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+                            border: 1px solid rgba(255, 255, 255, 0.1);
+                            background-color: rgba(255, 255, 255, 0.05);
+                            font-size: 1.1rem; /* Larger font size */
+                        }
+                        .chat-icon {
+                            position: absolute;
+                            width: 40px;
+                            height: 40px;
+                            border-radius: 50%;
+                            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+                            background: white;
+                            padding: 5px;
+                            object-fit: cover;
+                            top: 15px;
+                            transform: none;
+                        }
+                        .text-container .json-key,
+                        .vlm-response .json-key {
+                            color: #fca9ff;
+                        }
+                        .text-container .json-string,
+                        .vlm-response .json-string {
+                            color: #b4fbb9;
+                        }
+                        .text-container .json-number,
+                        .vlm-response .json-number {
+                            color: #a5dfff;
+                        }
+                        .text-container .json-boolean,
+                        .vlm-response .json-boolean {
+                            color: #ffcc99;
+                        }
+                        .text-container .json-null,
+                        .vlm-response .json-null {
+                            color: #999;
+                        }
+                        .user-prompt {
+                            margin-left: auto;
+                            margin-right: 0;
+                            max-width: 90%;
+                            padding-right: 70px;
+                            margin-bottom: 1.0rem;
+                            padding-bottom: 0.5rem;
+                        }
+                        .user-prompt .chat-icon {
+                            right: 15px;
+                            left: auto;
+                        }
+                        .user-prompt-content {
+                            display: flex;
+                            align-items: flex-start;
+                            gap: 1.5rem;
+                        }
+                        .user-prompt-content p {
+                            font-size: 1.5rem;
+                            color: #f0f0f0;
+                        }
+                         .vlm-response {
+                            margin: 0;
+                            flex: 1.5;
+                            min-width: 0;
+                            padding-left: 70px;
+                            color: #f0f0f0;
+                        }
+                        .vlm-response .chat-icon {
+                            left: 15px;
+                        }
+                        .agent-response-row {
+                            display: flex;
+                            align-items: center;
+                            gap: 1rem;
+                            margin-left: 0;
+                            justify-content: space-between;
+                        }
+                        .flow-arrow {
+                            font-size: 3rem;
+                            color: #fff;
+                            margin: 0;
+                        }
+                        .blender-container {
+                            position: relative;
+                            flex: 2;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                        }
+                        .blender-container .blender-gif {
+                            width: 100%;
+                            border-radius: 8px;
+                            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+                            border: 1px solid #e1e1e1;
+                        }
+                        .blender-icon-overlay {
+                            position: absolute;
+                            width: 40px;
+                            height: 40px;
+                            top: 10px;
+                            left: 10px;
+                            background: rgba(255, 255, 255, 0.8);
+                            border-radius: 50%;
+                            padding: 5px;
+                            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+                        }
+                        .iterative-arrow {
+                            position: absolute;
+                            right: 30px;
+                            top: 220px;
+                            width: 120px;
+                            height: 180px;
+                            pointer-events: none;
+                            z-index: 10;
+                        }
+                        .straight-arrow {
+                            position: absolute;
+                            font-size: 3rem;
+                            color: white;
+                            top: 280px;
+                            right: 25%;
+                            pointer-events: none;
+                            z-index: 10;
+                        }
+                    </style>
+    
+                    <script>
+                        // Image Carousel functionality
+                        document.addEventListener('DOMContentLoaded', function() {
+                            function syntaxHighlight(jsonString) {
+                                if (typeof jsonString != 'string') {
+                                    jsonString = JSON.stringify(jsonString, undefined, 2);
+                                }
+                                jsonString = jsonString.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                                return jsonString.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+                                    var cls = 'number';
+                                    if (/^"/.test(match)) {
+                                        if (/:$/.test(match)) {
+                                            cls = 'key';
+                                        } else {
+                                            cls = 'string';
+                                        }
+                                    } else if (/true|false/.test(match)) {
+                                        cls = 'boolean';
+                                    } else if (/null/.test(match)) {
+                                        cls = 'null';
+                                    }
+                                    return '<span class="json-' + cls + '">' + match + '</span>';
+                                });
+                            }
+                            const carouselContainer = document.querySelector('.image-carousel-container');
+                            const carousel = document.querySelector('.image-carousel');
+                            const displayText = document.getElementById('display-text');
+                            
+                            // Duplicate all carousel items for infinite loop
+                            const items = Array.from(carousel.children);
+                            items.forEach(item => {
+                                const clone = item.cloneNode(true);
+                                clone.setAttribute('aria-hidden', 'true');
+                                carousel.appendChild(clone);
+                            });
+    
+                            // Adjust animation speed based on screen width
+                            function updateCarouselSpeed() {
+                                const isMobile = window.innerWidth <= 768;
+                                carousel.style.animationDuration = isMobile ? '30s' : '20s';
+                            }
+                            
+                            // Initial setup
+                            updateCarouselSpeed();
+                            
+                            // Update on window resize
+                            window.addEventListener('resize', updateCarouselSpeed);
+                            
+                            // Pause animation on hover
+                            carousel.addEventListener('mouseenter', () => {
+                                carousel.style.animationPlayState = 'paused';
+                            });
+                            
+                            carousel.addEventListener('mouseleave', () => {
+                                carousel.style.animationPlayState = 'running';
+                                displayText.style.opacity = '0';
+                                setTimeout(() => {
+                                    displayText.textContent = 'Click the video to view more semantic annotations';
+                                    displayText.style.opacity = '1';
+                                }, 150);
+                            });
+                            
+                            // Update text on hover
+                            const allItems = carousel.querySelectorAll('.carousel-item');
+                            allItems.forEach(item => {
+                                item.addEventListener('mouseenter', function() {
+                                    updateText(this);
+                                });
+                            });
+                            
+                            // Function to update the text display by fetching JSON
+                            function updateText(item) {
+                                const jsonScript = item.querySelector('script[type="application/json"]');
+                                if (!jsonScript) {
+                                    displayText.textContent = 'No JSON data found for this item.';
+                                    return;
+                                }
+    
+                                displayText.style.opacity = '0';
+    
+                                try {
+                                    const data = JSON.parse(jsonScript.textContent);
+    
+                                    // 优先展示四个字段
+                                    if (
+                                        data.object_category ||
+                                        data.camera_caption ||
+                                        data.object_caption ||
+                                        data.scene_caption
+                                    ) {
+                                        let html = '';
+                                        if (data.object_category) {
+                                            html += `<b>Object category:</b> ${data.object_category}<br>`;
+                                        }
+                                        if (data.camera_caption) {
+                                            html += `<b>Camera caption:</b> ${data.camera_caption}<br>`;
+                                        }
+                                        if (data.object_caption) {
+                                            html += `<b>Object caption:</b> ${data.object_caption}<br>`;
+                                        }
+                                        if (data.scene_caption) {
+                                            html += `<b>Scene caption:</b> ${data.scene_caption}<br>`;
+                                        }
+                                        setTimeout(() => {
+                                            displayText.innerHTML = html;
+                                            displayText.style.opacity = '1';
+                                        }, 150);
+                                    } else if (data.scenes && data.scenes[0] && data.scenes[0].objects && data.scenes[0].objects[0]) {
+                                        // 兼容原有逻辑
+                                        const firstObject = data.scenes[0].objects[0];
+                                        const textContent = JSON.stringify(firstObject, null, 2) + '...';
+                                        setTimeout(() => {
+                                            displayText.innerHTML = syntaxHighlight(textContent);
+                                            displayText.style.opacity = '1';
+                                        }, 150);
+                                    } else {
+                                        setTimeout(() => {
+                                            displayText.textContent = 'Could not find valid object data in the JSON file.';
+                                            displayText.style.opacity = '1';
+                                        }, 150);
+                                    }
+                                } catch (error) {
+                                    console.error('Error parsing JSON:', error);
+                                    setTimeout(() => {
+                                        displayText.textContent = 'Error parsing object details.';
+                                        displayText.style.opacity = '1';
+                                    }, 150);
+                                }
+                            }
+                            
+                            // No need to initialize with first item's text anymore
+    
+                            function syntaxHighlightVLM(selector) {
+                                const pre = document.querySelector(selector);
+                                if (!pre) return;
+                                const text = pre.textContent || pre.innerText;
+                                pre.innerHTML = syntaxHighlight(text);
+                            }
+    
+                            syntaxHighlightVLM('#vlm-output-code');
+                            syntaxHighlightVLM('#refine-output-code');
+                        });
+                    </script>
+                </div>
+
+
                 </div>
             </div>
         </div>
 
+        <div id='dynamicverse_dataset' class="sub-section">
+            <h2 class="text">DynamicVerse Dataset</h2>
+        </div>
+
+
+
         <div class="vision-block">
-            <div id="visual-representation" class="sub-section">
-                <h1 class="text">Textual & Visual Guidance</h1>
-                <p class="text">
-                    <strong>Textual:</strong> We probe GPT-4o’s self-explanations. Without explicit cues, it often relies on surface descriptions. When provided a spatio-temporal textual map (ST-TCM), the model starts to anchor objects to coordinates and reason about relative velocities.
-                </p>
-                <d-figure id="fig-case-study" >
+            <div id="metrics" class="sub-section">
+            <!-- <h1 class="text">Data Statistics and Sources </h1> -->
+                <d-figure id="fig-studyadapter" >
                     <figure>
-                        <img data-zoomable="" draggable="false" src="static/img/faliurecase_v10-1.png" alt="Failure Case Study" style="width: 90%; display: block; margin: 0 auto; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.2);">
+                        <img data-zoomable="" draggable="false" src="static/img/DynamicVerse_data.png" alt="DynamicVerse Data">
                     </figure>
                 </d-figure>
-                
-                <br><br>
-
-                <div id="vsi-improvements">
-                     <p class="text">
-                        <strong>Visual:</strong> Mask-guided fusion yields the strongest grounding across all tasks, outperforming raw video and mask-only inputs on inter-object, object-scene, and camera-object reasoning.
-                    </p>
-                    <d-figure id="fig-vis-guide" >
-                        <figure>
-                            <img data-zoomable="" draggable="false" src="static/img/visual_v5-1.png" alt="Visual Guidance Comparison" style="width: 90%; display: block; margin: 0 auto;">
-                        </figure>
-                    </d-figure>
-                </div>
+                <d-figure id="fig-studyadapter" >
+                    <figure>
+                        <img data-zoomable="" draggable="false" src="static/img/DynamicVerse_data_comparison.png" alt="DynamicVerse Data">
+                    </figure>
+                </d-figure>
+                <p class="text">
+                    We provide the statistics and data source of DynamicVerse. We also compare DynamicVerse with large-scale 2D video datasets and existing 4D scene datasets. DynamicVerse expands the data scale and annotation richness compared to prior works.
+                </p>
             </div>
-         </div>
+        </div>
 
-
+                
         <div id="conclusion" style="position: relative; margin-top: 40px; margin-bottom: 0px;">
             <h1 class="text" style="margin-top:0px; margin-bottom:10px">Conclusion</h1>
             <p class="text">
-                We study how MLLMs think in dynamics via Dyn-Bench. Spatio-Temporal Textual Cognitive Maps (ST-TCM) provide structured linguistic abstractions that strengthen temporal coherence and relational reasoning, while mask-guided visual grounding enhances motion perception. Reliable dynamic understanding emerges from coupling high-level temporal semantics with localized region-level grounding.
+                In this work, we addressed the critical limitations in traditional 4D data curation concerning scalability, physical reality, and modality diversity. We introduced DynamicGen, a novel automated pipeline leveraging foundation models for video filtering, metric-scale geometric and moving object recovery, alongside hierarchical detailed semantic captioning from raw videos. We rigorously validated the capabilities of DynamicGen through standard benchmarks for video depth and camera pose/intrinsics estimation, qualitative generalization analysis on diverse web videos, and human/LLM-assisted evaluations confirming the high quality of the generated captions Utilizing DynamicGen, we successfully constructed DynamicVerse, a large-scale 4D dataset offering over 100K dynamic scenes with rich physically-aware multi-modal annotations. Collectively, this work provides both a robust and scalable methodology for 4D data generation and a comprehensive new resource, DynamicVerse, to drive future research in dynamic 4D scene understanding.
             </p>
         </div>
 
@@ -422,32 +903,46 @@
             <h2 class="text" style="margin-top:0px; margin-bottom:10px">BibTeX</h2>
             
             <pre style="white-space: pre-wrap; word-break: break-word; background-color: #f5f5f5; padding: 25px; border-radius: 12px; font-family: monospace; font-size: 0.9em; text-align: left; overflow-x: hidden; width: 200%; position: relative; left: 50%; transform: translateX(-50%); box-sizing: border-box; box-shadow: 0 4px 20px rgba(0,0,0,0.05);">
-@article{TODO_dynamics,
-    title={{Thinking in Dynamics: How Multimodal Large Language Models Perceive, Track, and Reason Dynamics in Physical 4D World}},
-    author={Dongxuan Liu and Shusheng Yang and Anjali W. Gupta and Rilyn Han and Li Fei-Fei and Saining Xie},
-    year={2024},
-    journal={arXiv preprint},
-}</pre>
+        @misc{wen2025dynamicverse,
+            title={DynamicVerse: A Physically-Aware Multimodal Framework for 4D World Modeling}, 
+            author={Kairun Wen and Yuzhi Huang and Runyu Chen and Hui Zheng and Yunlong Lin and Panwang Pan and Chenxin Li and Wenyan Cong and Jian Zhang and Junbin Lu and Chenguo Lin and Dilin Wang and Zhicheng Yan and Hongyu Xu and Justin Theiss and Yue Huang and Xinghao Ding and Rakesh Ranjan and Zhiwen Fan},
+            year={2025},
+            eprint={2512.03000},
+            archivePrefix={arXiv},
+            primaryClass={cs.CV},
+            url={https://arxiv.org/abs/2512.03000}, 
+        }</pre>
+        </div>
+
+        <!-- <div id="bibtex" style="position: relative; margin-top: 40px; margin-bottom: 0px; color: gray;">
+            <h2 class="text" style="margin-top:0px; margin-bottom:10px">BibTeX</h2> -->
+            <!-- <p class="bibtex">
+                @misc{wen2025dynamicversephysicallyawaremultimodalframework,
+                    title={DynamicVerse: A Physically-Aware Multimodal Framework for 4D World Modeling}, 
+                    author={Kairun Wen and Yuzhi Huang and Runyu Chen and Hui Zheng and Yunlong Lin and Panwang Pan and Chenxin Li and Wenyan Cong and Jian Zhang and Junbin Lu and Chenguo Lin and Dilin Wang and Zhicheng Yan and Hongyu Xu and Justin Theiss and Yue Huang and Xinghao Ding and Rakesh Ranjan and Zhiwen Fan},
+                    year={2025},
+                    eprint={2512.03000},
+                    archivePrefix={arXiv},
+                    primaryClass={cs.CV},
+                    url={https://arxiv.org/abs/2512.03000}, 
+                }
+            </p> -->
+            <!-- <pre><code>
+                 @misc{wen2025dynamicversephysicallyawaremultimodalframework,
+                    title={DynamicVerse: A Physically-Aware Multimodal Framework for 4D World Modeling}, 
+                    author={Kairun Wen and Yuzhi Huang and Runyu Chen and Hui Zheng and Yunlong Lin and Panwang Pan and Chenxin Li and Wenyan Cong and Jian Zhang and Junbin Lu and Chenguo Lin and Dilin Wang and Zhicheng Yan and Hongyu Xu and Justin Theiss and Yue Huang and Xinghao Ding and Rakesh Ranjan and Zhiwen Fan},
+                    year={2025},
+                    eprint={2512.03000},
+                    archivePrefix={arXiv},
+                    primaryClass={cs.CV},
+                    url={https://arxiv.org/abs/2512.03000}, 
+                }
+            </code></pre> -->
+            <!-- <p class="text" style="text-align: right;">
+                The website template was originally borrowed from <a href="https://cambrian-mllm.github.io/">here</a>.
+            </p> -->
         </div>
         
         <script src="./static/js/nav-bar.js"></script>
-        <script>
-            document.querySelectorAll('.leaderboard-table th').forEach((header, index) => {
-                header.addEventListener('click', () => {
-                    const table = header.parentElement.parentElement.parentElement;
-                    const rows = Array.from(table.querySelectorAll('tr:not(.header-group):not(.section-divider)'));
-                    const isAsc = header.classList.contains('asc');
-                    
-                    rows.sort((a, b) => {
-                        const cellA = a.children[index].innerText;
-                        const cellB = b.children[index].innerText;
-                        return isAsc ? cellA.localeCompare(cellB, undefined, {numeric: true}) : cellB.localeCompare(cellA, undefined, {numeric: true});
-                    });
-
-                    rows.forEach(row => table.querySelector('tbody').appendChild(row));
-                    header.classList.toggle('asc');
-                });
-            });
-        </script>
     </body>
 </html>
