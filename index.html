@@ -279,10 +279,28 @@ Notably, conventional prompting strategies (<i>e.g.</i>, chain-of-thought or cap
         </div>
 
         <div class="vision-block">
-            <div id="moving_obj_geometry" class="sub-section">
-            <h1 class="text">Stage 1: Moving Object and Metric-scale Geometry Recovery </h1>
-                <p class="text">
-                    We provide visual comparison of the moving object  segmentation and metric-scale geometry recovery results. We also provide dynamic point cloud reconstruction results on more in-the-wild data.
+            <div id="evaluation" class="sub-section">
+            <h1 class="text">Evaluation on Dyn-Bench</h1>
+                <p class="text" align="justify">
+                    <strong>Evaluation Setup:</strong>
+                    We evaluate three categories of MLLMs: general, spatial, and region-level models.
+                    General MLLMs (<i>e.g.</i>, GPT-4o, Qwen3-VL) and spatial MLLMs (SpaceR, VST, Spatial-SSRL, SpatialLadder)
+                    lack explicit dynamic object grounding and are therefore evaluated only on spatio-temporal reasoning.
+                    In contrast, region-level MLLMs (Sa2VA, UniPixel, VideoGLaMM) are assessed on both spatio-temporal reasoning
+                    and dynamic object grounding to measure their fine-grained dynamic understanding.
+
+                    To benchmark performance on spatio-temporal reasoning, we include two chance baselines:
+                    <i>Chance Level (Random)</i>, obtained by uniformly sampling answers for multiple-choice questions, and
+                    <i>Chance Level (Frequency)</i>, obtained by predicting the most frequent answer per task.
+                    All models are evaluated in a zero-shot setting using their default instruction templates to ensure
+                    consistent and fair comparison.
+
+                    For the three VQA task levels, we adopt a multiple-choice answering format and use
+                    <i>Accuracy (ACC)</i> as the primary evaluation metric, following standard practice.
+                    ACC is computed by exact matching over the model's selected multiple-choice option.
+
+                    For the corresponding object grounding tasks, we employ the video object segmentation metric
+                    &#x1D4A5;&amp;F, which averages region similarity (&#x1D4A5;) and boundary accuracy (&#x1D4A6;).
                 </p>
 
                 <video autoplay loop muted playsinline style="width: 140%; display: block;  margin-left: -17%; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.2);">
