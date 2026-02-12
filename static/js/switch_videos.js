@@ -1,48 +1,50 @@
 function switchVideo(prefix, videoContainerId, preview_id) {
-    const totalVideos = 10;
+    // Reference to all video containers
+    var video1Container = document.getElementById(prefix + 'video1Container');
+    var video2Container = document.getElementById(prefix + 'video2Container');
 
-    // Hide all video containers and pause/reset their videos
-    for (let i = 1; i <= totalVideos; i++) {
-        const container = document.getElementById(`${prefix}video${i}Container`);
-        if (container) {
-            container.style.display = 'none'; // Hide the video container
-            
-            // Pause all videos and reset to start
-            const videos = container.getElementsByTagName('video');
-            Array.from(videos).forEach(video => {
-                video.pause();
-                video.currentTime = 0;
-            });
-        }
+    // Hide all video containers first
+    video1Container.style.display = 'none';
+    video2Container.style.display = 'none';
+
+    // Stop and reset videos
+    var videos = video1Container.getElementsByTagName('video');
+    for (var i = 0; i < videos.length; i++) {
+        videos[i].pause();
+    }
+
+    videos = video2Container.getElementsByTagName('video');
+    for (var i = 0; i < videos.length; i++) {
+        videos[i].pause();
     }
 
     // Show the selected video container
-    const selectedContainer = document.getElementById(`${prefix}${videoContainerId}`);
-    if (selectedContainer) {
-        selectedContainer.style.display = 'block'; // Show the selected video
-        const selectedVideo = selectedContainer.querySelector('video');
-        if (selectedVideo) {
-            selectedVideo.play(); // Autoplay the selected video
-        }
-    }
+    var selectedVideoContainer = document.getElementById(prefix + videoContainerId);
+    selectedVideoContainer.style.display = 'block';
 
-    // Update preview images: remove active class from all previews
-    for (let i = 1; i <= totalVideos; i++) {
-        const preview = document.getElementById(`${prefix}video${i}Preview`);
-        if (preview) {
-            preview.classList.remove("preview-video-active");
-        }
-    }
+    // Update preview images
+    var videoPreview1 = document.getElementById(prefix + 'video1Preview');
+    var videoPreview2 = document.getElementById(prefix + 'video2Preview');
 
-    // Add active class to the selected preview
-    const selectedPreview = document.getElementById(`${prefix}${preview_id}`);
-    if (selectedPreview) {
-        selectedPreview.classList.add("preview-video-active");
-    }
+    videoPreview1.className = videoPreview1.className.replace(" preview-video-active", "");
+    videoPreview2.className = videoPreview2.className.replace(" preview-video-active", "");
+
+    document.getElementById(prefix + preview_id).className += " preview-video-active";
+}
+
+
+function isElementInViewport(el) {
+    var rect = el.getBoundingClientRect();
+    return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
 }
 
 function isElementInViewport(el) {
-    const rect = el.getBoundingClientRect();
+    var rect = el.getBoundingClientRect();
     return (
         rect.top >= 0 &&
         rect.left >= 0 &&
@@ -52,8 +54,9 @@ function isElementInViewport(el) {
 }
 
 function checkVideoVisibility() {
-    const videos = document.querySelectorAll('.auto-video');
-    videos.forEach(video => {
+    var videos = document.querySelectorAll('.auto-video');
+    videos.forEach(function(video) {
+        // Check if the video is in the viewport
         if (isElementInViewport(video)) {
             if (video.paused) {
                 video.currentTime = 0; // Reset to start
@@ -68,24 +71,13 @@ function checkVideoVisibility() {
 window.addEventListener('scroll', checkVideoVisibility);
 
 document.addEventListener("DOMContentLoaded", function() {
-    // Set default video volume for all '.video-music' videos
-    const videos = document.querySelectorAll('.video-music');
-    videos.forEach(video => {
-        video.volume = 0.25; // Set volume to 25%
+    // Get all video elements with class 'video-music'
+    var videos = document.querySelectorAll('.video-music');
+
+    // Loop through each video and set the volume
+    videos.forEach(function(video) {
+        video.volume = 0.25; // 25% volume
     });
-
-    // Set the first video container as active on load
-    const firstVideoContainer = document.getElementById("Touristvideo1Container");
-    if (firstVideoContainer) {
-        firstVideoContainer.style.display = "block"; // Display the first video
-        const firstVideo = firstVideoContainer.querySelector('video');
-        if (firstVideo) {
-            firstVideo.play();
-        }
-    }
-
-    const firstPreview = document.getElementById("Touristvideo1Preview");
-    if (firstPreview) {
-        firstPreview.classList.add("preview-video-active"); // Highlight first preview
-    }
 });
+
+
