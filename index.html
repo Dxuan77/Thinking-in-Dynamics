@@ -204,8 +204,11 @@ Notably, conventional prompting strategies (<i>e.g.</i>, chain-of-thought or cap
 
         <div id='dyn-bench' class="sub-section">
             <h2 class="text">Dyn-Bench</h2>
+            <h3 class="text" style="margin-top: 1.5em;">Benchmark Overview</h3>
             <p class="text" align="justify">
-                <strong>Benchmark Overview:</strong> We present Dyn-Bench, a large-scale benchmark for quantitatively evaluating the spatio-temporal reasoning abilities of MLLMs under fine-grained dynamic-object understanding.
+                
+                <!-- <strong>Benchmark Overview:</strong>  -->
+                We present Dyn-Bench, a large-scale benchmark for quantitatively evaluating the spatio-temporal reasoning abilities of MLLMs under fine-grained dynamic-object understanding.
                 Dyn-Bench consists of 1k dynamic video scenes with 7k visual question answering pairs and 3k grounding annotations, collected from four 2D video segmentation and four 4D dynamic scene datasets spanning diverse environments, motion patterns, and camera trajectories.
                 As illustrated in Fig. 2, the benchmark is structured into three complementary levels: Dynamic Inter-Object Perception, Dynamic Object-Scene Tracking, and Dynamic Camera-Object Reasoning, each integrating spatio-temporal reasoning and dynamic object grounding tasks.
                 An overview of dataset statistics is provided in Fig. 3.
@@ -229,8 +232,9 @@ Notably, conventional prompting strategies (<i>e.g.</i>, chain-of-thought or cap
                     </figcaption>
                 </figure>
             </d-figure>
+            <h3 class="text" style="margin-top: 1.5em;">Dyn-Bench Construction</h3>
             <p class="text" align="justify">
-                <strong>Dyn-Bench Construction:</strong>
+                <!-- <strong>Dyn-Bench Construction:</strong> -->
                     We develop a robust pipeline to construct Dyn-Bench.
             </p>
 
@@ -280,642 +284,158 @@ Notably, conventional prompting strategies (<i>e.g.</i>, chain-of-thought or cap
 
         <div class="vision-block">
             <div id="evaluation" class="sub-section">
-            <h1 class="text">Evaluation on Dyn-Bench</h1>
+                <h2 class="text">Evaluation on Dyn-Bench</h2>
+
+                <h3 class="text" style="margin-top: 1.5em;">Evaluation Setup</h3>
+
                 <p class="text" align="justify">
-                    <strong>Evaluation Setup:</strong>
-                    We evaluate three categories of MLLMs: general, spatial, and region-level models.
-                    General MLLMs (<i>e.g.</i>, GPT-4o, Qwen3-VL) and spatial MLLMs (SpaceR, VST, Spatial-SSRL, SpatialLadder)
-                    lack explicit dynamic object grounding and are therefore evaluated only on spatio-temporal reasoning.
-                    In contrast, region-level MLLMs (Sa2VA, UniPixel, VideoGLaMM) are assessed on both spatio-temporal reasoning
-                    and dynamic object grounding to measure their fine-grained dynamic understanding.
-
-                    To benchmark performance on spatio-temporal reasoning, we include two chance baselines:
-                    <i>Chance Level (Random)</i>, obtained by uniformly sampling answers for multiple-choice questions, and
-                    <i>Chance Level (Frequency)</i>, obtained by predicting the most frequent answer per task.
-                    All models are evaluated in a zero-shot setting using their default instruction templates to ensure
-                    consistent and fair comparison.
-
-                    For the three VQA task levels, we adopt a multiple-choice answering format and use
-                    <i>Accuracy (ACC)</i> as the primary evaluation metric, following standard practice.
-                    ACC is computed by exact matching over the model's selected multiple-choice option.
-
-                    For the corresponding object grounding tasks, we employ the video object segmentation metric
-                    &#x1D4A5;&amp;F, which averages region similarity (&#x1D4A5;) and boundary accuracy (&#x1D4A6;).
+                    <b>Benchmark Models.</b>
+                    We evaluate three categories of MLLMs: general, spatial, and region-level models. General MLLMs (<i>e.g.</i>, GPT-4o, Qwen3-VL) and spatial MLLMs (SpaceR, VST, Spatial-SSRL, SpatialLadder) lack explicit dynamic object grounding and are therefore evaluated only on spatio-temporal reasoning. In contrast, region-level MLLMs (Sa2VA, UniPixel, VideoGLaMM) are assessed on both spatio-temporal reasoning and dynamic object grounding to measure their fine-grained dynamic understanding.
                 </p>
 
-                <video autoplay loop muted playsinline style="width: 140%; display: block;  margin-left: -17%; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.2);">
-                    <source src="./static/img/Moving_Obj_Seg_480P.mp4" type="video/mp4">
-                </video>
-                <video autoplay loop muted playsinline style="width: 140%; display: block;  margin-left: -17%; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.2);">
-                    <source src="./static/img/BA_wild_480P.mp4" type="video/mp4">
-                </video>
-                <d-figure id="fig-studyadapter" >
-                    <figure>
-                        <img data-zoomable="" draggable="false" src="static/img/BA_comp.png" alt="Stage 2 Pipeline" style="width: 95%; display: block; margin: 0 auto; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); border: 1px solid #e0e0e0;">
-                    </figure>
-                </d-figure>
+                <p class="text" align="justify">
+                    To benchmark performance on spatio-temporal reasoning, we include two chance baselines: <i>Chance Level (Random)</i>, obtained by uniformly sampling answers for multiple-choice questions, and <i>Chance Level (Frequency)</i>, obtained by predicting the most frequent answer per task. All models are evaluated in a zero-shot setting using their default instruction templates to ensure consistent and fair comparison.
+                </p>
+
+                <p class="text" align="justify">
+                    <b>Metric Design.</b>
+                    For the three VQA task levels, we adopt a multiple-choice answering format and use <i>Accuracy (ACC)</i> as the primary evaluation metric, following standard practice. ACC is computed by exact matching over the model's selected multiple-choice option.
+                </p>
+
+                <p class="text" align="justify">
+                    For the corresponding object grounding tasks, we employ the video object segmentation metric ℐ&amp;ℱ, which averages region similarity (ℐ) and boundary accuracy (ℱ).
+                </p>
+
+                <h3 class="text" style="margin-top: 1.5em;">Main Results</h3>
+
+                <p class="text" align="justify">
+                    Tab.&nbsp;2 and Tab.&nbsp;3 report the overall performance on Dyn-Bench, and corresponding radar results are shown across the three VQA levels. Our findings are summarized as follows:
+                </p>
+
+                <p class="text" align="justify">
+                    <b>General MLLM.</b>
+                    Proprietary models such as GPT-4o and GPT-5 maintain strong performance in spatio-temporal reasoning, particularly excelling in inter-object understanding through accurate modeling of actions and relational dynamics. In contrast, open-source models have rapidly narrowed the gap, with large-scale systems like Qwen3-VL-235B achieving comparable or even superior overall results, and smaller variants such as LLaVA-OneVision-1.5-8B and Qwen3-VL-32B delivering competitive accuracy despite reduced parameter counts. Overall, proprietary models tend to dominate relational and motion-oriented reasoning, while open-source models demonstrate more balanced generalization across object- and scene-level understanding.
+                </p>
+
+                <p class="text" align="justify">
+                    <b>Spatial MLLMs.</b>
+                    Compared with general MLLMs, spatial models exhibit stronger performance on geometry-dependent object–scene reasoning, highlighting the value of explicit spatial priors. Within this category, VST-7B-RL attains the strongest overall performance, with SpaceR-7B and SpatialLadder-3B following closely. However, despite their strengths in static and relational spatial tasks, spatial MLLMs remain weaker than both general and region-level models on camera–object interaction and motion-centric reasoning, indicating that spatial priors alone are insufficient for modeling dynamic 4D scenes.
+                </p>
+
+                <p class="text" align="justify">
+                    <b>Region-level MLLMs.</b>
+                    Models in this category deliver the strongest performance on object-centric spatio-temporal reasoning and dynamic object grounding, enabled by their integration of fine-grained regional cues and localized feature alignment. UniPixel-7B provides the best overall spatio-temporal reasoning within this group, while Sa2VA-based variants achieve the highest grounding accuracy across diverse dynamic settings. Relative to both general and spatial MLLMs, these models exhibit pronounced advantages in motion understanding and relational dynamics, indicating that region-level grounding supplies robust structural priors that enhance temporal coherence and support more reliable interpretation of complex dynamic scenes.
+                </p>
             </div>
         </div>
         <br>
         </br>
 
         <div class="vision-block">
-            <div id="dynamic_content_captioning" class="sub-section">
-            <h1 class="text">Stage 2: Dynamic Content Captioning </h1>
-                <p class="text">
-                    We provide a comprehensive caption at three specific
-                    levels: moving object, dynamic scene, and camera motion.
-                </p>          
-                <d-figure id="fig-studyadapter" >
+            <div id="textual_guidance" class="sub-section">
+                <h2 class="text">How MLLMs Think in Dynamics Textually</h2>
+                <p class="text" align="justify">
+                    To investigate how MLLMs think in dynamics textually, we first analyze GPT-4o's self-explanations on failure cases from Dyn-Bench to examine its Chain-of-Thought (CoT) behavior in dynamic settings. We then introduce a spatio-temporal textual context module (ST-TCM) as an auxiliary input to qualitatively assess its effect on reasoning. Finally, we conduct an ablation study on three key components, namely <i>temporal semantics</i>, <i>spatial geometry</i>, and <i>motion dynamics</i>, to identify which factors most effectively enhance spatio-temporal reasoning.
+                </p>
+
+                <h3 class="text" style="margin-top: 1.5em;">Self-Explanations in Dynamic Reasoning</h3>
+                <p class="text" align="justify">
+                    Self-explanation refers to an MLLM's ability to articulate intermediate reasoning while generating responses. We examine GPT-4o's self-explanations on Dyn-Bench and present representative success and failure cases in Fig. 4 to illustrate its reasoning strengths and limitations.
+                </p>
+
+                <p class="text" align="justify">
+                    <b>Case Studies.</b>
+                    Fig. 4 compares GPT-4o's self-explanations in a failure and a success case. In the failure example (Fig. 4, left), the model generates linguistically fluent but physically inconsistent reasoning. When estimating how a white car catches up with a gray-clothed pedestrian, it relies on visual heuristics such as apparent size change across frames rather than metric reasoning, resulting in inaccurate temporal estimation. This reflects a gap between linguistic coherence and physical grounding. In contrast, the success case (Fig. 4, right) demonstrates structured reasoning that integrates motion and relational cues to estimate relative velocities and produce a temporally consistent prediction. These findings suggest that incorporating explicit spatio-temporal cues enables more coherent and causally grounded reasoning about dynamic events.
+                </p>
+                
+                <p class="text" align="justify">
+                    <b>Error Analysis.</b>
+                    GPT-4o's errors in dynamic reasoning can be broadly categorized into three fundamental types:
+                </p>
+                <ol class="text" align="justify">
+                    <li><i>Temporal reasoning errors</i>, where the model fails to maintain event order or motion continuity, interpreting sequences as discrete frames rather than continuous processes;</li>
+                    <li><i>Spatial grounding errors</i>, arising from limited geometric understanding and resulting in inaccurate distance or position estimation;</li>
+                    <li><i>Relational reasoning errors</i>, reflecting persistent difficulty in capturing causal or interactional dependencies between objects.</li>
+                </ol>
+                <p class="text" align="justify">
+                    These errors indicate that GPT-4o lacks structured temporal, spatial, and relational representations, ultimately constraining its ability to reason about motion in a physically coherent manner.
+                </p>
+                <d-figure id="fig-faliurecase_v9">
                     <figure>
-                        <img data-zoomable="" draggable="false" src="static/img/Captions_0713.png" alt="Stage 2 Pipeline">
+                        <img data-zoomable="" draggable="false" src="static/img/faliurecase_v9.png" alt="faliurecase" style="width: 90%; height: auto; display: block; margin: 0 auto;">
+                        <figcaption style="text-align: center; margin-top: 20px;">
+                            <strong>Figure 4: Examples of how an MLLM thinks in dynamics as revealed by self-explanations.</strong> 
+                            The model demonstrates strong chain-of-thought reasoning and semantic understanding but lacks 3D scene modeling and time awareness without explicit spatio-temporal guidance.
+                        </figcaption>
                     </figure>
                 </d-figure>
-                <div class="text" style="grid-column: text;">
-                    <div class="dataset-container">
-                    <!-- Image Carousel Section -->
-                    <div class="image-carousel-container">
-                        <div class="image-carousel">
-                            <div class="carousel-item" data-json-src="static/img/dataset/CLEVR_val_000000.json">
-                                <!-- <img src="static/img/dataset/CLEVR_val_000000.png" alt="CLEVR Dataset Sample 1"> -->
-                                <video autoplay loop muted playsinline width="100%" height="250" style="object-fit: cover; display: block;">
-                                    <source src="static/img/captions/blackswan_web.mp4" type="video/mp4">
-                                </video>
-                                <script type="application/json">
-                                {
-                                    "object_category": "Black swan",
-                                    "camera_caption": "The camera smoothly tracks rightward, maintaining a steady focus as it follows the black swan from the side.",
-                                    "object_caption": "A graceful swan with a sleek, elongated neck and a striking black plumage glides smoothly across the water. Its body is robust, with feathers that appear soft and layered, creating a textured pattern that catches the light subtly. The swan's head is held high, showcasing a vibrant red beak that contrasts sharply with its dark feathers. As it moves, the swan's neck undulates gently, propelling it forward with a serene and effortless grace. The swan's eyes are alert, scanning its surroundings with a calm and composed demeanor. Throughout its journey, the swan maintains a steady pace, occasionally adjusting its direction with a slight flick of its neck, demonstrating both elegance and control in its aquatic environment.",
-                                    "scene_caption": "A black swan glides smoothly across a calm pond, its sleek body and bright red beak contrasting with the surrounding green foliage.  The scene is set outdoors under natural light, with dense vegetation lining the concrete edge of the water.  The swan moves steadily along a curved path parallel to the pond's border, maintaining a medium size within the frame and facing rightward as it swims.  With no other animals or people present, the focus remains on the tranquil interaction between the swan and its habitat, emphasizing a serene and natural aquatic environment."
-                                }
-                                </script>
-                            </div>
-                            
-                            <div class="carousel-item" data-json-src="static/img/dataset/CLEVR_val_000001.json">
-                                <!-- <img src="static/img/dataset/CLEVR_val_000001.png" alt="CLEVR Dataset Sample 2"> -->
-                                <video autoplay loop muted playsinline width="100%" height="250" style="object-fit: cover; display: block;">
-                                    <source src="static/img/captions/bmx-bumps_web.mp4" type="video/mp4">
-                                </video>
-                                <script type="application/json">
-                                    {
-                                        "object_category": "BMX & Cyclist",
-                                        "camera_caption": "The camera smoothly pans to the right, maintaining a steady focus as it tracks the BMX cyclist from the side. As the video concludes, it subtly trucks rightward, incorporating a slight upward tilt to adjust its framing. The camera movement remains fluid with minimal shaking, ensuring a seamless and immersive viewing experience.",
-                                        "object_caption":  "[1] A sleek, metallic bicycle with a streamlined frame and thin tires is captured in motion, showcasing its dynamic performance. The bicycle's frame is predominantly silver with subtle blue accents, highlighting its modern design. As it progresses through the sequence, the bicycle maintains a steady, forward trajectory, with its wheels rotating smoothly, indicating a consistent speed. The handlebars are slightly elevated, suggesting a comfortable riding posture. The bicycle's chain and pedals are in constant motion, reflecting the energy and momentum of the ride. Throughout the sequence, the bicycle's form remains intact, emphasizing its sturdy construction and efficient design, which allows it to navigate the terrain with ease and agility. [2] A BMX cyclist wearing a black helmet and a black and red outfit is captured in a dynamic sequence of movement. The individual appears to be engaged in an activity that involves swift, agile movements, possibly cycling or skateboarding. The person's posture is slightly leaned forward, suggesting forward momentum and balance. The outfit includes a black jacket with red accents on the sleeves and a patterned design on the lower half, paired with white pants and black shoes. The helmet is securely fastened, indicating a focus on safety. Throughout the sequence, the person's movements are fluid and continuous, with a noticeable shift in orientation as they navigate their path. The overall impression is one of energy and focus, as the individual appears to be actively engaged in a sport or recreational activity.",
-                                        "scene_caption": "Under bright natural light, a BMX cyclist in protective gear rides with precision on an outdoor track. The sandy terrain features mounds and fencing, while banners and greenery suggest a recreational or competitive setting. The cyclist maintains a steady speed, navigating the undulating course with curved movements and executing jumps over small hills. Centered in the scene, they demonstrate agility and control, closely interacting with their bike as they follow the track's contours. The environment remains static, highlighting the dynamic motion of the cyclist and bicycle within a structured outdoor space."
-                                    }
-                                </script>
-                            </div>
-                            
-                            <div class="carousel-item" data-json-src="static/img/dataset/CLEVR_val_000002.json">
-                                <!-- <img src="static/img/dataset/CLEVR_val_000002.png" alt="CLEVR Dataset Sample 3"> -->
-                                <video autoplay loop muted playsinline width="100%" height="250" style="object-fit: cover; display: block;">
-                                    <source src="static/img/captions/breakdance-flare_web.mp4" type="video/mp4">
-                                </video>
-                                <script type="application/json">
-                                    {
-                                        "object_category": "B-boy",
-                                        "camera_caption": "The video opens with a wide shot, smoothly panning left to fully capture the young person performing handstand sequences, maintaining a steady and fluid motion throughout. The camera, positioned at eye level, allows the audience to feel as though they are right there watching the performance. As the video concludes, it ends abruptly without any transition effects, and there are no visible special effects used.",
-                                        "object_caption": "A person dressed in a light brown sweater and light blue jeans is captured in a dynamic sequence of movements. Initially, they are seen in a handstand position, with their legs extended and arms reaching upwards. As the sequence progresses, the person transitions into a series of fluid, acrobatic poses, showcasing their flexibility and strength. Their legs alternate between straight and bent positions, with one leg often lifted high, while the other remains extended. The person's head is tilted downward, and their facial expression conveys focus and determination. Throughout the sequence, the person maintains a sense of balance and control, demonstrating a high level of skill and athleticism.",
-                                        "scene_caption": "A young person performs a smooth, continuous handstand sequence on a paved outdoor surface under natural lighting. Dressed in light-colored pants and a beige top, they move with consistent speed, transitioning fluidly between handstands and leg extensions along a curved path. A stone wall with hanging flower baskets is positioned to the right, adding color to the scene, while a metal gate appears in the background. The performer remains close to the wall but distant from the gate, creating clear spatial contrasts. The setting suggests a quiet urban or suburban area where physical agility is on display."
-                                    }
-                                </script>
-                            </div>
-                            
-                            <div class="carousel-item" data-json-src="static/img/dataset/CLEVR_val_000003.json">
-                                <!-- <img src="static/img/dataset/CLEVR_val_000003.png" alt="CLEVR Dataset Sample 4"> -->
-                                <video autoplay loop muted playsinline width="100%" height="250" style="object-fit: cover; display: block;">
-                                    <source src="static/img/captions/camel_web.mp4" type="video/mp4">
-                                </video>
-                                <script type="application/json">
-                                    {
-                                        "object_category": "Striding camel",
-                                        "camera_caption": "The camera smoothly tracks right, maintaining a steady focus as it follows the foreground camel from the side.  After a brief moment, it pans left and slightly tilts up to adjust to the second camel that has entered the frame.  Throughout this fluid movement, the camera remains exceptionally stable, with no shaking, ensuring a seamless transition between the two camels.  The shot is composed as a medium shot, capturing both camels in their entirety within the enclosure, without the use of any special effects or transitions.",
-                                        "object_caption": "A camel with a robust, muscular build and a light brown coat is captured in motion, showcasing its graceful yet deliberate gait. Its long neck extends forward, leading its head, while its sturdy legs support its weight with ease. The camel's body sways gently with each step, its tail occasionally flicking to the side. As it moves, the camel's legs alternate in a rhythmic pattern, demonstrating its balance and agility. The camel's head occasionally turns, suggesting alertness and curiosity, while its overall demeanor exudes a calm and steady presence.",
-                                        "scene_caption": "In an outdoor enclosure under natural light, two camels are visible within a fenced area. The foreground camel, large and facing right, walks steadily along the sandy terrain in a straight path at a constant pace. Behind and to the left, a second camel stands still, observing its surroundings. A wooden fence runs parallel to their path on the right, while greenery and a thatched-roof structure form the backdrop. The camels' differing actions—walking versus standing—highlight individual behaviors within a shared habitat, creating a calm, zoo-like scene focused on their interaction with the environment."
-                                    }
-                                </script>
-                            </div>
-                            
-                            <div class="carousel-item" data-json-src="static/img/dataset/CLEVR_val_000004.json">
-                                <!-- <img src="static/img/dataset/CLEVR_val_000004.png" alt="CLEVR Dataset Sample 5"> -->
-                                <video autoplay loop muted playsinline width="100%" height="250" style="object-fit: cover; display: block;">
-                                    <source src="static/img/captions/car-shadow_web.mp4" type="video/mp4">
-                                </video>
-                                <script type="application/json">
-                                    {
-                                        "object_category": "Silver car",
-                                        "camera_caption": "The camera begins with a medium shot, smoothly panning left to track the silver car from the side while trucking right to maintain a steady, moving perspective. As it trucks right, it gradually zooms out, transitioning into a wide shot that reveals the car in its entirety within the broader urban setting. The camera movement is fluid and continuous, with no shaking, and the transition from medium shot to wide shot is seamless, achieved solely through the camera's rightward motion and gradual zoom-out without any special effects.",
-                                        "object_caption": "A compact, silver hatchback car with a sleek, modern design is captured in motion. The vehicle features a smooth, aerodynamic body with a slightly curved roofline and a rear spoiler. Its windows are tinted, providing a subtle contrast to the light-colored body. The car's wheels are standard with a simple, utilitarian design, and the tires appear to be in good condition. As the sequence progresses, the car maintains a steady, linear trajectory, suggesting a smooth and controlled drive. The rear lights are distinct and vertically aligned, adding to the car's contemporary aesthetic. Throughout the sequence, the car's movement is consistent, indicating a stable and reliable performance.",
-                                        "scene_caption": "A small silver car is positioned diagonally at an urban intersection under bright natural light, facing slightly northeast. It is located near a pedestrian crosswalk and traffic signals, suggesting it is waiting for or responding to the signal change. The surrounding environment includes large buildings with many windows and a paved street, forming a structured, modern cityscape. The car moves slowly in a linear path along the road, indicating it is navigating through the intersection. While no other vehicles or pedestrians are actively present nearby, their potential presence is implied by the infrastructure. The scene reflects typical urban commuting activity, emphasizing the interaction between vehicle movement and organized city design."
-                                    }
-                                </script>
-                            </div>
-                            
-                            
-                            <div class="carousel-item" data-json-src="static/img/dataset/CLEVR_val_000005.json">
-                                <!-- <img src="static/img/dataset/CLEVR_val_000005.png" alt="CLEVR Dataset Sample 6"> -->
-                                <video autoplay loop muted playsinline width="100%" height="250" style="object-fit: cover; display: block;">
-                                    <source src="static/img/captions/dog_web.mp4" type="video/mp4">
-                                </video>
-                                <script type="application/json">
-                                    {
-                                        "object_category": "Golden retriever",
-                                        "camera_caption": "The camera smoothly trucks right, maintaining a steady focus as it tracks the golden retriever from the side. As it trucks, it transitions into a pan-left motion, first slowing down before coming to a stop. The camera movement is smooth with minimal shaking, and the dog remains clearly defined within the frame throughout. The video concludes with a slight pan to the left, all while the camera gradually zooms out to reveal a wider view of the scene.",
-                                        "object_caption": "A golden retriever with a fluffy tail and a red harness moves gracefully across the scene. Its fur is soft and slightly wavy, with a gentle sheen that catches the light. The dog's ears are floppy, framing its face, and its eyes are focused downward, suggesting a sense of curiosity or intent. As it walks, its gait is steady and purposeful, with each paw lifting and landing in a rhythmic pattern. The dog's head occasionally dips lower, as if sniffing or investigating something of interest on the ground. Its overall demeanor is calm and composed, exuding a sense of gentle confidence as it navigates its environment.",
-                                        "scene_caption": "A medium-sized golden retriever wearing a red harness moves across a dry, grassy area with scattered vegetation and fallen leaves under natural light. The dog follows a gentle left-to-right curved path, turning slightly toward the camera while maintaining a moderate, steady pace that suggests relaxed exploration. It remains centrally framed throughout, with subtle changes in orientation as it naviges the terrain. A metal fence and dense shrubs appear in the background, framing the scene but kept at a distance to emphasize the open space available for movement. With no other objects or agents present, the scene conveys a quiet, natural setting where the dog enjoys unstructured, solitary activity."
-                                    }
-                                </script>
-                            </div>
-
-
-                            <div class="carousel-item" data-json-src="static/img/dataset/CLEVR_val_000005.json">
-                                <!-- <img src="static/img/dataset/CLEVR_val_000005.png" alt="CLEVR Dataset Sample 6"> -->
-                                <video autoplay loop muted playsinline width="100%" height="250" style="object-fit: cover; display: block;">
-                                    <source src="static/img/captions/elephant_web.mp4" type="video/mp4">
-                                </video>
-                                <script type="application/json">
-                                    {
-                                        "object_category": "Elephant",
-                                        "camera_caption": "The camera smoothly pans to the right, maintaining a steady focus as it tracks the medium-sized elephant from the side. Midway through the video, the pace of the pan briefly accelerates before slowing down again, all while the elephant becomes gradually smaller in the frame. There is no noticeable tilting or trucking, and the camera remains fixed in its position without any sudden jumps. The shot is handled with remarkable steadiness, exhibiting minimal shaking.",
-                                        "object_caption": "An elephant with a robust, wrinkled body and a long, curved trunk moves steadily forward. Its large ears flap gently as it walks, and its thick legs carry it with a deliberate, rhythmic gait. The elephant's skin is a dusty gray, with visible folds and creases that shift as it moves. Its tail sways slightly with each step, adding to the fluidity of its motion. The elephant's head occasionally turns, suggesting alertness and curiosity, while its massive body maintains a steady pace, exuding a sense of calm and strength.",
-                                        "scene_caption": "A medium-sized elephant walks steadily across a sandy outdoor zoo enclosure, moving in a straight path at a constant speed toward the right. It passes near mist-emitting sprinklers and is positioned close to rocks within a naturalistic habitat. The static background includes trees, a building, and bright daylight, with no other animals or humans present. The scene conveys a routine, observational setting typical of a recreational zoo environment."
-                                    }
-                                </script>
-                            </div>
-
-
-                            <div class="carousel-item" data-json-src="static/img/dataset/CLEVR_val_000005.json">
-                                <!-- <img src="static/img/dataset/CLEVR_val_000005.png" alt="CLEVR Dataset Sample 6"> -->
-                                <video autoplay loop muted playsinline width="100%" height="250" style="object-fit: cover; display: block;">
-                                    <source src="static/img/captions/hike_web.mp4" type="video/mp4">
-                                </video>
-                                <script type="application/json">
-                                    {
-                                        "object_category": "Hiker",
-                                        "camera_caption": "The camera smoothly trucks right, maintaining a steady focus as it tracks the hiker from the side. As it trucks, it gradually pans left to adjust its orientation to the hiker, causing the hiker to slowly become smaller in the frame. The camera movement is slightly unsteady with some shaking, resulting in a slightly imperfect trucking motion. Throughout this shot, the camera maintains an eye-level perspective, and there are no noticeable transitions or special effects used.",
-                                        "object_caption": "A hiker wearing a camouflage cap and sunglasses is walking steadily forward. They are dressed in a light blue, long-sleeved shirt with rolled-up sleeves and dark green cargo pants. The individual carries a large, black backpack with multiple compartments and straps, which is securely fastened over both shoulders. Their gait is relaxed and purposeful, with each step taken in a rhythmic, deliberate manner. The person's posture is upright, and their head is slightly tilted forward, suggesting focus and determination. The movement is smooth and continuous, indicating a sense of direction and intent.",
-                                        "scene_caption": "A hiker steadily traverses a rugged mountainous landscape under bright natural light. The scene features expansive rocky slopes and sparse vegetation, with distant peaks in the background. The hiker, wearing sturdy attire and carrying a large backpack, moves at a constant pace from left to right across the frame. Trekking poles are used for support, indicating preparation for an extended journey. Positioned centrally, the hiker's forward-facing orientation and alignment with the terrain emphasize purposeful movement through the natural contours of the land. The setting is remote and unspoiled, highlighting the raw beauty of the mountains and the solitude of the trek. Minimal dynamic elements draw focus to the hiker's steady, linear motion and their interaction with the challenging environment."
-                                    }
-                                </script>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Text Display Area -->
-                    <div class="text-display-area">
-                        <div class="text-container">
-                            <p id="display-text" style="color: black;">Click the video to view more semantic annotations</p>
-                        </div>
-                    </div>
-
-                    <style>
-                        .dataset-container {
-                            margin: 1rem 0;
-                            padding: 2rem;
-                            /* background: linear-gradient(320deg,#F3F1FA 0%,#f6f1fa  20%, #f9f1f8 100%); */
-                            /* background: linear-gradient(320deg,#52e5e7 0%,#130cb7  20%, #000000 100%); */
-                            background: linear-gradient(60deg,#faf1f6 0%,#E0E2F0  80%, #e0e9f1 100%);
-                            /* background: linear-gradient(120deg, #081325, #2c4a6e 80%, #a89467 100%); */
-                            border-radius: 12px;
-                        }
-                        /* Image Carousel Styles */
-                        .image-carousel-container {
-                            position: relative;
-                            overflow: hidden;
-                            width: 100%;
-                        }
-                        
-                        @keyframes slideCarousel {
-                            to {
-                               transform: translate(calc(-50% - 0.25rem)); /* 0.25rem is half the gap */
-                            }
-                        }
-                        
-                        .image-carousel {
-                            display: flex;
-                            width: max-content;
-                            animation: slideCarousel 20s linear infinite;
-                            gap: 0.5rem;
-                        }
-                        
-                        .image-carousel:hover {
-                            animation-play-state: paused;
-                        }
-                        
-                        .carousel-item {
-                            flex: 0 0 400px;
-                            min-width: 300px;
-                            max-width: 400px;
-                            scroll-snap-align: start;
-                            border-radius: 8px;
-                            overflow: hidden;
-                            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-                            background-color: white;
-                            transition: transform 0.3s ease, box-shadow 0.3s ease;
-                            position: relative;
-                            margin-right: 0.5rem;
-                            cursor: pointer;
-                        }
-                        
-                        .carousel-item:hover {
-                            transform: translateY(-5px);
-                            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-                        }
-                        
-                        .carousel-item img {
-                            width: 100%;
-                            height: 250px;
-                            object-fit: cover;
-                            display: block;
-                        }
-                        
-                        .hidden-text-data {
-                            display: none;
-                        }
-                        
-                        /* Text Display Area Styles */
-                        .text-display-area {
-                            background-color: rgba(255, 255, 255, 0.05);
-                            border: 1px solid rgba(255, 255, 255, 0.1);
-                            border-radius: 12px;
-                            padding: 1.5rem;
-                            margin-top: 1rem; /* This now controls the distance */
-                            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-                            min-height: 80px;
-                            display: flex;
-                            align-items: center;
-                        }
-                        
-                        .text-container {
-                            max-width: 100%;
-                            margin: 0 auto;
-                            width: 100%;
-                        }
-                        
-                        .text-container p {
-                            font-size: 1rem;
-                            line-height: 1.5;
-                            color: #f0f0f0;
-                            margin: 0;
-                            text-align: left;
-                            transition: opacity 0.3s ease;
-                            white-space: pre-wrap;
-                            font-family: monospace;
-                        }
-                        
-                        .text-container .json-key,
-                        .vlm-response .json-key {
-                            color: #fca9ff;
-                        }
-                        .text-container .json-string,
-                        .vlm-response .json-string {
-                            color: #b4fbb9;
-                        }
-                        .text-container .json-number,
-                        .vlm-response .json-number {
-                            color: #a5dfff;
-                        }
-                        .text-container .json-boolean,
-                        .vlm-response .json-boolean {
-                            color: #ffcc99;
-                        }
-                        .text-container .json-null,
-                        .vlm-response .json-null {
-                            color: #999;
-                        }
-                        
-                        /* Responsive adjustments */
-                        @media (max-width: 768px) {
-                            .carousel-item {
-                                flex: 0 0 90%;
-                                min-width: 250px;
-                                margin-right: 0.25rem;
-                            }
-                            
-                            .image-carousel {
-                                animation-duration: 30s; /* Adjust mobile speed */
-                            }
-                        }
-    
-                        /* Chat Section Styles */
-                        .exp-container {
-                            font-family: 'system-ui', sans-serif;
-                            padding: 2rem;
-                            background: linear-gradient(120deg, #081325, #2c4a6e 80%, #a89467 100%);
-                            border-radius: 12px;
-                            position: relative;
-                        }
-                        .chat-bubble {
-                            position: relative;
-                            padding: 0.5rem;
-                            border-radius: 12px;
-                            margin-bottom: 1.0rem;
-                            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-                            border: 1px solid rgba(255, 255, 255, 0.1);
-                            background-color: rgba(255, 255, 255, 0.05);
-                            font-size: 1.1rem; /* Larger font size */
-                        }
-                        .chat-icon {
-                            position: absolute;
-                            width: 40px;
-                            height: 40px;
-                            border-radius: 50%;
-                            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-                            background: white;
-                            padding: 5px;
-                            object-fit: cover;
-                            top: 15px;
-                            transform: none;
-                        }
-                        .text-container .json-key,
-                        .vlm-response .json-key {
-                            color: #fca9ff;
-                        }
-                        .text-container .json-string,
-                        .vlm-response .json-string {
-                            color: #b4fbb9;
-                        }
-                        .text-container .json-number,
-                        .vlm-response .json-number {
-                            color: #a5dfff;
-                        }
-                        .text-container .json-boolean,
-                        .vlm-response .json-boolean {
-                            color: #ffcc99;
-                        }
-                        .text-container .json-null,
-                        .vlm-response .json-null {
-                            color: #999;
-                        }
-                        .user-prompt {
-                            margin-left: auto;
-                            margin-right: 0;
-                            max-width: 90%;
-                            padding-right: 70px;
-                            margin-bottom: 1.0rem;
-                            padding-bottom: 0.5rem;
-                        }
-                        .user-prompt .chat-icon {
-                            right: 15px;
-                            left: auto;
-                        }
-                        .user-prompt-content {
-                            display: flex;
-                            align-items: flex-start;
-                            gap: 1.5rem;
-                        }
-                        .user-prompt-content p {
-                            font-size: 1.5rem;
-                            color: #f0f0f0;
-                        }
-                         .vlm-response {
-                            margin: 0;
-                            flex: 1.5;
-                            min-width: 0;
-                            padding-left: 70px;
-                            color: #f0f0f0;
-                        }
-                        .vlm-response .chat-icon {
-                            left: 15px;
-                        }
-                        .agent-response-row {
-                            display: flex;
-                            align-items: center;
-                            gap: 1rem;
-                            margin-left: 0;
-                            justify-content: space-between;
-                        }
-                        .flow-arrow {
-                            font-size: 3rem;
-                            color: #fff;
-                            margin: 0;
-                        }
-                        .blender-container {
-                            position: relative;
-                            flex: 2;
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                        }
-                        .blender-container .blender-gif {
-                            width: 100%;
-                            border-radius: 8px;
-                            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-                            border: 1px solid #e1e1e1;
-                        }
-                        .blender-icon-overlay {
-                            position: absolute;
-                            width: 40px;
-                            height: 40px;
-                            top: 10px;
-                            left: 10px;
-                            background: rgba(255, 255, 255, 0.8);
-                            border-radius: 50%;
-                            padding: 5px;
-                            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-                        }
-                        .iterative-arrow {
-                            position: absolute;
-                            right: 30px;
-                            top: 220px;
-                            width: 120px;
-                            height: 180px;
-                            pointer-events: none;
-                            z-index: 10;
-                        }
-                        .straight-arrow {
-                            position: absolute;
-                            font-size: 3rem;
-                            color: white;
-                            top: 280px;
-                            right: 25%;
-                            pointer-events: none;
-                            z-index: 10;
-                        }
-                    </style>
-    
-                    <script>
-                        // Image Carousel functionality
-                        document.addEventListener('DOMContentLoaded', function() {
-                            function syntaxHighlight(jsonString) {
-                                if (typeof jsonString != 'string') {
-                                    jsonString = JSON.stringify(jsonString, undefined, 2);
-                                }
-                                jsonString = jsonString.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-                                return jsonString.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
-                                    var cls = 'number';
-                                    if (/^"/.test(match)) {
-                                        if (/:$/.test(match)) {
-                                            cls = 'key';
-                                        } else {
-                                            cls = 'string';
-                                        }
-                                    } else if (/true|false/.test(match)) {
-                                        cls = 'boolean';
-                                    } else if (/null/.test(match)) {
-                                        cls = 'null';
-                                    }
-                                    return '<span class="json-' + cls + '">' + match + '</span>';
-                                });
-                            }
-                            const carouselContainer = document.querySelector('.image-carousel-container');
-                            const carousel = document.querySelector('.image-carousel');
-                            const displayText = document.getElementById('display-text');
-                            
-                            // Duplicate all carousel items for infinite loop
-                            const items = Array.from(carousel.children);
-                            items.forEach(item => {
-                                const clone = item.cloneNode(true);
-                                clone.setAttribute('aria-hidden', 'true');
-                                carousel.appendChild(clone);
-                            });
-    
-                            // Adjust animation speed based on screen width
-                            function updateCarouselSpeed() {
-                                const isMobile = window.innerWidth <= 768;
-                                carousel.style.animationDuration = isMobile ? '30s' : '20s';
-                            }
-                            
-                            // Initial setup
-                            updateCarouselSpeed();
-                            
-                            // Update on window resize
-                            window.addEventListener('resize', updateCarouselSpeed);
-                            
-                            // Pause animation on hover
-                            carousel.addEventListener('mouseenter', () => {
-                                carousel.style.animationPlayState = 'paused';
-                            });
-                            
-                            carousel.addEventListener('mouseleave', () => {
-                                carousel.style.animationPlayState = 'running';
-                                displayText.style.opacity = '0';
-                                setTimeout(() => {
-                                    displayText.textContent = 'Click the video to view more semantic annotations';
-                                    displayText.style.opacity = '1';
-                                }, 150);
-                            });
-                            
-                            // Update text on hover
-                            const allItems = carousel.querySelectorAll('.carousel-item');
-                            allItems.forEach(item => {
-                                item.addEventListener('mouseenter', function() {
-                                    updateText(this);
-                                });
-                            });
-                            
-                            // Function to update the text display by fetching JSON
-                            function updateText(item) {
-                                const jsonScript = item.querySelector('script[type="application/json"]');
-                                if (!jsonScript) {
-                                    displayText.textContent = 'No JSON data found for this item.';
-                                    return;
-                                }
-    
-                                displayText.style.opacity = '0';
-    
-                                try {
-                                    const data = JSON.parse(jsonScript.textContent);
-    
-                                    // 优先展示四个字段
-                                    if (
-                                        data.object_category ||
-                                        data.camera_caption ||
-                                        data.object_caption ||
-                                        data.scene_caption
-                                    ) {
-                                        let html = '';
-                                        if (data.object_category) {
-                                            html += `<b>Object category:</b> ${data.object_category}<br>`;
-                                        }
-                                        if (data.camera_caption) {
-                                            html += `<b>Camera caption:</b> ${data.camera_caption}<br>`;
-                                        }
-                                        if (data.object_caption) {
-                                            html += `<b>Object caption:</b> ${data.object_caption}<br>`;
-                                        }
-                                        if (data.scene_caption) {
-                                            html += `<b>Scene caption:</b> ${data.scene_caption}<br>`;
-                                        }
-                                        setTimeout(() => {
-                                            displayText.innerHTML = html;
-                                            displayText.style.opacity = '1';
-                                        }, 150);
-                                    } else if (data.scenes && data.scenes[0] && data.scenes[0].objects && data.scenes[0].objects[0]) {
-                                        // 兼容原有逻辑
-                                        const firstObject = data.scenes[0].objects[0];
-                                        const textContent = JSON.stringify(firstObject, null, 2) + '...';
-                                        setTimeout(() => {
-                                            displayText.innerHTML = syntaxHighlight(textContent);
-                                            displayText.style.opacity = '1';
-                                        }, 150);
-                                    } else {
-                                        setTimeout(() => {
-                                            displayText.textContent = 'Could not find valid object data in the JSON file.';
-                                            displayText.style.opacity = '1';
-                                        }, 150);
-                                    }
-                                } catch (error) {
-                                    console.error('Error parsing JSON:', error);
-                                    setTimeout(() => {
-                                        displayText.textContent = 'Error parsing object details.';
-                                        displayText.style.opacity = '1';
-                                    }, 150);
-                                }
-                            }
-                            
-                            // No need to initialize with first item's text anymore
-    
-                            function syntaxHighlightVLM(selector) {
-                                const pre = document.querySelector(selector);
-                                if (!pre) return;
-                                const text = pre.textContent || pre.innerText;
-                                pre.innerHTML = syntaxHighlight(text);
-                            }
-    
-                            syntaxHighlightVLM('#vlm-output-code');
-                            syntaxHighlightVLM('#refine-output-code');
-                        });
-                    </script>
-                </div>
-
-
-                </div>
-            </div>
-        </div>
-
-        <div id='dynamicverse_dataset' class="sub-section">
-            <h2 class="text">DynamicVerse Dataset</h2>
-        </div>
-
-
-
-        <div class="vision-block">
-            <div id="metrics" class="sub-section">
-            <!-- <h1 class="text">Data Statistics and Sources </h1> -->
-                <d-figure id="fig-studyadapter" >
-                    <figure>
-                        <img data-zoomable="" draggable="false" src="static/img/DynamicVerse_data.png" alt="DynamicVerse Data">
-                    </figure>
-                </d-figure>
-                <d-figure id="fig-studyadapter" >
-                    <figure>
-                        <img data-zoomable="" draggable="false" src="static/img/DynamicVerse_data_comparison.png" alt="DynamicVerse Data">
-                    </figure>
-                </d-figure>
-                <p class="text">
-                    We provide the statistics and data source of DynamicVerse. We also compare DynamicVerse with large-scale 2D video datasets and existing 4D scene datasets. DynamicVerse expands the data scale and annotation richness compared to prior works.
+                <h3 class="text" style="margin-top: 1.5em;">Textual Guidance in Dynamics</h3>
+                <p class="text" align="justify">
+                    To further investigate how ST-TCM enhances spatio-temporal reasoning and dynamic object grounding, we conduct an ablation over its three components: <i>temporal semantics (T)</i>, <i>motion dynamics (M)</i>, and <i>spatial geometry (S)</i>. We evaluate two representative models under distinct paradigms: the general MLLM Qwen3-VL-8B for spatio-temporal reasoning and the region-level MLLM UniPixel-3B for dynamic object grounding.
+                </p>
+                <p class="text" align="justify">
+                    As shown in Tab.&nbsp;4, incorporating ST-TCM components consistently improves both models, though their optimal configurations differ. For Qwen3-VL-8B, motion and spatial cues (M+S) produce the largest gains, highlighting the role of object movement and geometric structure in achieving stable temporal reasoning, whereas temporal cues alone are insufficient. For UniPixel-3B, motion cues offer the primary improvement, and spatial cues mainly refine object–trajectory alignment. The M-only configuration attains the best overall performance.
                 </p>
             </div>
         </div>
+        <br>
+        </br>
+
+        <div class="vision-block">
+            <div id="visual_guidance" class="sub-section">
+                <h2 class="text">How MLLMs Think in Dynamics Visually</h2>
+                <p class="text" align="justify">
+                    To examine how MLLMs <i>think in dynamics</i> visually, we conduct qualitative and quantitative analyses to study how explicit visual guidance affects motion understanding. As shown in Fig. 5, we design two input strategies to guide model attention toward dynamic regions.
+                </p>
+                <ol class="text" align="justify">
+                    <li><i>Masked Frames Only</i> overlays object segmentation masks on each frame, directing attention to moving entities while maintaining temporal continuity.</li>
+                    <li><i>Mask-Guided Fusion</i> combines raw frames with their corresponding masks, integrating complementary cues from appearance and motion.</li>
+                </ol>
+                <p class="text" align="justify">
+                    These strategies explicitly ground visual perception in motion-centric regions, enhancing spatio-temporal alignment and relational reasoning. We evaluate Qwen3-VL-8B under these configurations, using the <i>Raw Video</i> setting as baseline.
+                </p>
+
+                <d-figure id="fig-visual_v3">
+                    <figure>
+                        <img data-zoomable="" draggable="false" src="static/img/visual_v3.png" alt="visual_v3" style="width: 70%; display: block; margin: 0 auto; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.2);">
+                        <figcaption style="text-align: center; margin-top: 20px;">
+                            <strong>Figure 5: Mask-Guided Input Comparison.</strong>
+                        </figcaption>
+                    </figure>
+                </d-figure>
+
+                <p class="text" align="justify">
+                    The results in Tab. 5 show that mask-guided visual grounding enhances the model's ability to capture dynamic object interactions and maintain temporal consistency. <i>Masked Frames Only</i> offers only minor gains, suggesting limited value from isolated localization cues. In contrast, the <i>Mask-Guided Fusion</i> setting improves all categories, with the largest gains in <i>Inter-Object</i> and <i>Camera-Object</i> reasoning, which demand fine-grained motion and relational understanding. These results show that integrating appearance and motion cues strengthens object grounding and yields more coherent spatio-temporal reasoning.
+                </p>
+            </div>
+        </div>
+        <br>
+        </br>
+
+        <div class="vision-block">
+            <div id="discussion" class="sub-section">
+                <h2 class="text">Discussion and Future Work</h2>
+                <p class="text" align="justify">
+                    We study how MLLMs <i>think in dynamics</i> by introducing Dyn-Bench, a comprehensive benchmark designed to evaluate both object-level and scene-level spatio-temporal reasoning and grounding across three representative model categories: general, spatial, and region-level MLLMs. Through this dual textual–visual assessment, we provide a systematic examination of how models perceive, track, and interpret dynamic content in the physical 4D world, including their ability to capture motion patterns, maintain temporal consistency, and model multi-entity interactions.
+                </p>
+                <p class="text" align="justify">
+                    Our experiments show that the Spatio-Temporal Textual Cognitive Map substantially enhances temporal coherence and relational reasoning by imposing structured linguistic abstraction over dynamic events, while mask-guided visual grounding further strengthens motion perception, improves fine-grained object continuity, and mitigates temporal drift. Taken together, these findings suggest that reliable dynamic understanding in MLLMs emerges from a synergistic coupling between high-level temporal semantics and localized region-level grounding.
+                </p>
+                <p class="text" align="justify">
+                    Looking ahead, future spatio-temporal MLLMs should integrate dynamic-object perception and temporal reasoning more tightly, motivating unified architectures that jointly model motion dynamics, relational structure, and higher-level temporal cognition to achieve more coherent, physically grounded reasoning in complex and continuously evolving environments.
+                </p>
+            </div>
+        </div>
+        <br>
+        </br>
 
                 
-        <div id="conclusion" style="position: relative; margin-top: 40px; margin-bottom: 0px;">
+        <!-- <div id="conclusion" style="position: relative; margin-top: 40px; margin-bottom: 0px;">
             <h1 class="text" style="margin-top:0px; margin-bottom:10px">Conclusion</h1>
             <p class="text">
                 In this work, we addressed the critical limitations in traditional 4D data curation concerning scalability, physical reality, and modality diversity. We introduced DynamicGen, a novel automated pipeline leveraging foundation models for video filtering, metric-scale geometric and moving object recovery, alongside hierarchical detailed semantic captioning from raw videos. We rigorously validated the capabilities of DynamicGen through standard benchmarks for video depth and camera pose/intrinsics estimation, qualitative generalization analysis on diverse web videos, and human/LLM-assisted evaluations confirming the high quality of the generated captions Utilizing DynamicGen, we successfully constructed DynamicVerse, a large-scale 4D dataset offering over 100K dynamic scenes with rich physically-aware multi-modal annotations. Collectively, this work provides both a robust and scalable methodology for 4D data generation and a comprehensive new resource, DynamicVerse, to drive future research in dynamic 4D scene understanding.
             </p>
-        </div>
+        </div> -->
 
         <div id="bibtex" style="position: relative; margin-top: 40px; margin-bottom: 40px; color: gray;">
             <h2 class="text" style="margin-top:0px; margin-bottom:10px">BibTeX</h2>
