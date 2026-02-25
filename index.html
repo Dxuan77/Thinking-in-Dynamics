@@ -252,7 +252,123 @@
                     font-weight: bold;
                 }
                 .baseline-row { font-style: italic; } */
+                /* 1. 主容器样式 */
+                .ncontainer {
+                    /* ==== 调宽的核心修改区 ==== */
+                    width: 130%;             /* 强行突破 100% 的宽度限制，你可以尝试 120%, 140% 等 */
+                    max-width: 1400px;       /* 提升最大宽度上限（原来是 1000px） */
+                    margin: 20px 0 20px -15%; /* 上下间距20px；左边距为负的一半(-15%)以保证它相对页面居中 */
+                    /* ======================== */
 
+                    background: #fff;
+                    border-radius: 12px;
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                    padding: 30px;
+                }
+
+                /* 2. 下拉菜单与按钮基础样式 */
+                select, button, .turn-button {
+                    padding: 10px;
+                    margin: 10px 5px;
+                    font-size: 16px;
+                    border-radius: 6px;
+                    border: 1px solid #ccc;
+                }
+
+                /* 3. 回合切换按钮组 */
+                .turn-buttons {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 8px;
+                    justify-content: center;
+                    margin: 10px 0;
+                }
+                .turn-button {
+                    background-color: #eee;
+                    cursor: pointer;
+                    transition: all 0.2s;
+                }
+                .turn-button.active {
+                    background-color: #007bff;
+                    color: white;
+                    font-weight: bold;
+                    border-color: #007bff;
+                }
+
+                /* 4. 视频容器 (原来是图片容器) */
+                .media-wrapper {
+                    text-align: center;
+                    margin: 20px 0;
+                }
+                .media-wrapper video {
+                    max-width: 100%;
+                    border-radius: 10px;
+                    border: 1px solid #ddd;
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+                    outline: none; /* 去除某些浏览器点击视频时的默认外边框 */
+                }
+
+                /* 5. 问答卡片 (QA Card) */
+                .qa-card {
+                    background: #fafafa;
+                    border: 1px solid #eee;
+                    border-radius: 10px;
+                    padding: 20px;
+                    margin-top: 20px;
+                }
+                .category {
+                    font-size: 0.95em;
+                    font-style: italic;
+                    color: #666;
+                    margin-bottom: 8px;
+                }
+                .question {
+                    font-size: 1.1em;
+                    font-weight: 600;
+                    margin-bottom: 10px;
+                    color: #333;
+                }
+                .options {
+                    padding-left: 0;
+                }
+                .options li {
+                    list-style: none;
+                    padding: 8px 12px;
+                    margin-bottom: 6px;
+                    background: #e9f0f7;
+                    border-radius: 6px;
+                    color: #333;
+                }
+
+                /* 6. 答案揭晓区域 */
+                .answer {
+                    display: none; 
+                    margin-top: 15px;
+                    font-weight: bold;
+                    color: #1a8917;
+                    cursor: pointer;
+                    padding: 10px;
+                    background: #e8f5e9;
+                    border-radius: 6px;
+                    text-align: center;
+                }
+
+                /* 7. 底部导航按钮 */
+                .nav-buttons {
+                    text-align: center;
+                    margin-top: 20px;
+                }
+                .nav-buttons button {
+                    background: #007bff;
+                    border: none;
+                    color: white;
+                    cursor: pointer;
+                    font-weight: bold;
+                    transition: background 0.2s;
+                }
+                .nav-buttons button:hover {
+                    background: #0056b3;
+                }
                 /* 自定义表格样式，避免被其他全局 CSS（如 Bulma）覆盖太多 */
                 .ost-table {
                     width: 100%;
@@ -627,20 +743,262 @@ Notably, conventional prompting strategies (<i>e.g.</i>, chain-of-thought or cap
         </p>
          <hr style="width: 50%;">
 
-
-
-        
-
             
         
         <div id='demo_video' class="sub-section">
             <h2 class="text">Demo Video</h2>
-            <video autoplay loop muted playsinline style="width: 140%; display: block; margin: 0 auto; margin-left: -20%; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.2);">
-                <source src="./static/img/DynamicVerse-preview.mp4" type="video/mp4">
-            </video>
-            <p class="text">
-                We provide a demo video (Raw video➡️Moving Object Recovery➡️Dynamic Point Cloud) to showcase the Metric-scale 4D Reconstruction capability of DynamicGen. The generated fine-grained semantic annotations can be found at subsequent section.
-            </p>
+                <section>
+                <div class="ncontainer">
+                
+                    <label for="scan-select">Select Scene:</label>
+                    <select id="scan-select"></select>
+                
+                    <div class="turn-buttons" id="turn-buttons"></div>
+                
+                    <div class="media-wrapper">
+                    <video id="scene-video" controls autoplay loop muted playsinline></video>
+                    </div>
+                
+                    <div class="qa-card">
+                    <div class="category" id="category-text"></div>
+                    <div class="question" id="question-text"></div>
+                    <ul class="options" id="options-list"></ul>
+                    <div id="answer-text" class="answer" onclick="toggleAnswer()">[Click to reveal answer]</div>
+                    </div>
+                
+                    <div class="nav-buttons">
+                    <button onclick="prevTurn()">⬅ Previous Question</button>
+                    <button onclick="nextTurn()">Next Question ➡</button>
+                    </div>
+                
+                </div>
+                
+                <script>
+                    const data = {
+                    "bmx-trees": {
+                        "turns": [
+                        {
+                            // 注意：数据里的 image 换成了 video，后缀换成了视频格式(如.mp4)
+                            "video": "static/img/videos/bmx-trees.mp4",
+                            "question": "What is the primary trajectory movement of the camera in the video?",
+                            "category": "Camera Motion and Orientation",
+                            "options": [
+                                "A. Pans from left to right",
+                                "B. Tilts up",
+                                "C. Remains fixed with slight shaking",
+                                "D. Moves randomly"
+                            ],
+                            "answer": "A"
+                        },
+                        {
+                            "video": "static/img/videos/bmx-trees.mp4",
+                            "question": "Does the child on the bicycle remain stationary or move during the video?",
+                            "category": "Activity and Object Description",
+                            "options": [
+                                "A. Remains completely stationary",
+                                "B. Moves intermittently with pauses",
+                                "C. Moves continuously from start to finish",
+                                "D. Moves only in the first half"
+                            ],
+                            "answer": "C"
+                        },
+                        {
+                            "video": "static/img/videos/bmx-trees.mp4",
+                            "question": "How does the boy on the bicycle move in relation to the graffiti wall as the scene progresses?",
+                            "category": "Movement Patterns and Trajectories",
+                            "options": [
+                                "A. He rides away from the wall, moving deeper into the background.",
+                                "B. He rides parallel to the wall, staying at a consistent distance.",
+                                "C. He rides toward the wall and stops beside it.",
+                                "D. He rides in a circle around the wall."
+                            ],
+                            "answer": "B"
+                        },
+                        ]
+                    },
+                    
+                    "lady-running": {
+                        "turns": [
+                        {
+                            "video": "static/img/videos/lady-running.mp4",
+                            "question": "What is the primary trajectory movement of the camera in the video?",
+                            "category": "Camera Motion and Orientation",
+                            "options": [
+                                "A. Pans left and dollies forward ",
+                                "B. Tilts up",
+                                "C. Pans from right to left",
+                                "D. Complex movements including panning left, tilting down, panning right and tilting up."
+                            ],
+                            "answer": "A"
+                        },
+                        {
+                            "video": "static/img/videos/lady-running.mp4",
+                            "question": "What best describes the main activity in the video?",
+                            "category": "Activity and Object Description",
+                            "options": [
+                                "A. A person is walking slowly through a dining area",
+                                "B. A person is running energetically through a dining area",
+                                "C. A person is sitting quietly at a table",
+                                "D. A person is dancing in place"
+                            ],
+                            "answer": "B"
+                        },
+                        {
+                            "video": "static/img/videos/lady-running.mp4",
+                            "question": "How does the woman in the colorful top move through the room as the scene progresses?",
+                            "category": "Movement Patterns and Trajectories",
+                            "options": [
+                                "A. She walks slowly toward the back of the room, then turns and walks back toward the camera.",
+                                "B. She runs directly toward the camera, then stops near the foreground.",
+                                "C. She moves steadily away from the camera, weaving between tables and people.",
+                                "D. She remains seated at a table near the entrance for the entire scene."
+                            ],
+                            "answer": "C"
+                        },
+                        ]
+                    },
+                
+                    "sav_017357": {
+                        "turns": [
+                        {
+                            "video": "static/img/videos/sav_017357.mp4",
+                            "question": "What is the camera angle relative to the white dog?",
+                            "category": "Camera-Object Interaction",
+                            "options": [
+                                "A. Eye-Level: The camera is at roughly the same height as the white dog.",
+                                "B. High Angle: The camera is above the white dog, shooting downward.",
+                                "C. Low Angle: The camera is lower than the white dog, shooting upward.",
+                                "D. Changing: The angle shifts significantly during the video."
+                            ],
+                            "answer": "B"
+                        },
+                        {
+                            "video": "static/img/videos/sav_017357.mp4",
+                            "question": "How many animals cross the road during the video?",
+                            "category": "Activity and Object Description",
+                            "options": [
+                                "A. 1",
+                                "B. 2",
+                                "C. 3",
+                                "D. 4"
+                            ],
+                            "answer": "A"
+                        },
+                        {
+                            "video": "static/img/videos/sav_017357.mp4",
+                            "question": "What is the final destination of the dog’s movement in the scene?",
+                            "category": "Movement Patterns and Trajectories",
+                            "options": [
+                                "A. It enters a house through an open doorway.",
+                                "B. It jumps into the back of the white pickup truck.",
+                                "C. It sits down on the sidewalk near the silver SUV.",
+                                "D. It runs off-screen toward the left side of the street."
+                            ],
+                            "answer": "A"
+                        },
+                        
+                        ]
+                    },
+                    };
+                
+                    let currentScene = "";
+                    let currentTurn = 0;
+                
+                    function populateSceneSelector() {
+                    const select = document.getElementById("scan-select");
+                    for (const scene in data) {
+                        const option = document.createElement("option");
+                        option.value = scene;
+                        option.textContent = scene;
+                        select.appendChild(option);
+                    }
+                
+                    select.addEventListener("change", () => {
+                        currentScene = select.value;
+                        currentTurn = 0;
+                        updateUI();
+                    });
+                
+                    currentScene = select.options[0].value;
+                    updateUI();
+                    }
+                
+                    function updateUI() {
+                    const sceneData = data[currentScene];
+                    const turns = sceneData.turns;
+                
+                    // Update turn buttons
+                    const btnContainer = document.getElementById("turn-buttons");
+                    btnContainer.innerHTML = "";
+                    for (let i = 0; i < turns.length; i++) {
+                        const btn = document.createElement("button");
+                        btn.textContent = `Question ${i + 1}`;
+                        btn.className = "turn-button" + (i === currentTurn ? " active" : "");
+                        btn.onclick = () => {
+                        currentTurn = i;
+                        updateUI();
+                        };
+                        btnContainer.appendChild(btn);
+                    }
+                
+                    // Show current turn
+                    const turn = turns[currentTurn];
+                    
+                    // 修改了这里：更新 video 标签的 src
+                    const videoEl = document.getElementById("scene-video");
+                    videoEl.src = turn.video;
+                    // 强制重新加载以确保新视频能顺利播放
+                    videoEl.load();
+                    videoEl.play().catch(e => console.log("Auto-play blocked, waiting for user interaction."));
+                    
+                    document.getElementById("question-text").textContent = "Question: " + turn.question;
+                    document.getElementById("category-text").textContent = "Category: " + turn.category;
+                
+                    const options = document.getElementById("options-list");
+                    options.innerHTML = "";
+                    turn.options.forEach(opt => {
+                        const li = document.createElement("li");
+                        li.textContent = opt;
+                        options.appendChild(li);
+                    });
+                
+                    const answer = document.getElementById("answer-text");
+                    answer.textContent = "[Click to reveal answer]";
+                    answer.style.display = "block";
+                    answer.dataset.shown = "false";
+                    }
+                
+                    function toggleAnswer() {
+                    const answerEl = document.getElementById("answer-text");
+                    if (answerEl.dataset.shown === "true") return;
+                
+                    const answer = data[currentScene].turns[currentTurn].answer;
+                    answerEl.textContent = "Answer: " + answer;
+                    answerEl.dataset.shown = "true";
+                    }
+                
+                    function nextTurn() {
+                    const turns = data[currentScene].turns;
+                    if (currentTurn + 1 < turns.length) {
+                        currentTurn++;
+                        updateUI();
+                    } else {
+                        alert("No more questions.");
+                    }
+                    }
+                
+                    function prevTurn() {
+                    if (currentTurn > 0) {
+                        currentTurn--;
+                        updateUI();
+                    } else {
+                        alert("Already at the first question.");
+                    }
+                    }
+                
+                    populateSceneSelector();
+                </script>
+                </section>
         </div>
 
         <div id='dyn-bench' class="sub-section">
