@@ -947,12 +947,15 @@ Notably, conventional prompting strategies (<i>e.g.</i>, chain-of-thought or cap
                 
                     // Show current turn
                     const turn = turns[currentTurn];
-                    
+
                     // 修改了这里：更新 video 标签的 src
                     const videoEl = document.getElementById("scene-video");
-                    videoEl.src = turn.video;
-                    // 强制重新加载以确保新视频能顺利播放
-                    videoEl.load();
+                    const newSrc = turn.video;
+                    // 只在视频 src 真正改变时才重新加载，避免闪烁
+                    if (videoEl.src !== newSrc && !videoEl.src.endsWith(newSrc)) {
+                        videoEl.src = newSrc;
+                        videoEl.load();
+                    }
                     videoEl.play().catch(e => console.log("Auto-play blocked, waiting for user interaction."));
                     
                     document.getElementById("question-text").textContent = "Question: " + turn.question;
